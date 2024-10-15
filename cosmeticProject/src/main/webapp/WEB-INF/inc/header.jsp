@@ -36,7 +36,7 @@
                 </a>
             </div>
             <div id="mypage-div" class="text-end" style="margin-right: 25p	x;">
-                <a href="mypage.html">
+                <a href="/mypage">
                     <div class="mypage-box" style="display: inline;">
                         <img id="mypage_btn" src="resources/assets/img/mypage.png" alt="mypage" width="30" height="30">
                     </div>

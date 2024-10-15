@@ -145,3 +145,17 @@ ul.nav > .nav-item{
     color: white;
     text-decoration: none;
 }
+
+.tab-link {
+    font-size: 16px !important;
+    color: #A6A6A6;
+    text-decoration: none;
+}
+
+.tab-link:focus {
+    color: black;
+}
+
+.tab-link:hover {
+    text-decoration: underline;
+}

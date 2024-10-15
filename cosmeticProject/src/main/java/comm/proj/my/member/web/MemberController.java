@@ -1,16 +1,12 @@
 package comm.proj.my.member.web;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,6 +23,27 @@ public class MemberController {
 	@RequestMapping("/register")
 	public String rank_main() {
 		return "member/register";
+	}
+
+	@RequestMapping("/mypage")
+	public String mypage() {
+		return "member/mypage";
+	}
+
+	@PostMapping("/nicknameCheck")
+	@ResponseBody
+	public int nicknameCheck(@RequestParam("memNickname") String memNickname) {
+		int check = memberService.nicknameCheck(memNickname);
+
+		return check;
+	}
+
+	@PostMapping("/idCheck")
+	@ResponseBody
+	public int idCheck(@RequestParam("memId") String memId) {
+		int check = memberService.idCheck(memId);
+		
+		return check;
 	}
 	
 	@RequestMapping("/loginDo")

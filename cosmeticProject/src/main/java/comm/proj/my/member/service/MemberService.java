@@ -50,4 +50,16 @@ public class MemberService {
 		}
 		return dbPath;
 	}
+	
+	public int nicknameCheck(String memNickname) {
+		int user = dao.nicknameCheck(memNickname);
+		System.out.println("닉네임 중복확인 " + user);
+		return user;
+	}
+
+	public int idCheck(String memId) {
+		int user = dao.idCheck(memId);
+		System.out.println("아이디 중복확인 " + user);
+		return user;
+	}
 }

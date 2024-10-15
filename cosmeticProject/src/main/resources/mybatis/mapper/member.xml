@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="comm.proj.my.member.dao.IMemberDAO">
    <insert id="registMember" parameterType="MemberVO">
-		INSERT INTO members(mem_id, mem_pw, mem_nm, mem_age, mem_gender, mem_birth, profile_img)
-		VALUES(#{memId}, #{memPw}, #{memNm}, #{memAge}, #{memGender},  #{memBirth}, #{profileImg})
+		INSERT INTO members(mem_id, mem_pw, mem_nm, mem_gender, mem_birth, profile_img)
+		VALUES(#{memId}, #{memPw}, #{memNm}, #{memGender},  #{memBirth}, #{profileImg})
    </insert>
    
    <select id="loginMember" parameterType="MemberVO" resultType="MemberVO">
@@ -11,7 +11,6 @@
 		     , mem_pw
 		     , mem_nm
 		     , mem_nickname
-		     , mem_age
 		     , mem_gender
 			 , mem_birth
 		     , profile_img
@@ -19,6 +18,18 @@
 		WHERE use_yn = 'Y'
 		 AND  mem_id = #{memId}
 		 AND  mem_pw = #{memPw}
+   </select>
+   
+   <select id="nicknameCheck" parameterType="String" resultType="int">
+	   	SELECT count(mem_nickname) as mem_nickname
+		FROM members
+		WHERE mem_nickname = #{memNickname}
+   </select>
+
+   <select id="idCheck" parameterType="String" resultType="int">
+		SELECT count(mem_id) as mem_id
+		FROM members
+		WHERE mem_id = #{memId}
    </select>
    
 <!--    <update id="profileUpload" parameterType="memberVO"> -->

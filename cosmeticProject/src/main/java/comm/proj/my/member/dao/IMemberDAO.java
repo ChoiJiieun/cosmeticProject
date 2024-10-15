@@ -10,4 +10,8 @@ public interface IMemberDAO {
 	public MemberVO loginMember(MemberVO vo);
 	// 회원가입
 	public int registMember(MemberVO vo);
+	// 닉네임 중복확인
+	public int nicknameCheck(String memNickname);
+	// 아이디 중복확인
+	public int idCheck(String memId);
 }

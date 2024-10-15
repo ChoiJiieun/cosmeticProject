@@ -5,7 +5,6 @@ public class MemberVO {
 	private String memPw;
 	private String memNm;
 	private String memNickname;
-	private int memAge;
 	private String memGender;
 	private String memBirth;
 	private String profileImg;
@@ -35,12 +34,6 @@ public class MemberVO {
 	public void setMemNickname(String memNickname) {
 		this.memNickname = memNickname;
 	}
-	public int getMemAge() {
-		return memAge;
-	}
-	public void setMemAge(int memAge) {
-		this.memAge = memAge;
-	}
 	public String getMemGender() {
 		return memGender;
 	}
@@ -69,7 +62,7 @@ public class MemberVO {
 	@Override
 	public String toString() {
 		return "MemberVO [memId=" + memId + ", memPw=" + memPw + ", memNm=" + memNm + ", memNickname=" + memNickname
-				+ ", memAge=" + memAge + ", memGender=" + memGender + ", profileImg=" + profileImg + ", useYn=" + useYn
+				+ ", memGender=" + memGender + ", profileImg=" + profileImg + ", useYn=" + useYn
 				+ "]";
 	}
 
