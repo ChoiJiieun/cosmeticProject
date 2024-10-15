@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+.btn-primary {
+    --bs-btn-bg: #3D3D3D;
+    --bs-btn-hover-color: white;
+    --bs-btn-hover-bg: #545454;
+    --bs-btn-border-color: none;
+    --bs-btn-hover-border-color: none;
+    --bs-btn-focus-shadow-rgb: none;
+    --bs-btn-active-color: #545454;
+    --bs-btn-active-bg: #3D3D3D;
+    --bs-btn-active-border-color: none;
+    height: 40px;
+}
+
+.tab-link {
+    font-size: 16px !important;
+    color: #A6A6A6;
+    text-decoration: none;
+    margin-bottom: 15px !important;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:focus {
+    color: black;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#categori_acd {
+    --bs-accordion-active-color: #000000;
+    /* 활성화된 버튼의 텍스트 색상 */
+    /* --#{$prefix}accordion-active-color: #{$accordion-button-active-color}; */
+    --bs-accordion-active-bg: #ffffff;
+    /* 활성화된 버튼의 배경색 */
+    --bs-accordion-btn-focus-box-shadow: none;
+    --bs-accordion-border-color: none;
+}
+
+#categori_acd .accordion-button:not(.collapsed) {
+    color: var(--bs-accordion-active-color);
+    /* 텍스트 색상 */
+    background-color: var(--bs-accordion-active-bg);
+    /* 배경색 */
+}
