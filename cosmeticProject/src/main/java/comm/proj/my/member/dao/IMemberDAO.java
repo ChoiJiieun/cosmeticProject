@@ -14,4 +14,6 @@ public interface IMemberDAO {
 	public int nicknameCheck(String memNickname);
 	// 아이디 중복확인
 	public int idCheck(String memId);
+	// 정보 수정
+	public int UpdateMember(MemberVO vo);
 }

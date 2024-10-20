@@ -8,7 +8,6 @@ public class MemberVO {
 	private String memGender;
 	private String memBirth;
 	private String profileImg;
-	private String useYn;
 	
 	public String getMemId() {
 		return memId;
@@ -46,12 +45,6 @@ public class MemberVO {
 	public void setProfileImg(String profileImg) {
 		this.profileImg = profileImg;
 	}
-	public String getUseYn() {
-		return useYn;
-	}
-	public void setUseYn(String useYn) {
-		this.useYn = useYn;
-	}
 	public String getMemBirth() {
 		return memBirth;
 	}
@@ -62,7 +55,7 @@ public class MemberVO {
 	@Override
 	public String toString() {
 		return "MemberVO [memId=" + memId + ", memPw=" + memPw + ", memNm=" + memNm + ", memNickname=" + memNickname
-				+ ", memGender=" + memGender + ", profileImg=" + profileImg + ", useYn=" + useYn
+				+ ", memGender=" + memGender + ", profileImg=" + profileImg
 				+ "]";
 	}
 
