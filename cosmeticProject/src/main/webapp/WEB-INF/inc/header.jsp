@@ -18,9 +18,9 @@
     <nav class="navbar border-bottom py-4">
         <div class="container-fluid justify-content-center" style="margin-left: 50px; margin-right: 60px;">
             <img src="resources/assets/img/로고.png" style="width: 187px; height: 51px">
-            <form class="mx-auto" role="search">
+            <form class="mx-auto" action="/search" method="GET">
                 <input class="form-control rounded-pill" type="text" placeholder="검색어를 입력해주세요" aria-label="Search"
-                    id="search-input" style="font-family: 'NanumSquare'; height: 58px; width: 580px;">
+                    id="search-input" name="query" style="font-family: 'NanumSquare'; height: 58px; width: 580px;">
             </form>
             <div id="login-div" class="text-end" style="margin-right: 25px;">
                 <a href="#">
@@ -35,7 +35,7 @@
                     </c:if>
                 </a>
             </div>
-            <div id="mypage-div" class="text-end" style="margin-right: 25p	x;">
+            <div id="mypage-div" class="text-end" style="margin-right: 25px;">
                 <a href="/mypage">
                     <div class="mypage-box" style="display: inline;">
                         <img id="mypage_btn" src="resources/assets/img/mypage.png" alt="mypage" width="30" height="30">

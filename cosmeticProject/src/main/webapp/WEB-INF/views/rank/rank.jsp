@@ -6,6 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>cosmetic</title>
+<style>
+	html {
+    	overflow-y: scroll !important;
+	}
+</style>
 <!-- css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/rank_style.css" />
 </head>

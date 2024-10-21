@@ -7,6 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>cosmetic</title>
 <style>
+	html {
+    	overflow-y: scroll !important;
+	}
+
     /* input에 포커스가 있을 때 테두리 색상 변경 */
     input:focus {
         border-color: #3D3D3D !important;
@@ -28,7 +32,7 @@
   			<jsp:include page="/WEB-INF/inc/header.jsp"></jsp:include>
         </header>
         <div id="categori_zone" style="height: 60vh; display: none;">
-
+			<jsp:include page="/WEB-INF/views/category_menu.jsp"></jsp:include>
         </div>
         <main>
             <div style="width: 50%; margin: 0 auto; padding-top: 30px;">
@@ -109,6 +113,18 @@
 </body>
 <script>
 	$(document).ready(function() {
+		
+        $("#btn-home").addClass('btn_active');
+        $("#home_a_tag").addClass('a_tag_click');
+        
+        $("#rank_a_tag").addClass('a_tag');
+        $("#notice_a_tag").addClass('a_tag');
+
+        $("#categori").click(function () {
+            $('#categori_zone').toggle();
+            $("main").toggle();
+        });
+		
 		$("#profileImage").click(function () {
             $("#imageUpload").click();
         });
@@ -135,6 +151,7 @@
                 }
             } else {
                 $('#pw_error').hide();  // 둘 중 하나라도 비어있으면 메시지 숨김
+                $('#pw_correct').hide();
             }
         });
         

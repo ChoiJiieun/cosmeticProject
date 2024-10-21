@@ -8,6 +8,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>cosmetic</title>
 <style>
+	html {
+	    overflow-y: scroll !important;
+	}
+	
 	/* input에 포커스가 있을 때 테두리 색상 변경 */
 	input:focus {
 	    border-color: #3D3D3D !important;

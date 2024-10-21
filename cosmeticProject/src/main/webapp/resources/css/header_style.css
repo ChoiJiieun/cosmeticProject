@@ -4,6 +4,10 @@
     font-family: 'NanumSquare';
 }
 
+body {
+	padding: 0 !important;
+}
+
 .btn-primary {
     --bs-btn-bg: #3D3D3D;
     --bs-btn-hover-color: white;

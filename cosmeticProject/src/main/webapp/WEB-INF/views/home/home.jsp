@@ -6,6 +6,10 @@
 <meta charset="UTF-8">
 <title>cosmetic</title>
 <style>
+	html {
+    	overflow-y: scroll !important;
+	}
+	
 	/* 이메일 입력 필드에 포커스가 있을 때 테두리 색상 변경 */
 	#input_email:focus {
 	    border-color: #3D3D3D !important;
@@ -25,7 +29,7 @@
 <body>
     <div class="container-fluid" style="padding: 0;">
         <header>
-			<jsp:include page="/WEB-INF/inc/header.jsp"></jsp:include>  
+			<jsp:include page="/WEB-INF/inc/header.jsp"></jsp:include>
         </header>
         <div id="categori_zone" style="height: 60vh; display: none;">
 			<jsp:include page="/WEB-INF/views/category_menu.jsp"></jsp:include>
@@ -48,6 +52,7 @@
             $('#categori_zone').toggle();
             $("main").toggle();
         });
+        
     });
 </script>
 </html>

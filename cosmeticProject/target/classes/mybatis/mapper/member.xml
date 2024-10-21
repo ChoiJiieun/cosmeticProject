@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="comm.proj.my.member.dao.IMemberDAO">
-   <insert id="registMember" parameterType="MemberVO">
+	<!-- 회원가입 -->
+    <insert id="registMember" parameterType="MemberVO">
 		INSERT INTO members(mem_id, mem_pw, mem_nm, mem_nickname, mem_gender, mem_birth, profile_img)
 		VALUES(#{memId}, #{memPw}, #{memNm}, #{memNickname}, #{memGender}, #{memBirth}, #{profileImg})
-   </insert>
-   
-   <select id="loginMember" parameterType="MemberVO" resultType="MemberVO">
+    </insert>
+
+	<!-- 로그인 -->
+    <select id="loginMember" parameterType="MemberVO" resultType="MemberVO">
 		SELECT mem_id
 		     , mem_pw
 		     , mem_nm
@@ -18,19 +20,21 @@
 		WHERE use_yn = 'Y'
 		 AND  mem_id = #{memId}
 		 AND  mem_pw = #{memPw}
-   </select>
+    </select>
    
-   <select id="nicknameCheck" parameterType="String" resultType="int">
+	<!-- 닉네임 중복확인 -->
+    <select id="nicknameCheck" parameterType="String" resultType="int">
 	   	SELECT count(mem_nickname) as mem_nickname
 		FROM members
 		WHERE mem_nickname = #{memNickname}
-   </select>
+    </select>
 
-   <select id="idCheck" parameterType="String" resultType="int">
+	<!-- 아이디 중복확인 -->
+    <select id="idCheck" parameterType="String" resultType="int">
 		SELECT count(mem_id) as mem_id
 		FROM members
 		WHERE mem_id = #{memId}
-   </select>
+    </select>
    
 <!--    <update id="profileUpload" parameterType="memberVO"> -->
 <!--       UPDATE members -->
@@ -38,9 +42,11 @@
 <!--       WHERE mem_id = #{memId}       -->
 <!--    </update> -->
 
+	<!-- 개인정보 수정 -->
 	<update id="UpdateMember" parameterType="memberVO">
 		UPDATE members
 		SET mem_pw = #{memPw}, mem_nm = #{memNm}, mem_nickname = #{memNickname}, mem_gender = #{memGender}, mem_birth = #{memBirth}, profile_img = #{profileImg}
 		WHERE mem_id = #{memId}
 	</update>
+	
 </mapper>

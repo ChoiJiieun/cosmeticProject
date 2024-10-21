@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="comm.proj.my.cosmetic.dao.ICosDAO">
+
+	<select id="searchInfo" resultType="CosVO" parameterType="String">
+		SELECT cosmetic_no
+		     , name
+		     , cos_image
+		     , cate_cd
+		     , company_name
+		     , company_logo
+		     , star_score
+		FROM cosmetic
+		WHERE name LIKE '%' || #{keyword} || '%'
+		 OR   company_name LIKE '%' || #{keyword} || '%'
+		ORDER BY cosmetic_no
+	</select>
+
+</mapper>

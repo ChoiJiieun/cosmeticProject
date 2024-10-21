@@ -11,6 +11,7 @@
 	</settings>
 	<typeAliases>
 		<typeAlias type="comm.proj.my.member.vo.MemberVO" alias="MemberVO" />
+		<typeAlias type="comm.proj.my.cosmetic.vo.CosVO" alias="CosVO" />
 		
 	</typeAliases>
 </configuration>

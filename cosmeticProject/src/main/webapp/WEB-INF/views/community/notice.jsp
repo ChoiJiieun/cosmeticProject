@@ -5,6 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>cosmetic</title>
+<style>
+	html {
+    	overflow-y: scroll !important;
+	}
+</style>
 </head>
 
 <body>

@@ -64,7 +64,7 @@ public class MemberService {
 		return dbPath;
 	}
 	
-	// 회원가입
+	// 정보수정
 	public String UpdateMember(MemberVO vo, String uploadDir, String webPath, MultipartFile file) throws Exception {
 		// 파일명 생성
 		String origin = file.getOriginalFilename();

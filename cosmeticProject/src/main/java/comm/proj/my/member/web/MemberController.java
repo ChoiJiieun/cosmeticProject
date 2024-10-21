@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -114,39 +116,53 @@ public class MemberController {
 		
 		// 로컬에서 요청 파일을 찾아서 전달
 		if (!file.exists()) {
-			response.sendError(HttpServletResponse.SC_NOT_FOUND, "file not found");
-		}
-		// 한글 파일명을 URL 인코딩하여 처리
-	    String encodedFileName = URLEncoder.encode(imageFileName, "UTF-8").replaceAll("\\+", "%20");
-		
-		// 로컬에서 요청 파일을 찾아서 전달
-		response.setHeader("Cache-Control", "no-cache");
-		response.setHeader("Content-Disposition", "attachment; fileName=" + encodedFileName);
-		
-		try (FileInputStream in = new FileInputStream(file)) {
-			byte[] buffer = new byte[1024 * 8];
-			while (true) {
-				int count = in.read(buffer);
-				if (count == -1) {
-					break;
+	        // none.jpg를 로드
+	        String noneImagePath = CURR_IMAGE_PATH + "\\none.jpg";
+	        File noneFile = new File(noneImagePath);
+	        response.setContentType("image/jpeg");
+	        try (FileInputStream in = new FileInputStream(noneFile)) {
+	            byte[] buffer = new byte[1024 * 8];
+	            int count;
+	            while ((count = in.read(buffer)) != -1) {
+	                out.write(buffer, 0, count);  // none.jpg 파일을 응답으로 전송
+	            }
+	        }
+		} else {
+			// 한글 파일명을 URL 인코딩하여 처리
+			String encodedFileName = URLEncoder.encode(imageFileName, "UTF-8").replaceAll("\\+", "%20");
+			
+			// 로컬에서 요청 파일을 찾아서 전달
+			response.setHeader("Cache-Control", "no-cache");
+			response.setHeader("Content-Disposition", "attachment; fileName=" + encodedFileName);
+			
+			try (FileInputStream in = new FileInputStream(file)) {
+				byte[] buffer = new byte[1024 * 8];
+				while (true) {
+					int count = in.read(buffer);
+					if (count == -1) {
+						break;
+					}
+					out.write(buffer, 0, count);  // 실시간 전송
 				}
-				out.write(buffer, 0, count);  // 실시간 전송
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			out.close();
+			
 		}
+		out.close();
 	}
 	// 수정부터 해야함 수정 할 때 이미지만이 아니라 전체 정보를 어떻게 가져와야 하는지 알아야함
-//	@ResponseBody
-//	@PostMapping("/files/upload")
-//	public Map<String, Object> uploadFiles(MemberVO vo, HttpSession session, @RequestParam("uploadImage") MultipartFile uploadImage) {
-//		MemberVO vo = (MemberVO) session.getAttribute("login");
-//		String imgPath = memberService.UpdateMember(vo, CURR_IMAGE_PATH, WEB_PATH, uploadImage);
-//		
-//		Map<String, Object> map = new HashMap<>();
-//		map.
-//	}
-	
+	// 개인정보수정 아직 미완성
+	@ResponseBody
+	@PostMapping("/updateMember")
+	public Map<String, Object> UpdateMember(Model model, MemberVO vo, HttpSession session, @RequestParam("uploadImage") MultipartFile uploadImage) throws Exception {
+		vo = (MemberVO) session.getAttribute("login");
+		String imgPath = memberService.UpdateMember(vo, CURR_IMAGE_PATH, WEB_PATH, uploadImage);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("message", "success");
+		map.put("imagePath", imgPath);
+		
+		return map;
+	}
 }
