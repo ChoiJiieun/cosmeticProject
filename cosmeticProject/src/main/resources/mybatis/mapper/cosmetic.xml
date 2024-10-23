@@ -4,17 +4,53 @@
 
 	<!-- 검색어로 입력한 화장품 리스트 -->
 	<select id="searchInfo" resultType="CosVO" parameterType="String">
-		SELECT cosmetic_no
-		     , name
-		     , cos_image
-		     , cate_cd
-		     , company_name
-		     , company_logo
-		     , star_score
-		FROM cosmetic
-		WHERE name LIKE '%' || #{keyword} || '%'
-		 OR   company_name LIKE '%' || #{keyword} || '%'
-		ORDER BY cosmetic_no
+		SELECT 
+		    c.cosmetic_no,
+		    c.name,
+		    c.cos_image,
+		    c.cate_cd,
+		    c.company_name,
+		    c.company_logo,
+		    ROUND(AVG(r.star_score), 2) as star_score,
+    		COUNT(r.review_no) as review_Count
+		FROM 
+		    cosmetic c
+		LEFT JOIN 
+		    review r ON c.cosmetic_no = r.cosmetic_no
+		WHERE 
+		    (c.name LIKE '%' || #{keyword} || '%' OR c.company_name LIKE '%' || #{keyword} || '%')
+		GROUP BY 
+		    c.cosmetic_no,
+		    c.name,
+		    c.cos_image,
+		    c.cate_cd,
+		    c.company_name,
+		    c.company_logo
+	</select>
+	
+	<!-- 검색시 화장품들 별점 조회 -->
+	<select id="score_list" resultType="CosVO" parameterType="String">
+		SELECT 
+		    c.cosmetic_no,
+		    c.name,
+		    c.cos_image,
+		    c.cate_cd,
+		    c.company_name,
+		    c.company_logo,
+		    ROUND(AVG(r.star_score), 2) as star_score
+		FROM 
+		    cosmetic c
+		LEFT JOIN 
+		    review r ON c.cosmetic_no = r.cosmetic_no
+		WHERE 
+		    (c.name LIKE '%' || #{keyword} || '%' OR c.company_name LIKE '%' || #{keyword} || '%')
+		GROUP BY 
+		    c.cosmetic_no,
+		    c.name,
+		    c.cos_image,
+		    c.cate_cd,
+		    c.company_name,
+		    c.company_logo
 	</select>
 	
 	<!-- 화장품 상세 조회 -->
@@ -42,9 +78,25 @@
 	
 	<!-- 화장품 성분 조회 -->
 	<select id="ingre_info" resultType="IngredientVO" parameterType="int">
-		SELECT *
-		FROM ingredient
-		WHERE cosmetic_no = #{cosmeticNo}
+		SELECT 
+		    i.name_kor,
+		    i.name_eng,
+		    i.explain,
+		    i.ewg_rank,
+		    i.cosmetic_no,
+		    i.index_num,
+		    CASE 
+		        WHEN a.name_eng IS NOT NULL THEN 'Y'
+		        ELSE 'N'
+		    END as allergy_yn
+		FROM 
+		    ingredient i
+		LEFT JOIN 
+		    allergy_ingredient a ON i.name_eng = a.name_eng
+		WHERE 
+		    i.cosmetic_no = #{cosmeticNo}
+		ORDER BY i.index_num
 	</select>
+	
 	
 </mapper>

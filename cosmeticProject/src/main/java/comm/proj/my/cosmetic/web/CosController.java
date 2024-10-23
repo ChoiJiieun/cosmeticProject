@@ -64,6 +64,16 @@ public class CosController {
 	        model.addAttribute("avgStarScore", 0);
 	    }
 	    
+	    int allergy_count = 0;
+	    
+	    for (IngredientVO ingre : ingreList) {
+	    	if (ingre.getAllergyYn().equals("Y")) {
+	    		allergy_count++;
+	    	}
+	    }
+	    
+	    model.addAttribute("allergy_count", allergy_count);
+	    
 	    int totalReviews = reList.size();
 	    
 	    int count5 = 0;
@@ -105,5 +115,13 @@ public class CosController {
         model.addAttribute("count1", count1);
 		
 		return "cosmetic/cosmetic_detail";
+	}
+
+	// 리뷰 작성
+	@RequestMapping("reviewWrite")
+	public String review_write() {
+		
+		
+		return "cosmetic/review_write";
 	}
 }

@@ -13,13 +13,14 @@ public interface ICosDAO {
 
 	// 검색어 조회
 	public ArrayList<CosVO> searchInfo(String keyword);
-	
+
 	// 화장품 상세 조회
 	public CosVO cosmetic_detail(int cosNo);
 	
 	// 화장품 리뷰 조회
 	public ArrayList<ReviewVO> cosmetic_review(int cosNo);
 	
-	// 화장품 리뷰 조회
-	public ArrayList<IngredientVO> ingre_info(int cosNo);	
+	// 화장품 성분 조회
+	public ArrayList<IngredientVO> ingre_info(int cosNo);
+	
 }

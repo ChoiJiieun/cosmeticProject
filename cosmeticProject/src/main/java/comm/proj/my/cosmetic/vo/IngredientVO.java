@@ -6,6 +6,7 @@ public class IngredientVO {
 	private String explain;
 	private String ewgRank;
 	private String cosmeticNo;
+	private String allergyYn;
 	
 	public String getNameKor() {
 		return nameKor;
@@ -37,12 +38,19 @@ public class IngredientVO {
 	public void setCosmeticNo(String cosmeticNo) {
 		this.cosmeticNo = cosmeticNo;
 	}
+	public String getAllergyYn() {
+		return allergyYn;
+	}
+	public void setAllergyYn(String allergyYn) {
+		this.allergyYn = allergyYn;
+	}
 	
 	@Override
 	public String toString() {
 		return "IngredientVO [nameKor=" + nameKor + ", nameEng=" + nameEng + ", explain=" + explain + ", ewgRank="
 				+ ewgRank + ", cosmeticNo=" + cosmeticNo + "]";
 	}
+	
 	
 	
 }

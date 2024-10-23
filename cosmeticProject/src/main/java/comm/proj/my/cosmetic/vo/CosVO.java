@@ -8,7 +8,16 @@ public class CosVO {
 	private String companyName;
 	private String companyLogo;
 	private String starScore;
+	private String reviewCount;
 	
+	public String getReviewCount() {
+		return reviewCount;
+	}
+
+	public void setReviewCount(String reviewCount) {
+		this.reviewCount = reviewCount;
+	}
+
 	public String getCosmeticNo() {
 		return cosmeticNo;
 	}
@@ -56,19 +65,19 @@ public class CosVO {
 	public void setCompanyLogo(String companyLogo) {
 		this.companyLogo = companyLogo;
 	}
-	
-	public String getStarScore() {
-		return starScore;
-	}
-	
-	public void setStarScore(String starScore) {
-		this.starScore = starScore;
-	}
 
 	@Override
 	public String toString() {
 		return "CosVO [cosmeticNo=" + cosmeticNo + ", name=" + name + ", cosImage=" + cosImage + ", cateCd=" + cateCd
-				+ ", companyName=" + companyName + ", companyLogo=" + companyLogo + ", starScore=" + starScore + "]";
+				+ ", companyName=" + companyName + ", companyLogo=" + companyLogo + "]";
+	}
+
+	public String getStarScore() {
+		return starScore;
+	}
+
+	public void setStarScore(String starScore) {
+		this.starScore = starScore;
 	}
 	
 }

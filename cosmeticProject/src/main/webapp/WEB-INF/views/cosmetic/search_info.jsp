@@ -61,7 +61,7 @@
 		                                        <div>
 		                                            <img src="resources/assets/img/star_full.png" style="width: 20px; height: 20px;">
 		                                            <span style="font-size: 17px;">${cos.starScore}</span>
-		                                            <span style="color: #A6A6A6; font-size: 17px;">(0)</span>
+		                                            <span style="color: #A6A6A6; font-size: 17px;">(${cos.reviewCount})</span>
 		                                        </div>
 		                                    </div>
 		                                    <div class="d-flex flex-column justify-content-center" style="margin-left: auto; margin-right: 30px">
