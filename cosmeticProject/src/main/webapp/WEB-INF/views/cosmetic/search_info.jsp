@@ -12,6 +12,16 @@
 	html {
     	overflow-y: scroll !important;
 	}
+	
+	a {
+	    text-decoration: none !important; /* 밑줄 제거 */
+	    color: inherit !important; /* 기본 글씨 색상으로 변경 (상위 요소의 색상 따름) */
+	}
+	
+	a:hover {
+	    text-decoration: none !important; /* hover 시에도 밑줄 제거 */
+	    color: inherit !important; /* hover 시에도 글씨 색상 변화 없음 */
+	}
 </style>
 </head>
 <body>
@@ -33,30 +43,32 @@
 						<c:forEach items="${cosList}" var="cos">
 							<tr>
 								<td>
-	                                <div class="d-flex" style="padding: 25px;">
-	                                	<div class="justify-content-center" style="margin-right: 20px;">
-			                                <c:if test="${cos.cosImage == null || fn:length(cos.cosImage) == 0}">
-			                                    <img src="${pageContext.request.contextPath}/assets/img/none.jpg" style="height: 50px;">
-			                                </c:if>
-			                                <c:if test="${cos.cosImage != null && fn:length(cos.cosImage) > 0}">
-			                                    <img src="${pageContext.request.contextPath}${cos.cosImage}" style="height: 120px;">
-			                                </c:if>
-	                                	</div>
-	                                    <div class="d-flex flex-column justify-content-center">
-	                                        <div class="d-flex" style="margin-bottom: 6px;">
-	                                            <span style="color: #A6A6A6; margin-right: 6px; font-size: 20px">${cos.companyName}</span>
-	                                            <span style="font-size: 20px;">${cos.name}</span>
-	                                        </div>
-	                                        <div>
-	                                            <img src="resources/assets/img/star_full.png" style="width: 20px; height: 20px;">
-	                                            <span style="font-size: 17px;">${cos.starScore}</span>
-	                                            <span style="color: #A6A6A6; font-size: 17px;">(0)</span>
-	                                        </div>
-	                                    </div>
-	                                    <div class="d-flex flex-column justify-content-center" style="margin-left: auto; margin-right: 30px">
-											<img src="resources/assets/img/love_empty.png" style="width: 25px; height: 25px;">									
-	                                    </div>
-	                                </div>
+									<a href="<c:url value="/products?cosNo=${cos.cosmeticNo}" />">
+		                                <div class="d-flex" style="padding: 25px;">
+		                                	<div class="justify-content-center" style="margin-right: 20px;">
+				                                <c:if test="${cos.cosImage == null || fn:length(cos.cosImage) == 0}">
+				                                    <img src="${pageContext.request.contextPath}/assets/img/none.jpg" style="height: 50px;">
+				                                </c:if>
+				                                <c:if test="${cos.cosImage != null && fn:length(cos.cosImage) > 0}">
+				                                    <img src="${pageContext.request.contextPath}${cos.cosImage}" style="height: 120px;">
+				                                </c:if>
+		                                	</div>
+		                                    <div class="d-flex flex-column justify-content-center">
+		                                        <div class="d-flex" style="margin-bottom: 6px;">
+		                                            <span style="color: #A6A6A6; margin-right: 6px; font-size: 20px">${cos.companyName}</span>
+		                                            <span style="font-size: 20px;">${cos.name}</span>
+		                                        </div>
+		                                        <div>
+		                                            <img src="resources/assets/img/star_full.png" style="width: 20px; height: 20px;">
+		                                            <span style="font-size: 17px;">${cos.starScore}</span>
+		                                            <span style="color: #A6A6A6; font-size: 17px;">(0)</span>
+		                                        </div>
+		                                    </div>
+		                                    <div class="d-flex flex-column justify-content-center" style="margin-left: auto; margin-right: 30px">
+												<img src="resources/assets/img/love_empty.png" style="width: 25px; height: 25px;">									
+		                                    </div>
+		                                </div>
+									</a>
 								</td>
 							</tr>
 						</c:forEach>
