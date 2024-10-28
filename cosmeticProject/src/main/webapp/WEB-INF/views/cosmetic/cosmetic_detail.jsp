@@ -14,15 +14,19 @@
     	overflow-y: scroll !important;
 	}
 	
-/* 	#btn_review { */
-/* 		background-color: white; */
-/* 		border: 1px solid #3D3D3D; */
-/* 	} */
-
-/* 	#btn_ingredient { */
-/* 		background-color: white; */
-/* 		border: 1px solid #BFBFBF; */
-/* 	} */
+	/* 이메일 입력 필드에 포커스가 있을 때 테두리 색상 변경 */
+	#input_email:focus {
+	    border-color: #3D3D3D !important;
+	    outline: none;
+	    box-shadow: none !important;
+	}
+	
+	/* 비밀번호 입력 필드에 포커스가 있을 때 테두리 색상 변경 */
+	#input_pw:focus {
+	    border-color: #3D3D3D !important;
+	    outline: none;
+	    box-shadow: none !important;
+	}
 
 	.tab_click {
 		background-color: white;
@@ -91,7 +95,7 @@
 	
 	.image-container img {
 	    max-width: 110%;
-	    max-height: 110x`%;
+	    max-height: 110%;
 	    object-fit: contain; /* 이미지 비율을 유지하며 div 안에 맞춤 */
 	}
 	
@@ -151,6 +155,18 @@
     	background-color: white;
     	border: none;
     }
+    
+    .text_box {
+        width: 500px;
+        box-sizing: border-box;
+        border: 0;
+        resize: none;
+        font-size: 16px;
+    }
+    
+    .text_box:focus {
+        outline: none;
+    }
 </style>
 </head>
 <body>
@@ -163,6 +179,8 @@
         </div>
         <main>
             <div class="">
+				<form action="/reviewWrite" method="post">
+				<!-- 화장품 정보, 알레르기 정보 -->
 	            <div style="width: 50%; margin: 0 auto; padding-top: 30px;">
 	                <div class="d-flex justify-content-center" style="padding: 25px; margin-bottom: 10px">
 	                	<div class="image-container">
@@ -173,6 +191,7 @@
 							    <img src="${pageContext.request.contextPath}${cosInfo.cosImage}" style="height: 200px;">
 							</c:if>
 	                	</div>
+	                	<input type="hidden" name="imagePath" value="${cosInfo.cosImage}">
 	                    <div class="d-flex flex-column justify-content-center" style="width: 330px;">
 	                    	<div class="border-bottom" style="padding-bottom: 10px;">
 		                        <span style="color: #A6A6A6; font-size: 20px">${cosInfo.companyName}</span>
@@ -184,7 +203,7 @@
 		                    	<div style="padding-right: 30px;">
 			                    	<div class="d-flex justify-content-between">
 			                    		<div>
-				                    		<img src="resources/assets/img/virus.png" style="width: 27px; height: 27px; margin-right: 15px;">
+				                    		<img src="${pageContext.request.contextPath}/assets/img/virus.png" style="width: 27px; height: 27px; margin-right: 15px;">
 				                            <span style="font-size: 16px;">알레르기 주의성분</span>	                    		
 			                    		</div>
 				                    	<div>
@@ -193,13 +212,18 @@
 			                    	</div>
 		                    	</div>
 	                    	</div>
-	                    </div>                    
+	                    </div>
+					    <input type="hidden" name="companyName" value="${cosInfo.companyName}">
+					    <input type="hidden" name="productName" value="${cosInfo.name}">
+					    <input type="hidden" name="cosmeticNo" value="${cosInfo.cosmeticNo}">
 	                </div>
 	            </div>
+				<!-- 화장품 정보, 알레르기 정보 -->
+				
 	            <div style="width: 60%; margin: auto;">
 	                <div class="d-flex justify-content-center" id="div_tab">
-	                	<button id="btn_review" class="tab_click" style="width: 300px; font-size: 20px; padding: 5px;">리뷰</button>
-	                	<button id="btn_ingredient" class="tab_nonclick" style="width: 300px; font-size: 20px; padding: 5px;">성분 정보</button>
+	                	<button type="button" id="btn_review" class="tab_click" style="width: 300px; font-size: 20px; padding: 5px;">리뷰</button>
+	                	<button type="button" id="btn_ingredient" class="tab_nonclick" style="width: 300px; font-size: 20px; padding: 5px;">성분 정보</button>
 	                </div>
 					<!-- 리뷰 -->
 	                <div id="review_div" style="width: 65%; margin: auto;">
@@ -219,7 +243,7 @@
 				               		<span id="rating_score">${avgStarScore}</span>
 				               		<div class="d-flex justify-content-center text-align">
 										<c:forEach var="i" begin="1" end="5">
-										    <img src="resources/assets/img/${i <= score ? 'star_full.png' : 'star_none.png'}" style="width: 23px; margin-right: 7px;">
+										    <img src="${pageContext.request.contextPath}/assets/img/${i <= score ? 'star_full.png' : 'star_none.png'}" style="width: 23px; margin-right: 7px;">
 										</c:forEach>
 				               		</div>
 			               		</div>
@@ -276,70 +300,80 @@
 						
 						<!-- 리뷰 기록 버튼 -->
 						<div class="d-flex justify-content-end" style="margin-top: 15px;">
-							<form action="/reviewWrite" method="post">
-								<button type="submit" id="review_write">
-									<img src="resources/assets/img/pencil.png" style="width: 20px; height: 20px; margin-right: 10px;">
-									리뷰 작성하기
-								</button>
-							</form>
+							<button type="submit" id="review_write">
+								<img src="${pageContext.request.contextPath}/assets/img/pencil.png" style="width: 20px; height: 20px; margin-right: 10px;">
+								리뷰 작성하기
+							</button>
 						</div>
-						
+				</form>
 						<!-- 리뷰 조회 -->
 						<div style="margin: 0 auto;">
-							<table class="table table-hover" >
-								<c:forEach items="${reviewInfo}" var="re">
-									<tr>
-										<td>
-											<div class="d-flex" style="margin-top: 20px;">
-												<div>
-													<div class="d-flex">
-									                	<c:if test="${re.profileImg == null}">
-										                    <img src="${pageContext.request.contextPath}/assets/img/게시판_프로필.png">
-									                	</c:if>
-									                	<c:if test="${re.profileImg != null}">
-										                    <img src="${pageContext.request.contextPath}${re.profileImg}" id="profileImage">
-									                	</c:if>
-														<div class="flex-column justify-content-center"
-															style="margin-left: 15px;">
-															<div>
-																<span style="font-size: 18px;">${re.memWriter}</span>
-																<span style="font-size: 15px; color: #A6A6A6;">아직 없음</span>
-															</div>
-															<div class="d-flex" style="height: 21px;">
-															    <c:forEach var="i" begin="1" end="5">
-															        <img src="resources/assets/img/${i <= re.starScore ? 'star_full.png' : 'star_none.png'}" style="width: 20px;">
-															    </c:forEach>
-											               		<div class="justify-content-end" style="margin-left: 10px;">
-																	<span style="color: #7F7F7F;">${re.createDt}</span>
-											               		</div>
-															</div>
-														</div>
-													</div>
-													<div style="padding-left: 20px; padding-top: 20px; padding-bottom: 20px;">
-														<div class="d-flex" style="margin-right: 10px;">
-															<span style="font-size: 25px; color: #61A1FF; margin-right: 10px;">&#9786;</span>
-															<div class="">
-																<span>${re.goodComment}</span>														
-															</div>
-														</div>
-														<br>
-														<div class="d-flex" style="margin-right: 10px;">
-															<span style="font-size: 25px; color: #7F7F7F; margin-right: 10px;">&#9785;</span>
-															<div class="">
-																<span>${re.badComment}</span>														
-															</div>
-														</div>
-													</div>
+							<c:if test="${not empty reviewInfo}">
+								<table>
+									<c:forEach items="${reviewInfo}" var="re">
+										<tr>
+											<td>
+												<div class="d-flex" style="margin-top: 20px;">
 													<div>
-<!-- 														<img src="resources/assets/img/image_ex.jpg" style="width: 200px; border-radius:5%;"> -->
-<!-- 														<img src="resources/assets/img/image_ex.jpg" style="width: 200px; border-radius:5%;"> -->
+														<div class="d-flex">
+										                	<c:if test="${re.profileImg == null}">
+											                    <img src="${pageContext.request.contextPath}/assets/img/게시판_프로필.png">
+										                	</c:if>
+										                	<c:if test="${re.profileImg != null}">
+											                    <img src="${pageContext.request.contextPath}${re.profileImg}" id="profileImage">
+										                	</c:if>
+															<div class="flex-column justify-content-center"
+																style="margin-left: 15px;">
+																<div>
+																	<span style="font-size: 18px;">${re.memWriter}</span>
+																	<span style="font-size: 15px; color: #A6A6A6;">아직 없음</span>
+																</div>
+																<div class="d-flex" style="height: 21px;">
+																    <c:forEach var="i" begin="1" end="5">
+																        <img src="${pageContext.request.contextPath}/assets/img/${i <= re.starScore ? 'star_full.png' : 'star_none.png'}" style="width: 20px;">
+																    </c:forEach>
+												               		<div class="justify-content-end" style="margin-left: 10px;">
+																		<span style="color: #7F7F7F;">${re.createDt}</span>
+												               		</div>
+																</div>
+															</div>
+														</div>
+														<div style="padding-left: 20px; padding-top: 20px; padding-bottom: 20px;">
+															<div class="d-flex" style="margin-right: 10px;">
+																<span style="font-size: 25px; color: #61A1FF; margin-right: 10px;">&#9786;</span>
+																<div class="d-flex" style="align-items: center;">
+																	<textarea class="text_box" readonly>${re.goodComment}</textarea>													
+																</div>
+															</div>
+															<br>
+															<div class="d-flex" style="margin-right: 10px;">
+																<span style="font-size: 25px; color: #7F7F7F; margin-right: 10px;">&#9785;</span>
+																<div class="d-flex" style="align-items: center;">
+																	<textarea class="text_box" readonly>${re.badComment}</textarea>													
+																</div>
+															</div>
+														</div>
+														<div>
+	<!-- 														<img src="resources/assets/img/image_ex.jpg" style="width: 200px; border-radius:5%;"> -->
+	<!-- 														<img src="resources/assets/img/image_ex.jpg" style="width: 200px; border-radius:5%;"> -->
+														</div>
 													</div>
 												</div>
-											</div>
-										</td>
-									</tr>
-								</c:forEach>
-							</table>
+											</td>
+										</tr>
+									</c:forEach>
+								</table>
+							</c:if>
+							<c:if test="${empty reviewInfo}">
+								<div class="d-flex justify-content-center" style="margin-bottom: 100px; margin-top: 100px;">
+									<div>
+										<div class="d-flex justify-content-center" style="margin-bottom: 15px;">
+											<img src="${pageContext.request.contextPath}/assets/img/noinfo.png" style="width: 100px; height: 100px;">
+										</div>
+										<h5>작성된 리뷰가 없습니다.</h5>
+									</div>
+								</div>
+							</c:if>
 						</div>
 	                </div>
 					<!-- 리뷰 -->
@@ -352,7 +386,7 @@
 		                    	<span style="font-size: 20px; color: #3B87CD; font-weight: bold;">${ingreInfo.size()}개</span>
 	                    	</div>
 	                    	<div class="d-flex justify-content-center" style="width: 50%;">
-		                    	<img src="resources/assets/img/information.png" style="width: 20px; height: 20px; margin-right: 7px;">
+		                    	<img src="${pageContext.request.contextPath}/assets/img/information.png" style="width: 20px; height: 20px; margin-right: 7px;">
 		                    	<span style="color: #7F7F7F;">함량이 높은 순서로 보여집니다.</span>
 	                    	</div>
                     	</div>
@@ -360,57 +394,69 @@
 	                    	<div class="d-flex justify-content-center" style="padding-left: 65px;">
                     			<div class="d-flex">
 	                    			<div style="margin-right: 15px;">
-	                    				<img src="resources/assets/img/circle_blue.png" style="width: 16px; height: 16px;">
+	                    				<img src="${pageContext.request.contextPath}/assets/img/circle_blue.png" style="width: 16px; height: 16px;">
 	                    				<span style="color: #3FBFCD; font-weight: bold; margin-right: 5px;">1-2</span><span>낮은 위험</span>
 	                    			</div>
 	                    			<div style="margin-right: 15px;">
-	                    				<img src="resources/assets/img/circle_orange.png" style="width: 16px; height: 16px;">
+	                    				<img src="${pageContext.request.contextPath}/assets/img/circle_orange.png" style="width: 16px; height: 16px;">
 	                    				<span style="color: #FFBB20; font-weight: bold; margin-right: 5px;">3-6</span><span>중간 위험</span>
 	                    			</div>
 	                    			<div style="margin-right: 15px;">
-	                    				<img src="resources/assets/img/circle_red.png" style="width: 16px; height: 16px;">
+	                    				<img src="${pageContext.request.contextPath}/assets/img/circle_red.png" style="width: 16px; height: 16px;">
 	                    				<span style="color: #FF6D6D; font-weight: bold; margin-right: 5px;">7-10</span><span>높은 위험</span>
 	                    			</div>
 	                    			<div>
-	                    				<img src="resources/assets/img/circle_gray.png" style="width: 16px; height: 16px;">
+	                    				<img src="${pageContext.request.contextPath}/assets/img/circle_gray.png" style="width: 16px; height: 16px;">
 	                    				<span>등급 미정</span>
 	                    			</div>
                     			</div>
 	                    	</div>
                     		<div style="margin: auto; margin-top: 30px; margin-bottom: 30px;">
-                   				<c:forEach items="${ingreInfo}" var="ingre">
-	                    			<div class="d-flex justify-content-between" style="align-items: center; margin-bottom: 20px; height: auto;">
-	                    				<div class="d-flex">
-							                <c:set var="rank" value="${ingre.ewgRank}" />
-							                <c:set var="firstDigit" value="${rank.substring(0, 1)}" />
-							
-							                <c:choose>
-							                    <c:when test="${firstDigit eq '0'}">
-							                        <div class="round_gray">${ingre.ewgRank}</div>
-							                    </c:when>
-							                    <c:when test="${firstDigit eq '1' or firstDigit eq '2'}">
-							                        <div class="round_blue">${ingre.ewgRank}</div>
-							                    </c:when>
-							                    <c:when test="${firstDigit eq '3' or firstDigit eq '4' or firstDigit eq '5' or firstDigit eq '6'}">
-							                        <div class="round_orange">${ingre.ewgRank}</div>
-							                    </c:when>
-							                    <c:when test="${firstDigit eq '7' or firstDigit eq '8' or firstDigit eq '9' or firstDigit eq '10'}">
-							                        <div class="round_red">${ingre.ewgRank}</div>
-							                    </c:when>
-							                </c:choose>
-				                    		<div class="d-block" style="margin-left: 10px; height: auto;">
-				                    			<div style="font-weight: bold;">${ingre.nameKor}</div>
-				                    			<div style="font-size: 15px; color: #7F7F7F;">${ingre.nameEng}</div>
-				                    			<div>${ingre.explain}</div>
-				                    		</div>
-	                    				</div>
-	                    				<div>
-										    <c:if test="${ingre.allergyYn eq 'Y'}">
-										        <img src="resources/assets/img/virus.png" style="width: 30px; height: 30px;">
-										    </c:if>
-	                    				</div>
-	                    			</div>
-                   				</c:forEach>
+                    			<c:if test="${not empty ingreInfo}">
+	                   				<c:forEach items="${ingreInfo}" var="ingre">
+		                    			<div class="d-flex justify-content-between" style="align-items: center; margin-bottom: 20px; height: auto;">
+		                    				<div class="d-flex">
+								                <c:set var="rank" value="${ingre.ewgRank}" />
+								                <c:set var="firstDigit" value="${rank.substring(0, 1)}" />
+								
+								                <c:choose>
+								                    <c:when test="${firstDigit eq '0'}">
+								                        <div class="round_gray">${ingre.ewgRank}</div>
+								                    </c:when>
+								                    <c:when test="${firstDigit eq '1' or firstDigit eq '2'}">
+								                        <div class="round_blue">${ingre.ewgRank}</div>
+								                    </c:when>
+								                    <c:when test="${firstDigit eq '3' or firstDigit eq '4' or firstDigit eq '5' or firstDigit eq '6'}">
+								                        <div class="round_orange">${ingre.ewgRank}</div>
+								                    </c:when>
+								                    <c:when test="${firstDigit eq '7' or firstDigit eq '8' or firstDigit eq '9' or firstDigit eq '10'}">
+								                        <div class="round_red">${ingre.ewgRank}</div>
+								                    </c:when>
+								                </c:choose>
+					                    		<div class="d-block" style="margin-left: 10px; height: auto;">
+					                    			<div style="font-weight: bold;">${ingre.nameKor}</div>
+					                    			<div style="font-size: 15px; color: #7F7F7F;">${ingre.nameEng}</div>
+					                    			<div>${ingre.explain}</div>
+					                    		</div>
+		                    				</div>
+		                    				<div>
+											    <c:if test="${ingre.allergyYn eq 'Y'}">
+											        <img src="${pageContext.request.contextPath}/assets/img/virus.png" style="width: 30px; height: 30px;">
+											    </c:if>
+		                    				</div>
+		                    			</div>
+	                   				</c:forEach>
+                    			</c:if>
+								<c:if test="${empty ingreInfo}">
+									<div class="d-flex justify-content-center" style="margin-bottom: 100px; margin-top: 100px;">
+										<div>
+											<div class="d-flex justify-content-center" style="margin-bottom: 15px;">
+												<img src="${pageContext.request.contextPath}/assets/img/noinfo.png" style="width: 100px; height: 100px;">
+											</div>
+											<h5>등록된 성분이 없습니다.</h5>
+										</div>
+									</div>
+								</c:if>
                     		</div>
                     	</div>
 	                </div>
@@ -448,6 +494,16 @@
         	$('#ingredient_div').css("display", "block");
         	$('#review_div').css("display", "none");
         });
+        
+        function autoResizeTextarea() {
+            $('.text_box').each(function() {
+                $(this).css('height', 'auto');  // 기존 높이를 초기화
+                $(this).css('height', this.scrollHeight + 'px');  // 내용에 맞게 높이 설정
+            });
+        }
+
+        // 페이지 로드 시 자동으로 호출
+        autoResizeTextarea();
 	});
 </script>
 </html>

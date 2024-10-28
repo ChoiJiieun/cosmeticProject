@@ -98,5 +98,10 @@
 		ORDER BY i.index_num
 	</select>
 	
+	<!-- 화장품 리뷰 작성 -->
+	<insert id="review_writeDo" parameterType="ReviewVO">
+		INSERT INTO review(review_no, good_comment, bad_comment, star_score, cosmetic_no, mem_id)
+		VALUES(SEQ_REVIEW.NEXTVAL, #{goodComment}, #{badComment}, #{starScore}, #{cosmeticNo}, #{memId})
+	</insert>
 	
 </mapper>

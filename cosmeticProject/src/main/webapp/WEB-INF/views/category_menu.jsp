@@ -2,13 +2,13 @@
     pageEncoding="UTF-8"%>
     
 <!-- css -->
-<link href="resources/css/category.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/css/category.css" rel="stylesheet" />
 
 <div class="d-flex justify-content-center" id="menu-content">
     <ul id="ul_center">
         <li class="menu_title">
-            <a>스킨케어</a>
-            <hr>
+            <a class="cate_a">스킨케어</a>
+            <hr class="cate_hr">
             <ul class="menu_list">
                 <li>스킨/토너</li>
                 <li>로션/에멀젼</li>
@@ -23,8 +23,8 @@
             </ul>
         </li>
         <li class="menu_title">
-            <a>클렌징/필링</a>
-            <hr>
+            <a class="cate_a">클렌징/필링</a>
+            <hr class="cate_hr">
             <ul class="menu_list">
                 <li>클렌징 폼</li>
                 <li>클렌징 워터</li>
@@ -40,8 +40,8 @@
             </ul>
         </li>
         <li class="menu_title">
-            <a>마스크/팩</a>
-            <hr>
+            <a class="cate_a">마스크/팩</a>
+            <hr class="cate_hr">
             <ul class="menu_list">
                 <li>시트마스크</li>
                 <li>부분마스크/팩</li>
@@ -54,8 +54,8 @@
             </ul>
         </li>
         <li class="menu_title">
-            <a>선케어</a>
-            <hr>
+            <a class="cate_a">선케어</a>
+            <hr class="cate_hr">
             <ul class="menu_list">
                 <li>선크림/로션</li>
                 <li>선스프레이</li>
@@ -65,8 +65,8 @@
             </ul>
         </li>
         <li class="menu_title">
-            <a>바디</a>
-            <hr>
+            <a class="cate_a">바디</a>
+            <hr class="cate_hr">
             <ul class="menu_list">
                 <li>바디워시</li>
                 <li>바디로션</li>
@@ -87,8 +87,8 @@
             </ul>
         </li>
         <li class="menu_title">
-            <a>헤어</a>
-            <hr>
+            <a class="cate_a">헤어</a>
+            <hr class="cate_hr">
             <ul class="menu_list">
                 <li>샴푸</li>
                 <li>린스/컨디셔너</li>

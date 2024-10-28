@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import comm.proj.my.cosmetic.vo.ReviewVO;
 import comm.proj.my.member.dao.IMemberDAO;
 import comm.proj.my.member.vo.MemberVO;
 
@@ -19,12 +21,8 @@ public class MemberService {
 	IMemberDAO dao;
 	
 	// 로그인
-	public MemberVO loginMember(MemberVO vo) throws Exception {
+	public MemberVO loginMember(MemberVO vo) {
 		MemberVO user = dao.loginMember(vo);
-		
-		if (user == null) {
-			throw new Exception();
-		}
 		
 		return user;
 	}
@@ -111,5 +109,43 @@ public class MemberService {
 		int user = dao.idCheck(memId);
 		System.out.println("아이디 중복확인 " + user);
 		return user;
+	}
+
+	// 내가 작성한 리뷰 조회
+	public ArrayList<ReviewVO> myReview(String memId) {
+		return dao.myReview(memId);
+	}
+	
+	// 리뷰 수정
+	public int review_update(ReviewVO vo) throws Exception {
+		int result = dao.review_update(vo);
+		
+		if (result == 0) {
+			throw new Exception();
+		}
+		
+		return result;
+	}
+	
+	// 수정하려는 리뷰 조회
+	public ReviewVO reviewUpdateInfo(ReviewVO vo) throws Exception {
+		ReviewVO result = dao.reviewUpdateInfo(vo);
+		
+		if (result == null) {
+			throw new Exception();
+		}
+		
+		return result;
+	}
+	
+	// 리뷰 삭제
+	public int reviewDelete(String reviewNo) throws Exception {
+		int result = dao.reviewDelete(reviewNo);
+		
+		if (result == 0) {
+			throw new Exception();
+		}
+		
+		return result;
 	}
 }

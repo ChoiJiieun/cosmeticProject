@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import comm.proj.my.cosmetic.vo.ReviewVO;
 import comm.proj.my.member.service.MemberService;
 import comm.proj.my.member.vo.MemberVO;
 
@@ -43,9 +46,35 @@ public class MemberController {
 		return "member/register";
 	}
 	
+	@RequestMapping("/logoutDo")
+	public String logout(HttpSession session) throws Exception {
+		
+		session.invalidate();
+		
+		return "redirect:/";
+	}
+	
 	// 마이페이지 화면
 	@RequestMapping("/mypage")
-	public String mypage() {
+	public String mypage(HttpSession session, Model model) {
+		MemberVO loginMember = (MemberVO) session.getAttribute("login");
+		
+//	    if (loginMember == null) {
+//	    	model.addAttribute("nologin", "로그인이 필요한 서비스 입니다.");
+//	    	return "home/home";
+//	    }
+
+	    if (loginMember == null) {
+//	    	model.addAttribute("nologin", "로그인이 필요한 서비스 입니다.");
+	    	return "redirect:/";
+	    }
+	    
+	    String memId = loginMember.getMemId();
+		
+		// 본인이 작성한 리뷰 조회
+		ArrayList<ReviewVO> reviewList = memberService.myReview(memId);
+		model.addAttribute("reviewList", reviewList);
+		
 		return "member/mypage";
 	}
 	
@@ -69,12 +98,13 @@ public class MemberController {
 	
 	// 로그인 기능
 	@RequestMapping("/loginDo")
-	public String loginDo(MemberVO vo, boolean remember, HttpSession session, HttpServletResponse response) throws Exception {
+	public String loginDo(MemberVO vo, boolean remember, HttpSession session, HttpServletResponse response, Model model) throws Exception {
 		System.out.println(vo);
 		MemberVO login = memberService.loginMember(vo);
 		System.out.println("세션에 저장할 로그인 " + login);
 		if (login ==  null) {
-			return "redirect:/";
+			model.addAttribute("loginError", "아이디 또는 비밀번호가 일치하지 않습니다.");
+			return "home/home";
 		}
 		session.setAttribute("login", login);
 		
@@ -151,6 +181,46 @@ public class MemberController {
 		}
 		out.close();
 	}
+	
+	// 리뷰 수정
+	@RequestMapping("/reviewUpdateDo")
+	public String reviewUpdateDo(ReviewVO vo) {
+		try {
+			memberService.review_update(vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/mypage";
+	}
+
+	// 리뷰 수정 페이지 이동
+	@RequestMapping("/reviewUpdate")
+	public String reviewUpdate(Model model, ReviewVO vo) {
+		
+		try {
+			vo = memberService.reviewUpdateInfo(vo);
+			model.addAttribute("reList", vo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "cosmetic/review_update";
+	}
+	
+	// 리뷰 삭제
+	@RequestMapping("/reviewDelete")
+	public String reviewDelete(@RequestParam("reviewNo") String reviewNo) {
+		try {
+			memberService.reviewDelete(reviewNo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "redirect:/mypage";
+	}
+	
 	// 수정부터 해야함 수정 할 때 이미지만이 아니라 전체 정보를 어떻게 가져와야 하는지 알아야함
 	// 개인정보수정 아직 미완성
 	@ResponseBody

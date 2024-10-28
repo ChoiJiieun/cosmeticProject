@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -25,6 +26,55 @@
        object-fit: cover;
        border-radius: 50%;
     }
+    
+    .image-container {
+        width: 100px;
+        height: 120px;
+        display: flex;
+        justify-content: center; /* 가로 중앙 정렬 */
+        align-items: center; /* 세로 중앙 정렬 */
+        overflow: hidden; /* 이미지가 div 크기를 넘으면 숨김 */
+    }
+    
+    .image-container img {
+        max-width: 110%;
+        max-height: 110%;
+        object-fit: contain; /* 이미지 비율을 유지하며 div 안에 맞춤 */
+    }
+    
+    .item_info {
+        color: inherit;
+        text-decoration: none !important;
+        background: none;
+        padding: 0;
+        margin: 0;
+        border: none;
+        cursor: auto;
+        font-size: inherit;
+    }
+    
+    .dropdown_btn {
+    	background-color: white;
+    	border: none;
+    }
+    
+    .dropdown-menu {
+    	min-width: 50px !important;
+    	margin: 0 !important;
+    	padding: 0 !important;
+    }
+    
+    .dropdown-item {
+    	text-decoration: none !important;
+    }
+    
+    .dropdown-item.active {
+    	background-color: ##F3F4F8 !important;
+    }
+    
+    .dropdown-menu.active {
+    	background-color: ##F3F4F8 !important;
+    }
 </style>
 </head>
 <body>
@@ -42,12 +92,13 @@
                         <h5 style="font-weight: bold; text-align: center;">마이페이지</h5>
                         <div style="margin-top: 20px;">
                             <ul>
-                                <li><a id="like_tag" href="#" class="tab-link" data-target="like">좋아요</a></li>
+<!--                                 <li><a id="like_tag" href="#" class="tab-link" data-target="like">좋아요</a></li> -->
+<!--                                 <li><a href="#" class="tab-link" data-target="review">리뷰</a></li> -->
+<!--                                 <br> -->
+<!--                                 <li><a href="#" class="tab-link" data-target="mycosmetic">나의 화장대</a></li> -->
+<!--                                 <li><a href="#" class="tab-link" data-target="face">피부 기록</a></li> -->
+<!--                                 <br> -->
                                 <li><a href="#" class="tab-link" data-target="review">리뷰</a></li>
-                                <br>
-                                <li><a href="#" class="tab-link" data-target="mycosmetic">나의 화장대</a></li>
-                                <li><a href="#" class="tab-link" data-target="face">피부 기록</a></li>
-                                <br>
                                 <li><a href="#" class="tab-link" data-target="myinfo">회원정보 수정</a></li>
                                 <li><a href="#" class="tab-link" data-target="delinfo">회원 탈퇴</a></li>
                             </ul>
@@ -114,7 +165,99 @@
 <!--                                 </div> -->
 <!--                             </div> -->
                         </div>
-                        <div id="review" class="content-section" style="display: none;">리뷰 섹션</div>
+                        <div id="review" class="content-section" style="display: block;">
+                            <div style="border-bottom: 1px solid #3D3D3D;">
+                                <h5 style="font-weight: bold; margin-bottom: 20px; padding-left: 20px;">나의 리뷰</h5>
+                            </div>
+							<c:if test="${not empty reviewList}">
+								<table style="margin: 30px;">
+									<c:forEach items="${reviewList}" var="reList">
+									    <tr>
+									        <div style="margin-left: 45px; margin-right: 45px; border-bottom: 1px solid #3D3D3D;">
+									        	<a class="item_info" href="/products?cosNo=${reList.cosmeticNo}">
+										            <div class="d-flex">
+										                <div class="d-flex" style="align-items: center;">
+										                    <div class="d-grid">
+										                        <span style="color: #A6A6A6; margin-right: 6px;">${reList.companyName}</span>
+										                        <span>${reList.name}</span>
+										                    </div>
+										                </div>
+										                <div class="d-flex" style="margin-left: auto; align-items: center;">
+										                    <div class="image-container">
+								                                <c:if test="${reList.cosImage == null || fn:length(reList.cosImage) == 0}">
+								                                    <img src="${pageContext.request.contextPath}/assets/img/none.jpg" style="width: 30px;">
+								                                </c:if>
+								                                <c:if test="${reList.cosImage != null && fn:length(reList.cosImage) > 0}">
+								                                    <img src="${pageContext.request.contextPath}${reList.cosImage}" style="height: 80px;">
+								                                </c:if>
+										                    </div>
+										                    <p style="color: #7F7F7F; align-items: center; margin: 0;">></p>
+										                </div>
+										            </div>
+									        	</a>
+									            <hr style="margin: 0;">
+									            <div style="margin: 15px;">
+									                <div class="d-flex justify-content-between">
+									                    <div class="d-flex">
+														    <c:forEach var="i" begin="1" end="5">
+														        <img src="${pageContext.request.contextPath}/assets/img/${i <= reList.starScore ? 'star_full.png' : 'star_none.png'}" style="width: 20px; height: 20px;">
+														    </c:forEach>
+									                        <span style="color: #7F7F7F; margin-left: 10px;">${reList.createDt}</span>
+									                    </div>
+									                    <div>
+									                    	<button class="dropdown_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+											                    <h4 style="color: #7F7F7F; margin-right: 35px;">&#8942;</h4>
+									                    	</button>
+															<ul class="dropdown-menu">
+															  <li style="margin-top: 5px;">
+															  	<form action="/reviewUpdate" method="post">
+															  		<input type="hidden" name="reviewNo" value="${reList.reviewNo}">
+															  		<input type="hidden" name="memId" value="${reList.memId}">
+															  		<button type="submit" class="dropdown_btn" style="text-align: center; width: 100%;">수정</button>
+															  	</form>
+															  </li>
+															  <li>
+															  	<form id="deleteForm" action="/reviewDelete">
+															  		<input type="hidden" name="reviewNo" value="${reList.reviewNo}">
+															  		<input type="hidden" name="memId" value="${reList.memId}">
+															  		<button id="delete_submit" type="button" class="dropdown_btn" style="text-align: center; width: 100%;">삭제</button>
+															  	</form>
+															  </li>
+															</ul>
+									                    </div>
+									                </div>
+									                 <div style="margin-right: 35px; margin-top: 15px;">
+									                    <div class="d-flex" >
+									                        <span style="font-size: 20px; color: #61A1FF; margin-right: 10px;">&#9786;</span>
+									                        <div class="">
+									                            <span>${reList.goodComment}</span>														
+									                        </div>
+									                    </div>
+									                    <br>
+									                    <div class="d-flex" >
+									                        <span style="font-size: 20px; color: #7F7F7F; margin-right: 10px;">&#9785;</span>
+									                        <div class="">
+									                            <span>${reList.badComment}</span>														
+									                        </div>
+									                    </div>
+									                 </div>
+									            </div>
+									        </div>
+									    </tr>
+									</c:forEach>
+								</table>
+							</c:if>
+							<c:if test="${empty reviewList}">
+								<div class="d-flex justify-content-center" style="margin-bottom: 100px; margin-top: 100px;">
+									<div>
+										<div class="d-flex justify-content-center" style="margin-bottom: 15px;">
+											<img src="${pageContext.request.contextPath}/assets/img/noinfo.png" style="width: 100px; height: 100px;">
+										</div>
+										<h5>작성된 리뷰가 없습니다.</h5>
+									</div>
+								</div>
+							</c:if>
+                        </div>
                         <div id="mycosmetic" class="content-section" style="display: none;">나의 화장대 섹션</div>
                         <div id="face" class="content-section" style="display: none;">피부 기록 섹션</div>
                         <div id="myinfo" class="content-section" style="display: none;">
@@ -248,6 +391,14 @@
 
             // 해당하는 div 보이기
             $('#' + target).show();
+        });
+        
+        $("#delete_submit").on("click", function() {
+            // 알림창 표시
+            if (confirm("정말로 삭제하시겠습니까?")) {
+                // 확인을 누르면 폼 제출
+                $("#deleteForm").submit();
+            }
         });
     });
 </script>

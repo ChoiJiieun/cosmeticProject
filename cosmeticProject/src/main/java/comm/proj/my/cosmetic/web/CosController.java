@@ -55,13 +55,14 @@ public class CosController {
 	        }
 
 	        // 평균 계산 (평균은 총합 / 리뷰 개수)
-	        double avgScore = totalScore / reviewCount;
+	        double n = totalScore / reviewCount;
+	        double avgScore = Math.round(n*100)/100.0;
 
 	        // 평균 별점을 JSP에 넘겨주기
 	        model.addAttribute("avgStarScore", avgScore);
 	    } else {
 	        // 리뷰가 없으면 평균을 0으로 설정
-	        model.addAttribute("avgStarScore", 0);
+	        model.addAttribute("avgStarScore", 0.0);
 	    }
 	    
 	    int allergy_count = 0;
@@ -117,11 +118,40 @@ public class CosController {
 		return "cosmetic/cosmetic_detail";
 	}
 
-	// 리뷰 작성
-	@RequestMapping("reviewWrite")
-	public String review_write() {
+	// 리뷰 작성 화면으로 이동
+	@RequestMapping("/reviewWrite")
+	public String review_write(@RequestParam("companyName") String companyName
+							 , @RequestParam("productName") String productName
+							 , @RequestParam("cosmeticNo") String cosmeticNo
+							 , @RequestParam("imagePath") String imagePath
+							 , Model model) {
 		
+		System.out.println("회사 이름 : " + companyName);
+		System.out.println("제품 이름 : " + productName);
+		System.out.println("제품 ID : " + cosmeticNo);
+		System.out.println("이미지 경로 : " + imagePath);
+		
+		model.addAttribute("companyName", companyName);
+		model.addAttribute("productName", productName);
+		model.addAttribute("cosmeticNo", cosmeticNo);
+		model.addAttribute("imagePath", imagePath);
 		
 		return "cosmetic/review_write";
+	}
+	
+	// 리뷰 작성
+	@RequestMapping("/reviewWriteDo")
+	public String review_writeDo(ReviewVO vo, @RequestParam("cosmeticNo") String cosmeticNo) {
+		
+		System.out.println("리뷰 작성 vo : " + vo);
+		
+		try {
+			cosService.review_writeDo(vo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "redirect:/products?cosNo=" + cosmeticNo;
 	}
 }

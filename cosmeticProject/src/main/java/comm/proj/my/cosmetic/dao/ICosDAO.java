@@ -23,4 +23,7 @@ public interface ICosDAO {
 	// 화장품 성분 조회
 	public ArrayList<IngredientVO> ingre_info(int cosNo);
 	
+	// 화장품 리뷰 작성
+	public int review_writeDo(ReviewVO vo);
+	
 }

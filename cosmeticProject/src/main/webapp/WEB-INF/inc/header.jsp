@@ -12,12 +12,14 @@
 <!-- font -->
 <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet" />
 <!-- css -->
-<link href="resources/css/header_style.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/css/header_style.css" rel="stylesheet" />
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/rank_style.css" />
 <div id="header_div" style="position: relative;">
     <nav class="navbar border-bottom py-4">
         <div class="container-fluid justify-content-center" style="margin-left: 50px; margin-right: 60px;">
-            <img src="resources/assets/img/로고.png" style="width: 187px; height: 51px">
+        	<a href="/">
+	            <img src="${pageContext.request.contextPath}/assets/img/로고.png" style="width: 187px; height: 51px">
+        	</a>
             <form class="mx-auto" action="/search" method="GET">
                 <input class="form-control rounded-pill" type="text" placeholder="검색어를 입력해주세요" aria-label="Search"
                     id="search-input" name="query" style="font-family: 'NanumSquare'; height: 58px; width: 580px;">
@@ -25,7 +27,16 @@
             <div id="login-div" class="text-end" style="margin-right: 25px;">
                 <a href="#">
                     <div class="login-box" style="display: inline;">
-                        <img id="login_btn" src="resources/assets/img/login.png" alt="login" data-bs-toggle="modal" data-bs-target="#exampleModal" width="30" height="30" style="margin-right: 20px;">
+	                    <c:if test="${sessionScope.login == null }">
+	                        <img id="login_btn" src="${pageContext.request.contextPath}/assets/img/login.png" alt="login" data-bs-toggle="modal" data-bs-target="#exampleModal" width="30" height="30" style="margin-right: 20px;">
+	                    </c:if>
+	                    <c:if test="${sessionScope.login != null }">
+	                    	<form action="/logoutDo">
+		                    	<button type="submit" style="background-color: white; border: none;">
+			                        <img id="logout_btn" src="${pageContext.request.contextPath}/assets/img/login.png" alt="login" data-bs-toggle="modal" data-bs-target="#exampleModal" width="30" height="30" style="margin-right: 20px;">
+		                    	</button>
+	                    	</form>
+	                    </c:if>
                     </div>
                     <c:if test="${sessionScope.login == null }">
                     	<div class="login-tool" style="font-family: 'NanumSquare'; font-size: 14px;">로그인</div>
@@ -38,7 +49,7 @@
             <div id="mypage-div" class="text-end" style="margin-right: 25px;">
                 <a href="/mypage">
                     <div class="mypage-box" style="display: inline;">
-                        <img id="mypage_btn" src="resources/assets/img/mypage.png" alt="mypage" width="30" height="30">
+                        <img id="mypage_btn" src="${pageContext.request.contextPath}/assets/img/mypage.png" alt="mypage" width="30" height="30">
                     </div>
                     <div class="mypage-tool" style="font-family: 'NanumSquare'; font-size: 14px;">마이페이지</div>
                 </a>
@@ -56,17 +67,17 @@
                         ☰&nbsp;&nbsp;&nbsp;&nbsp;카테고리
                     </button>
                 </li>
-                <li class="nav-item">
-                    <a id="home_a_tag" href="/" class="a_tag">
-                    	<button id="btn-home" class="nav-link link-secondary px-4"
-                        	style="font-size: 20px; display: inline; font-family: 'NanumSquare';">홈</button></a>
-                </li>
-                <li class="nav-item">
-                    <a id="rank_a_tag" href="/rank" class="a_tag">
-                        <button id="btn-rank" class="nav-link px-4 link-secondary"
-                        style="font-size: 20px;  display: inline; font-family: 'NanumSquare';">랭킹</button></a>
+<!--                 <li class="nav-item"> -->
+<!--                     <a id="home_a_tag" href="/" class="a_tag"> -->
+<!--                     	<button id="btn-home" class="nav-link link-secondary px-4" -->
+<!--                         	style="font-size: 20px; display: inline; font-family: 'NanumSquare';">홈</button></a> -->
+<!--                 </li> -->
+<!--                 <li class="nav-item"> -->
+<!--                     <a id="rank_a_tag" href="/rank" class="a_tag"> -->
+<!--                         <button id="btn-rank" class="nav-link px-4 link-secondary" -->
+<!--                         style="font-size: 20px;  display: inline; font-family: 'NanumSquare';">랭킹</button></a> -->
                     
-                </li>
+<!--                 </li> -->
                 <li class="nav-item">
                     <a id="notice_a_tag" href="/notice" class="a_tag">
                     	<button id="btn-notice" class="nav-link px-4 link-secondary"
@@ -89,7 +100,7 @@
                 </div>
                 <br>
                 <div style="text-align: center;">
-                    <img src="resources/assets/img/작은로고.png" style="width: 120px; height: 30px;">
+                    <img src="${pageContext.request.contextPath}/assets/img/작은로고.png" style="width: 120px; height: 30px;">
                 </div>
             </div>
             <div class="modal-body">
@@ -113,7 +124,7 @@
                 </form>
                 <hr style="border: 1px solid #cacaca; margin-top: 20px;">
                 <div style="text-align: center;">
-                    <img src="resources/assets/img/kakao.png" style="width: 45px;">
+                    <img src="${pageContext.request.contextPath}/assets/img/kakao.png" style="width: 45px;">
                     <label style="font-size: 14px;">카카오 로그인</label>
                 </div>
             </div>

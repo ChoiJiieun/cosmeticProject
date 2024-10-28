@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,10 +10,86 @@
 	html {
     	overflow-y: scroll !important;
 	}
+	
+	/* 이메일 입력 필드에 포커스가 있을 때 테두리 색상 변경 */
+	#input_email:focus {
+	    border-color: #3D3D3D !important;
+	    outline: none;
+	    box-shadow: none !important;
+	}
+	
+	/* 비밀번호 입력 필드에 포커스가 있을 때 테두리 색상 변경 */
+	#input_pw:focus {
+	    border-color: #3D3D3D !important;
+	    outline: none;
+	    box-shadow: none !important;
+	}
+	
+    #notice_write {
+    	font-size: 18px;
+    	background-color: white;
+    	border: none;
+    }
+    
+    .notice_list {
+    	text-decoration: none;
+    	color: black;
+    }
+    
+    .notice_list:focus {
+    	text-decoration: none !important;
+    	color: black;
+    }
+    
+    .page-link {
+    	text-decoration: none;
+    	color: black;
+    }
+
+    .page-link:focus {
+    	text-decoration: none;
+    	color: white;
+    	background-color: #3D3D3D !important;
+	    box-shadow: none !important;
+    }
+    
+    .page-item {
+    	text-decoration: none;
+    	color: black;
+    }
+
+     .active>.page-link, .page-link.active {
+     	text-decoration: none !important;
+     	color: white !important;
+     	background-color: #3D3D3D !important;
+ 	    box-shadow: none !important;
+     }
+     
+     .pagination {
+		--bs-pagination-color: black !important;
+		--bs-pagination-hover-color: white !important;
+		--bs-pagination-focus-color: white !important;
+     }
 </style>
 </head>
 
 <body>
+<!-- 	<form id="mainMove" action="/"> -->
+<!-- 	</form> -->
+<%-- 	<c:if test="${not empty loginError}"> --%>
+<%--             if (confirm("${not empty loginError}")) { --%>
+<!--                 // 확인을 누르면 폼 제출 -->
+<!--                 $("#mainMove").submit(); -->
+<!--             } -->
+<%-- 	</c:if> --%>
+<%-- 	<c:if test="${not empty nologin}"> --%>
+<!-- 		<script> -->
+<%-- // 	        if (confirm("${not empty nologin}")) { --%>
+<!-- // 	            // 확인을 누르면 폼 제출 -->
+<!-- // 	            $("#mainMove").submit(); -->
+<!-- // 	        } -->
+<!-- 		</script> -->
+<%-- 	</c:if> --%>
     <div class="container-fluid" style="padding: 0;">
         <header>
 			<jsp:include page="/WEB-INF/inc/header.jsp"></jsp:include>
@@ -21,6 +98,10 @@
 			<jsp:include page="/WEB-INF/views/category_menu.jsp"></jsp:include>
         </div>
         <main>
+	        <form name="search" action="<c:url value="/notice" />" method="post">
+		        <input type="hidden" name="curPage" id="curPage" value="${searchVO.curPage }">
+		        <input type="hidden" name="rowSizePerPage" value="${searchVO.rowSizePerPage}">
+	        </form>
 			<div style="border-bottom: 1px solid #D9D9D9;">
 				<div class="container d-flex justify-content-center"
 					style="height: 47px;">
@@ -40,76 +121,83 @@
 			<div>
 				<div style="width: 54%; margin: 0 auto;">
 					<table class="table table-hover" style="margin-top: 20px;">
-						<tr>
-							<td>
-								<div class="d-flex" style="margin-top: 20px;">
-									<div>
-										<div class="d-flex">
-											<img src="resources/assets/img/게시판_프로필.png" alt="">
-											<div class="flex-column justify-content-center"
-												style="margin-left: 15px;">
-												<div>
-													<span style="font-size: 18px;">글쓴이</span>
-												</div>
-												<div>
-													<span style="color: #979797;">2024-09-03 16:11:32</span>
-												</div>
-											</div>
-										</div>
-										<div style="padding: 20px;">
-											<div style="margin-right: 10px;">
-												<h5>ahc 아이크림 눈밑 + 팔자주름 없애기 표과본 홈케어템</h5>
-												<span style="color: #979797;">안뇽하세요 잇님들 :&#41; 저희 엄마가
-													옛날부터 피부과에서 일하고 계셔서 어렸을 때부터 저까지 관리를 정말 열심히 해주셨거든요..? 근데
-													자취하고나서부터 서서히 상태가 안 좋아지기 시작하더니 나이 먹는 게 ㄹㅇ 티가 나는 거예요 다른 건 ...
-												</span>
-												<div class="d-flex" style="margin-top: 10px;">
-													<span>공감 42</span> &nbsp;&nbsp;&nbsp;&nbsp; <span>댓글
-														15</span>
-												</div>
-											</div>
-										</div>
-									</div>
-									<img src="resources/assets/cosmetic_img/notice_ex.png"
-										style="width: 185px; height: 185px;">
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div class="d-flex" style="margin-top: 20px;">
-									<div>
-										<div class="d-flex">
-											<img src="resources/assets/img/게시판_프로필.png" alt="">
-											<div class="flex-column justify-content-center"
-												style="margin-left: 15px;">
-												<div>
-													<span style="font-size: 18px;">스무깅</span>
-												</div>
-												<div>
-													<span style="color: #979797;">2024-09-02 12:41:18</span>
-												</div>
-											</div>
-										</div>
-										<div style="padding: 20px;">
-											<div style="margin-right: 10px;">
-												<h5>아이오페 선크림 사용감 좋은 자외선 차단제 추천!</h5>
-												<span style="color: #979797;">잇님들!! 제가 이번에 자외선차단제 하나를
-													샀는데 넘 좋은 것 같아서 후기 남기려구요ㅋㅋ 자외선차단제 같은 건 사계절 내내 챙겨줘야하다 보니까 그만큼
-													사용감 좋은 게 최고인데 이거 진짜 사용감 제 스톼일.. 좋은 걸 저만 알고 있을 수는... </span>
-												<div class="d-flex" style="margin-top: 10px;">
-													<span>공감 28</span> &nbsp;&nbsp;&nbsp;&nbsp; <span>댓글
-														3</span>
-												</div>
-											</div>
-										</div>
-									</div>
-									<img src="resources/assets/cosmetic_img/notice_ex2.png"
-										style="width: 185px; height: 185px;">
-								</div>
-							</td>
-						</tr>
+						 <colgroup>
+						 	<col width="17%" />
+						 	<col width="40%" />
+						 	<col width="17%" />
+						 	<col width="14%" />
+						 	<col width="12%" />
+						 </colgroup>
+						 <thead style="text-align: center;">
+							 <tr>
+							 	<th>분류</th><th>제목</th><th>작성자</th><th>등록일</th><th>조회수</th>
+							 </tr>
+						 </thead>
+						 <tbody style="text-align: center;">
+						 	<c:forEach items="${freeList }" var="free">
+						 	<tr>
+						 		<td>${free.boCategory }</td>
+						 		<td><a class="notice_list" href="freeView?boNo=${free.boNo}">${free.boTitle }</a></td>
+						 		<td>${free.boWriter }</td>
+						 		<td>${free.boRegDate}</td>
+						 		<td>${free.boHit }</td>
+						 	</tr>
+						 	</c:forEach>
+						 </tbody>
 					</table>
+					
+					<!-- 게시물 기록 버튼 -->
+					<div class="d-flex justify-content-end" style="margin-top: 15px;">
+						<form action="noticeWrite" method="post">
+							<button type="submit" id="notice_write" style="margin-right: 25px;">
+								<img src="${pageContext.request.contextPath}/assets/img/pencil.png" style="width: 20px; height: 20px; margin-right: 10px;">
+								게시물 작성하기
+							</button>
+						</form>
+					</div>
+					
+					<!-- START : 페이지네이션  -->
+					<nav aria-label="Page navigation example">
+						<ul class="pagination justify-content-center">
+						<!-- prev -->
+						<c:if test="${searchVO.firstPage !=1 }">
+							<li class="page-item">
+								<a class="page-link" aria-lable="Previous"
+								   href="#" data-page="${searchVO.firstPage-1}" >
+									<span aria-hidden="true" >&laquo;</span>
+								</a>
+							</li>
+						</c:if>
+						<!-- prev -->
+						<!-- paging -->
+							<c:forEach begin="${searchVO.firstPage}" end="${searchVO.lastPage }" var="i">
+							
+								<c:if test="${searchVO.curPage != i}">
+									<li class="page-item">
+										<a class="page-link" href="#" data-page="${i}" >${i}</a>
+									</li>
+								</c:if>
+								<c:if test="${searchVO.curPage == i}">
+									<li class="page-item active">
+										<a class="page-link" href="#" data-page="${i}">${i}</a>
+									</li>
+								</c:if>
+							</c:forEach>					
+						<!-- paging -->
+						<!-- next -->
+						<c:if test="${searchVO.lastPage != searchVO.totalPageCount }">
+							<li class="page-item" >
+								<a class="page-link" aria-lable="Next" 
+								   href="#" data-page="${searchVO.lastPage+1}">
+									<span aria-hidden="true">&raquo;</span>
+								</a>
+							</li>
+						</c:if>
+						<!-- next -->
+						</ul>
+					</nav>
+					<!-- END : 페이지네이션  -->
+					
 				</div>
 			</div>
 		</main>
@@ -142,6 +230,18 @@
         left_position = $("#btn-home").position().left;
 
         $("#choose_div").css({"margin-right": left_position, "margin-left": left_position});
+        
+		 $("#rowSizePerPage").change(function(){
+			$("#curPage").val(1);
+			$("input[name='rowSizePerPage']").val($(this).val());
+			$("form[name='search']").submit();
+		 });
+		 
+		 $("ul.pagination li a[data-page]").click(function(e){
+			 e.preventDefault();
+			 $("#curPage").val($(this).data('page'));
+			 $("form[name='search']").submit();
+		 });
     });
 </script>
 </html>

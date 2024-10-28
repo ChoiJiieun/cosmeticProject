@@ -8,8 +8,11 @@ public class ReviewVO {
 	private String createDt;
 	private String cosmeticNo;
 	private String memId;
-	private String memWriter;
+	private String memWriter;	// 작성자 닉네임(없으면 이름 뜨게 함)
 	private String profileImg;
+	private String name;
+	private String companyName;
+	private String cosImage;
 	
 	public String getReviewNo() {
 		return reviewNo;
@@ -64,6 +67,24 @@ public class ReviewVO {
 	}
 	public void setProfileImg(String profileImg) {
 		this.profileImg = profileImg;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+	public String getCosImage() {
+		return cosImage;
+	}
+	public void setCosImage(String cosImage) {
+		this.cosImage = cosImage;
 	}
 	
 	@Override

@@ -35,18 +35,63 @@
 		FROM members
 		WHERE mem_id = #{memId}
     </select>
-   
-<!--    <update id="profileUpload" parameterType="memberVO"> -->
-<!--       UPDATE members -->
-<!--       SET profile_img = #{profileImg} -->
-<!--       WHERE mem_id = #{memId}       -->
-<!--    </update> -->
 
-	<!-- 개인정보 수정 -->
+	<!-- 개인정보 수정(X) -->
 	<update id="UpdateMember" parameterType="memberVO">
 		UPDATE members
 		SET mem_pw = #{memPw}, mem_nm = #{memNm}, mem_nickname = #{memNickname}, mem_gender = #{memGender}, mem_birth = #{memBirth}, profile_img = #{profileImg}
 		WHERE mem_id = #{memId}
 	</update>
 	
+	<!-- 내가 작성한 리뷰 조회 -->
+	<select id="myReview" parameterType="String" resultType="ReviewVO">
+		SELECT r.review_no
+		     , r.good_comment
+		     , r.bad_comment
+		     , r.star_score
+		     , TO_CHAR(r.create_dt, 'YYYY-MM-DD') as create_dt
+		     , r.cosmetic_no
+		     , r.mem_id
+		     , nvl(m.mem_nickname, m.mem_nm) as mem_writer
+		     , c.name
+		     , c.company_name
+		     , c.cos_image
+		FROM review r, members m, cosmetic c
+		WHERE m.mem_id = #{memId}
+		 AND  r.mem_id = m.mem_id
+		 AND  r.cosmetic_no = c.cosmetic_no
+	</select>
+	
+	<!-- 수정하려는 리뷰 조회 -->
+	<select id="reviewUpdateInfo" parameterType="ReviewVO" resultType="ReviewVO">
+		SELECT r.review_no
+		     , r.good_comment
+		     , r.bad_comment
+		     , r.star_score
+		     , TO_CHAR(r.create_dt, 'YYYY-MM-DD') as create_dt
+		     , r.cosmetic_no
+		     , r.mem_id
+		     , nvl(m.mem_nickname, m.mem_nm) as mem_writer
+		     , c.name
+		     , c.company_name
+		     , c.cos_image
+		FROM review r, members m, cosmetic c
+		WHERE m.mem_id = #{memId}
+		 AND  r.review_no = #{reviewNo}
+		 AND  r.mem_id = m.mem_id
+		 AND  r.cosmetic_no = c.cosmetic_no	
+	</select>
+	
+	<!-- 리뷰 수정 -->
+	<update id="review_update" parameterType="ReviewVO">
+		UPDATE review
+		SET good_comment = #{goodComment}, bad_comment = #{badComment}, star_score = #{starScore}
+		WHERE review_no = #{reviewNo}
+	</update>
+
+	<!-- 리뷰 삭제 -->
+	<delete id="reviewDelete" parameterType="String">
+		DELETE FROM review
+		WHERE review_no = #{reviewNo}
+	</delete>
 </mapper>

@@ -1,7 +1,10 @@
 package comm.proj.my.member.dao;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Mapper;
 
+import comm.proj.my.cosmetic.vo.ReviewVO;
 import comm.proj.my.member.vo.MemberVO;
 
 @Mapper
@@ -16,4 +19,12 @@ public interface IMemberDAO {
 	public int idCheck(String memId);
 	// 정보 수정
 	public int UpdateMember(MemberVO vo);
+	// 내가 작성한 리뷰 조회
+	public ArrayList<ReviewVO> myReview(String memId);
+	// 리뷰 수정
+	public int review_update(ReviewVO vo);
+	// 수정하려는 리뷰 조회
+	public ReviewVO reviewUpdateInfo(ReviewVO vo);
+	// 리뷰 삭제
+	public int reviewDelete(String reviewNo);
 }

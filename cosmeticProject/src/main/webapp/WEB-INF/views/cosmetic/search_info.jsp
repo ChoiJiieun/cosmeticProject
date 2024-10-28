@@ -13,6 +13,20 @@
     	overflow-y: scroll !important;
 	}
 	
+	/* 이메일 입력 필드에 포커스가 있을 때 테두리 색상 변경 */
+	#input_email:focus {
+	    border-color: #3D3D3D !important;
+	    outline: none;
+	    box-shadow: none !important;
+	}
+	
+	/* 비밀번호 입력 필드에 포커스가 있을 때 테두리 색상 변경 */
+	#input_pw:focus {
+	    border-color: #3D3D3D !important;
+	    outline: none;
+	    box-shadow: none !important;
+	}
+	
 	a {
 	    text-decoration: none !important; /* 밑줄 제거 */
 	    color: inherit !important; /* 기본 글씨 색상으로 변경 (상위 요소의 색상 따름) */
@@ -59,13 +73,13 @@
 		                                            <span style="font-size: 20px;">${cos.name}</span>
 		                                        </div>
 		                                        <div>
-		                                            <img src="resources/assets/img/star_full.png" style="width: 20px; height: 20px;">
+		                                            <img src="${pageContext.request.contextPath}/assets/img/star_full.png" style="width: 20px; height: 20px;">
 		                                            <span style="font-size: 17px;">${cos.starScore}</span>
 		                                            <span style="color: #A6A6A6; font-size: 17px;">(${cos.reviewCount})</span>
 		                                        </div>
 		                                    </div>
 		                                    <div class="d-flex flex-column justify-content-center" style="margin-left: auto; margin-right: 30px">
-												<img src="resources/assets/img/love_empty.png" style="width: 25px; height: 25px;">									
+												<img src="${pageContext.request.contextPath}/assets/img/love_empty.png" style="width: 25px; height: 25px;">									
 		                                    </div>
 		                                </div>
 									</a>

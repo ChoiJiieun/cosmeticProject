@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,6 +28,16 @@
 </head>
 
 <body>
+	<c:if test="${not empty loginError}">
+		<script>
+			alert('${loginError}');
+		</script>
+	</c:if>
+	<c:if test="${not empty nologin}">
+		<script>
+			alert('${nologin}');
+		</script>
+	</c:if>
     <div class="container-fluid" style="padding: 0;">
         <header>
 			<jsp:include page="/WEB-INF/inc/header.jsp"></jsp:include>

@@ -45,4 +45,15 @@ public class CosService {
 		return dao.ingre_info(cosNo);
 	}
 	
+	// 화장품 리뷰 작성
+	public int review_writeDo(ReviewVO vo) throws Exception {
+		int result = dao.review_writeDo(vo);
+		
+		if (result == 0) {
+			throw new Exception();
+		}
+		
+		return result;
+	}
+	
 }

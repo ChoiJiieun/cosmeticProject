@@ -13,6 +13,20 @@
     	overflow-y: scroll !important;
 	}
 	
+	/* 이메일 입력 필드에 포커스가 있을 때 테두리 색상 변경 */
+	#input_email:focus {
+	    border-color: #3D3D3D !important;
+	    outline: none;
+	    box-shadow: none !important;
+	}
+	
+	/* 비밀번호 입력 필드에 포커스가 있을 때 테두리 색상 변경 */
+	#input_pw:focus {
+	    border-color: #3D3D3D !important;
+	    outline: none;
+	    box-shadow: none !important;
+	}
+	
     .star_rating {
         width: 100%; 
         box-sizing: border-box; 
@@ -27,7 +41,6 @@
     .star_rating .star {
         width: 40px; 
         height: 40px; 
-        /* margin-right: 10px; */
         display: inline-block; 
         background: url(resources/assets/img/star_none.png) no-repeat; 
         background-size: 100%; 
@@ -37,7 +50,6 @@
     .star_rating .star.on {
         width: 40px; 
         height: 38px;
-        /* margin-right: 10px; */
         display: inline-block; 
         background: url(resources/assets/img/star_full.png) no-repeat;
         background-size: 100%; 
@@ -48,19 +60,25 @@
         width: 500px;
         box-sizing: border-box;
         display: inline-block;
-        margin-top: 10px;
         background: #F3F4F8;
+        padding: 15px;
         border: 0;
         border-radius: 5px;
         height: 150px;
         resize: none;
-        padding: 15px;
         font-size: 15px;
         font-family: sans-serif;
     }
 
+	#good_comment_div, #bad_comment_div {
+	    border-radius: 5px;
+	    margin-top: 10px;
+	    padding-top: 10px;
+	    padding-bottom: 10px;
+	}
+
     .star_box:focus {
-        outline-color: #9a9a9a;
+        outline: none;
     }
 
     .btn02 {
@@ -90,25 +108,27 @@
         <main>
             <div class="d-flex justify-content-center" style="width: 60%; margin: 0 auto; padding-top: 30px;">
             	<div style="width: 60%; margin-bottom: 30px;">
-	                <form action="#">
+	                <form action="/reviewWriteDo" method="post">
 						<div class="d-flex justify-content-center border-bottom">
 						    <div class="flex-column justify-content-center" style="margin-right: 20px; margin-bottom: 30px;">
-	<%-- 					        <c:if test="${cos.cosImage == null || fn:length(cos.cosImage) == 0}"> --%>
-						            <img src="resources/assets/cosmetic_img/달바.png" style="height: 80px;">
-	<%-- 					        </c:if> --%>
-	<%-- 					        <c:if test="${cos.cosImage != null && fn:length(cos.cosImage) > 0}"> --%>
-	<%-- 					            <img src="${pageContext.request.contextPath}${cos.cosImage}" style="height: 120px;"> --%>
-	<%-- 					        </c:if> --%>
+						        <c:if test="${imagePath == null || fn:length(imagePath) == 0}">
+						            <img src="${pageContext.request.contextPath}/assets/cosmetic_img/none.jpg" style="height: 80px;">
+						        </c:if>
+						        <c:if test="${imagePath != null && fn:length(imagePath) > 0}">
+						            <img src="${pageContext.request.contextPath}${imagePath}" style="height: 120px;">
+						        </c:if>
 						    </div>
 						    <div class="d-flex flex-column justify-content-center">
 						        <div style="margin-bottom: 6px;">
-						            <span style="color: #A6A6A6; margin-right: 6px; font-size: 18px">달바</span>
+						            <span style="color: #A6A6A6; margin-right: 6px; font-size: 18px">${companyName}</span>
 						            <div>
-							            <span style="font-size: 18px;">에센스 선크림 [SPF50+ PA+++++]</span>
+							            <span style="font-size: 18px;">${productName}</span>
 						            </div>
 						        </div>
 						    </div>
 						</div>
+						<input type="hidden" name="cosmeticNo" value="${cosmeticNo}">
+						<input type="hidden" name="memId" value="${sessionScope.login.memId}">
 					    <div style="margin-top: 25px;">
 					        <div class="d-flex justify-content-center">
 					            <div style="text-align: center;">
@@ -126,20 +146,32 @@
 					        </div>
 					        <div class="d-flex justify-content-center">
 					            <div>
-					                <input id="ratingScore" type="hidden" name="ratingScore">
+					                <input id="ratingScore" type="hidden" name="starScore">
 					                <div>
 					                    <span style="font-size: 20px;">좋았던 점</span>
 					                    <span style="font-size: 15px;">(최소 20자 이상)</span>
-					                    <div style="display: block;">
-					                        <textarea class="star_box" placeholder="사용하신 제품의 자세한 리뷰를 남겨주세요" ></textarea>
-					                    </div>
+										<div>
+										    <div id="good_comment_div" class="d-grid" style="background-color: #F3F4F8; width: 500px;">
+										        <textarea id="good_comment_text" name="goodComment" class="star_box" placeholder="사용하신 제품의 자세한 리뷰를 남겨주세요" ></textarea>
+										        <div class="d-flex justify-content-between" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
+										            <span style="font-size: 15px; color: #9a9a9a;">솔직한 리뷰를 작성해 주세요</span>
+										            <span id="good_count" style="font-size: 15px;">0/800</span>
+										        </div>
+										    </div>
+										</div>
 					                </div>
 					                <div style="margin-top: 20px;">
 					                    <span style="font-size: 20px;">아쉬운 점</span>
 					                    <span style="font-size: 15px;">(최소 20자 이상)</span>
-					                    <div>
-					                        <textarea class="star_box" placeholder="사용하신 제품의 자세한 리뷰를 남겨주세요" ></textarea>
-					                    </div>
+										<div>
+										    <div id="bad_comment_div" class="d-grid" style="background-color: #F3F4F8; width: 500px;">
+										        <textarea id="bad_comment_text" name="badComment" class="star_box" placeholder="사용하신 제품의 자세한 리뷰를 남겨주세요" ></textarea>
+										        <div class="d-flex justify-content-between" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
+										            <span style="font-size: 15px; color: #9a9a9a;">솔직한 리뷰를 작성해 주세요</span>
+										            <span id="bad_count" style="font-size: 15px;">0/800</span>
+										        </div>
+										    </div>
+										</div>
 					                </div>
 					                <input type="submit" class="btn02" value="리뷰 등록"/>
 					            </div>
@@ -163,6 +195,60 @@
         $("#categori").click(function () {
             $('#categori_zone').toggle();
             $("main").toggle();
+        });
+        
+        $("#good_comment_text").focus(function() {
+            $("#good_comment_div").css("outline", "2px solid #9a9a9a");
+        });
+
+        $("#good_comment_text").blur(function() {
+            $("#good_comment_div").css("outline", "none");
+        });
+
+        $("#good_comment_text").keyup(function(e) {
+            let content = $(this).val();
+
+            // 글자수 세기
+            if (content.length == 0 || content == '') {
+                $("#good_count").text("0/800");
+            } else {
+                $("#good_count").text(content.length + "/800");
+            }
+
+            // 글자수 제한
+            if (content.length > 800) {
+                // 800자 넘어가면 타이핑 안되도록
+                $(this).val($(this).val().substring(0, 800));
+                // 800자 넘으면 알림창 뜨게
+                alert("800자까지 입력 가능합니다.")
+            }
+        });
+        
+        $("#bad_comment_text").focus(function() {
+            $("#bad_comment_div").css("outline", "2px solid #9a9a9a");
+        });
+
+        $("#bad_comment_text").blur(function() {
+            $("#bad_comment_div").css("outline", "none");
+        });
+
+        $("#bad_comment_text").keyup(function(e) {
+            let content = $(this).val();
+
+            // 글자수 세기
+            if (content.length == 0 || content == '') {
+                $("#bad_count").text("0/800");
+            } else {
+                $("#bad_count").text(content.length + "/800");
+            }
+
+            // 글자수 제한
+            if (content.length > 800) {
+                // 800자 넘어가면 타이핑 안되도록
+                $(this).val($(this).val().substring(0, 800));
+                // 800자 넘으면 알림창 뜨게
+                alert("800자까지 입력 가능합니다.")
+            }
         });
 	});
 	
