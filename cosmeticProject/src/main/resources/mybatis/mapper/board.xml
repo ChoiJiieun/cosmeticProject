@@ -24,11 +24,12 @@
 		FROM (
 		        SELECT a.*, ROWNUM as rnum
 		        FROM (
-	                SELECT bo_no, bo_title, bc.cd_name as bo_category, nvl(m.mem_nickname, m.mem_nm) as bo_writer, bo_content, bo_hit, TO_CHAR(bo_reg_date , 'YYYY-MM-DD') as bo_reg_date, m.profile_img
-	                FROM boards b, members m, boards_category bc
-	                WHERE b.bo_category = bc.cd_id
-	                 AND  b.bo_writer = m.mem_id
-	                ORDER BY bo_no DESC
+					SELECT bo_no, bo_title, bc.cd_name as bo_category, nvl(m.mem_nickname, m.mem_nm) as bo_writer, bo_content, bo_hit, TO_CHAR(bo_reg_date , 'YYYY-MM-DD') as bo_reg_date, m.profile_img
+					FROM boards b, members m, boards_category bc
+					WHERE b.bo_category = bc.cd_id
+					 AND  b.bo_writer = m.mem_id
+					 AND (#{boCd} = 'ALL' OR bo_category = #{boCd})
+					ORDER BY bo_reg_date DESC
 		        ) a
 		     ) b
 		WHERE rnum BETWEEN #{firstRow} AND #{lastRow}
@@ -66,15 +67,38 @@
 	<!-- 댓글 작성 -->
 	<insert id="insertReply" parameterType="ReplyVO">
 		INSERT INTO replys(bo_no, reply_no, mem_id, reply_content)
-		VALUES(#{boNo}, SEQ_REPLY.NEXTVAL, #{memId}, #{replyContent})
+		VALUES(#{boNo}, #{replyNo}, #{memId}, #{replyContent})
 	</insert>
 	
 	<!-- 게시물 별 댓글 조회 -->
 	<select id="replyInfo" parameterType="int" resultType="ReplyVO">
-		SELECT r.bo_no, r.reply_no, r.mem_id, nvl(m.mem_nickname, mem_nm) as mem_nickname, m.profile_img, r.reply_content, TO_CHAR(r.reply_date, 'yyyy.MM.dd. HH24:mm') as reply_date
+		SELECT r.bo_no, r.reply_no, r.mem_id, nvl(m.mem_nickname, mem_nm) as mem_nickname, m.profile_img, r.reply_content, TO_CHAR(r.reply_date, 'yyyy.mm.dd. HH24:mi:ss') as reply_date
 		FROM replys r, members m
 		WHERE r.mem_id = m.mem_id
 		 AND  r.bo_no = #{boNo}
 	</select>
 
+	<!-- 작성한 댓글 조회 -->
+	<select id="replySelect" parameterType="String" resultType="ReplyVO">
+		SELECT r.bo_no, r.reply_no, r.mem_id, nvl(m.mem_nickname, mem_nm) as mem_nickname, m.profile_img, r.reply_content, TO_CHAR(r.reply_date, 'yyyy.mm.dd. HH24:mi:ss') as reply_date
+		FROM replys r, members m
+		WHERE r.mem_id = m.mem_id
+		 AND  r.reply_no = #{replyNo}
+	</select>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="delReply" parameterType="String">
+		DELETE FROM replys
+		WHERE reply_no = #{replyNo}
+	</delete>
+	
+	<!-- 게시물 카테고리 조회 XX -->
+	<select id="boardsCategory" parameterType="String">
+		SELECT bo_no, bo_title, bc.cd_name as bo_category, nvl(m.mem_nickname, m.mem_nm) as bo_writer, bo_content, bo_hit, TO_CHAR(bo_reg_date , 'YYYY-MM-DD') as bo_reg_date, m.profile_img
+		FROM boards b, members m, boards_category bc
+		WHERE b.bo_category = bc.cd_id
+		 AND  b.bo_writer = m.mem_id
+		 AND  bo_category = nvl(:1, bo_category)
+		ORDER BY bo_reg_date DESC
+	</select>
 </mapper>

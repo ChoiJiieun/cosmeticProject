@@ -94,4 +94,35 @@
 		DELETE FROM review
 		WHERE review_no = #{reviewNo}
 	</delete>
+
+	<!-- 추가 정보 등록 -->
+	<insert id="addInfoInsert" parameterType="AddInfoVO">
+		INSERT INTO member_addInfo(face_type, add_type1, add_type2, mem_id)
+		VALUES(#{faceType}, #{addType1}, #{addType2}, #{memId})
+	</insert>
+	
+	<!-- 나의 추가 정보 조회 -->
+	<select id="addInfoSelect" parameterType="AddInfoVO" resultType="String">
+		<![CDATA[
+			SELECT 
+			    CASE 
+			        WHEN TRUNC(MONTHS_BETWEEN(SYSDATE, m.mem_birth) / 12) < 10 THEN '10대'
+			        WHEN TRUNC(MONTHS_BETWEEN(SYSDATE, m.mem_birth) / 12) < 20 THEN '20대'
+			        WHEN TRUNC(MONTHS_BETWEEN(SYSDATE, m.mem_birth) / 12) < 30 THEN '30대'
+			        WHEN TRUNC(MONTHS_BETWEEN(SYSDATE, m.mem_birth) / 12) < 40 THEN '40대'
+			        ELSE '50대 이상' 
+			    END AS mem_age,
+			    ma.mem_id, 
+			    ma.face_type, 
+			    ma.add_type1, 
+			    ma.add_type2
+			FROM 
+			    member_addInfo ma
+			JOIN 
+			    members m ON ma.mem_id = m.mem_id
+			WHERE 
+			    ma.mem_id = #{memId}
+		]]>
+	</select>
+	
 </mapper>

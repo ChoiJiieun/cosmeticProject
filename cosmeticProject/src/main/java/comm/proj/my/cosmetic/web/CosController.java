@@ -12,6 +12,7 @@ import comm.proj.my.cosmetic.service.CosService;
 import comm.proj.my.cosmetic.vo.CosVO;
 import comm.proj.my.cosmetic.vo.IngredientVO;
 import comm.proj.my.cosmetic.vo.ReviewVO;
+import comm.proj.my.member.vo.AddInfoVO;
 
 @Controller
 public class CosController {

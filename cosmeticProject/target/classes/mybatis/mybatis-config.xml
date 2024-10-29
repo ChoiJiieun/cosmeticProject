@@ -11,6 +11,7 @@
 	</settings>
 	<typeAliases>
 		<typeAlias type="comm.proj.my.member.vo.MemberVO" alias="MemberVO" />
+		<typeAlias type="comm.proj.my.member.vo.AddInfoVO" alias="AddInfoVO" />
 		<typeAlias type="comm.proj.my.cosmetic.vo.CosVO" alias="CosVO" />
 		<typeAlias type="comm.proj.my.cosmetic.vo.ReviewVO" alias="ReviewVO" />
 		<typeAlias type="comm.proj.my.cosmetic.vo.IngredientVO" alias="IngredientVO" />
@@ -18,6 +19,7 @@
 		<typeAlias type="comm.proj.my.community.vo.BoardVO" alias="BoardVO" />
 		<typeAlias type="comm.proj.my.community.vo.PagingVO" alias="PagingVO" />
 		<typeAlias type="comm.proj.my.community.vo.ReplyVO" alias="ReplyVO" />
+		<typeAlias type="comm.proj.my.rank.vo.RankVO" alias="RankVO" />
 		
 	</typeAliases>
 </configuration>

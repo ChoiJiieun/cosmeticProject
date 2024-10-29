@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import comm.proj.my.cosmetic.vo.ReviewVO;
 import comm.proj.my.member.dao.IMemberDAO;
+import comm.proj.my.member.vo.AddInfoVO;
 import comm.proj.my.member.vo.MemberVO;
 
 @Service
@@ -143,6 +144,28 @@ public class MemberService {
 		int result = dao.reviewDelete(reviewNo);
 		
 		if (result == 0) {
+			throw new Exception();
+		}
+		
+		return result;
+	}
+
+	// 추가 정보 등록
+	public int addInfoInsert(AddInfoVO vo) throws Exception {
+		int result = dao.addInfoInsert(vo);
+		
+		if (result == 0) {
+			throw new Exception();
+		}
+		
+		return result;
+	}
+	
+	// 추가 정보 조회
+	public AddInfoVO addInfoSelect(String memId) throws Exception {
+		AddInfoVO result = dao.addInfoSelect(memId);
+		
+		if (result == null) {
 			throw new Exception();
 		}
 		

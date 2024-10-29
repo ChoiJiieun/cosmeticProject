@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -24,6 +25,21 @@
 	    outline: none;
 	    box-shadow: none !important;
 	}
+	
+    .image-container {
+	    width: 100px;
+	    height: 120px;
+	    display: flex;
+	    justify-content: center; /* 가로 중앙 정렬 */
+	    align-items: center; /* 세로 중앙 정렬 */
+	    overflow: hidden; /* 이미지가 div 크기를 넘으면 숨김 */
+	}
+	
+	.image-container img {
+	    max-width: 110%;
+	    max-height: 110%;
+	    object-fit: contain; /* 이미지 비율을 유지하며 div 안에 맞춤 */
+	}
 </style>
 <!-- css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/rank_style.css" />
@@ -37,19 +53,17 @@
 			<jsp:include page="/WEB-INF/views/category_menu.jsp"></jsp:include>
 		</div>
 		<main>
-			<div style="border-bottom: 1px solid #D9D9D9;">
-				<div class="d-flex" id="choose_div" style="height: 47px;">
-					<button id="categori" class="nav-link px-4 link-secondary"
-						style="width: 25%; font-size: 20px; border-left: 1px solid #D9D9D9 !important; border-right: 1px solid #D9D9D9 !important;">
-						카테고리별</button>
-					<button id="btn-home" class="nav-link link-secondary px-4"
-						style="width: 25%; font-size: 20px; border-left: 1px solid #D9D9D9 !important;">피부별</button>
-					<button id="btn-rank" class="nav-link px-4 link-secondary"
-						style="width: 25%; font-size: 20px; border-left: 1px solid #D9D9D9 !important;">연령별</button>
-					<button id="btn-notice" class="nav-link px-4 link-secondary"
-						style="width: 25%; font-size: 20px; border-left: 1px solid #D9D9D9 !important; border-right: 1px solid #D9D9D9 !important;">퍼스널컬러별</button>
-				</div>
-			</div>
+<!-- 			<div style="border-bottom: 1px solid #D9D9D9;"> -->
+<!-- 				<div class="d-flex" id="choose_div" style="height: 47px;"> -->
+<!-- 					<button id="categori" class="nav-link px-4 link-secondary" -->
+<!-- 						style="width: 25%; font-size: 20px; border-left: 1px solid #D9D9D9 !important;"> -->
+<!-- 						카테고리별</button> -->
+<!-- 					<button id="btn-home" class="nav-link link-secondary px-4" -->
+<!-- 						style="width: 25%; font-size: 20px; border-left: 1px solid #D9D9D9 !important;">피부별</button> -->
+<!-- 					<button id="btn-rank" class="nav-link px-4 link-secondary" -->
+<!-- 						style="width: 25%; font-size: 20px; border-left: 1px solid #D9D9D9 !important; border-right: 1px solid #D9D9D9 !important;">연령별</button> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
 			<div style="border-bottom: 1px solid #D9D9D9;">
 				<div class="container d-flex justify-content-center"
 					style="height: 47px;">
@@ -57,22 +71,18 @@
 						style="width: 11%; font-size: 20px;">건성</button>
 					<button id="btn-home" class="nav-link link-secondary"
 						style="width: 11%; font-size: 20px;">지성</button>
-					<button id="btn-rank" class="nav-link link-secondary"
-						style="width: 11%; font-size: 20px;">중성</button>
 					<button id="btn-notice" class="nav-link link-secondary"
 						style="width: 11%; font-size: 20px;">복합성</button>
 					<button id="btn-notice" class="nav-link link-secondary"
 						style="width: 11%; font-size: 20px;">민감성</button>
 					<button id="btn-notice" class="nav-link link-secondary"
 						style="width: 11%; font-size: 20px;">여드름</button>
-					<button id="btn-notice" class="nav-link link-secondary"
-						style="width: 11%; font-size: 20px;">아토피</button>
 				</div>
 			</div>
 			<div style="width: 60%; margin: 0 auto;">
 				<div style="margin-top: 20px;">
 					<button type="button" class="btn btn-primary"
-						data-bs-toggle="modal" data-bs-target="#categori_modal">
+						data-bs-toggle="modal" data-bs-target="#categori_modal" style="margin-left: 100px;">
 						카테고리 전체&nbsp;&nbsp;&nbsp;▾</button>
 
 					<!-- Modal -->
@@ -91,7 +101,7 @@
 										<div class="accordion-item">
 											<h2 class="accordion-header">
 												<button class="accordion-button collapsed" type="button">
-													<a href="#" style="color: #000000;">카테고리 전체</a>
+													<a href="${pageContext.request.contextPath}/rank" style="color: #000000;">카테고리 전체</a>
 												</button>
 											</h2>
 										</div>
@@ -106,14 +116,17 @@
 												<div class="accordion-body" style="margin: 0; padding: 0;">
 													<div class="d-grid"
 														style="margin-left: 50px; padding-top: 15px;">
-														<a href="#" class="tab-link">전체</a> <a href="#"
-															class="tab-link">스킨</a> <a href="#" class="tab-link">로션/에멀젼</a>
-														<a href="#" class="tab-link">에센스/앰플/세럼</a> <a href="#"
-															class="tab-link">페이스오일</a> <a href="#" class="tab-link">크림</a>
-														<a href="#" class="tab-link">아이케어</a> <a href="#"
-															class="tab-link">미스트</a> <a href="#" class="tab-link">젤</a>
-														<a href="#" class="tab-link">스킨/토너 패드</a> <a href="#"
-															class="tab-link">밤/멀티밤</a>
+														<a href="${pageContext.request.contextPath}/rank?cd=SC00" class="tab-link">전체</a> 
+														<a href="${pageContext.request.contextPath}/rank?cd=SC01" class="tab-link">스킨/토너</a> 
+														<a href="${pageContext.request.contextPath}/rank?cd=SC02" class="tab-link">로션/에멀젼</a>
+														<a href="${pageContext.request.contextPath}/rank?cd=SC03" class="tab-link">에센스/앰플/세럼</a> 
+														<a href="${pageContext.request.contextPath}/rank?cd=SC04" class="tab-link">페이스오일</a> 
+														<a href="${pageContext.request.contextPath}/rank?cd=SC05" class="tab-link">크림</a>
+														<a href="${pageContext.request.contextPath}/rank?cd=SC06" class="tab-link">아이케어</a> 
+														<a href="${pageContext.request.contextPath}/rank?cd=SC07" class="tab-link">미스트</a> 
+														<a href="${pageContext.request.contextPath}/rank?cd=SC08" class="tab-link">젤</a>
+														<a href="${pageContext.request.contextPath}/rank?cd=SC09" class="tab-link">스킨/토너 패드</a> 
+														<a href="${pageContext.request.contextPath}/rank?cd=SC10" class="tab-link">밤/멀티밤</a>
 													</div>
 												</div>
 											</div>
@@ -128,14 +141,18 @@
 													<div class="accordion-body" style="margin: 0; padding: 0;">
 														<div class="d-grid"
 															style="margin-left: 50px; padding-top: 15px;">
-															<a href="#" class="tab-link">전체</a> <a href="#"
-																class="tab-link">클렌징 폼</a> <a href="#" class="tab-link">클렌징
-																워터</a> <a href="#" class="tab-link">클렌징 젤</a> <a href="#"
-																class="tab-link">클렌징 오일</a> <a href="#" class="tab-link">클렌징
-																로션/크림</a> <a href="#" class="tab-link">비누</a> <a href="#"
-																class="tab-link">티슈/패트</a> <a href="#" class="tab-link">립/아이
-																리무버</a> <a href="#" class="tab-link">스크럽/필링</a> <a href="#"
-																class="tab-link">파우더</a> <a href="#" class="tab-link">밤</a>
+															<a href="${pageContext.request.contextPath}/rank?cd=CP00" class="tab-link">전체</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=CP01" class="tab-link">클렌징 폼</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=CP02" class="tab-link">클렌징 워터</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=CP03" class="tab-link">클렌징 젤</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=CP04" class="tab-link">클렌징 오일</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=CP05" class="tab-link">클렌징 로션/크림</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=CP06" class="tab-link">비누</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=CP07" class="tab-link">티슈/패트</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=CP08" class="tab-link">립/아이 리무버</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=CP09" class="tab-link">스크럽/필링</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=CP10" class="tab-link">파우더</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=CP11" class="tab-link">밤</a>
 														</div>
 													</div>
 												</div>
@@ -151,13 +168,15 @@
 													<div class="accordion-body" style="margin: 0; padding: 0;">
 														<div class="d-grid"
 															style="margin-left: 50px; padding-top: 15px;">
-															<a href="#" class="tab-link">전체</a> <a href="#"
-																class="tab-link">시트마스크</a> <a href="#" class="tab-link">부분마스크/팩</a>
-															<a href="#" class="tab-link">워시오프 팩</a> <a href="#"
-																class="tab-link">필오브 팩</a> <a href="#" class="tab-link">슬리핑
-																팩</a> <a href="#" class="tab-link">패치</a> <a href="#"
-																class="tab-link">코팩</a> <a href="#" class="tab-link">부분마스크
-																패드</a>
+															<a href="${pageContext.request.contextPath}/rank?cd=MP00" class="tab-link">전체</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=MP01" class="tab-link">시트마스크</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=MP02" class="tab-link">부분마스크/팩</a>
+															<a href="${pageContext.request.contextPath}/rank?cd=MP03" class="tab-link">워시오프 팩</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=MP04" class="tab-link">필오브 팩</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=MP05" class="tab-link">슬리핑 팩</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=MP06" class="tab-link">패치</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=MP07" class="tab-link">코팩</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=MP08" class="tab-link">부분마스크 패드</a>
 														</div>
 													</div>
 												</div>
@@ -173,10 +192,12 @@
 													<div class="accordion-body" style="margin: 0; padding: 0;">
 														<div class="d-grid"
 															style="margin-left: 50px; padding-top: 15px;">
-															<a href="#" class="tab-link">전체</a> <a href="#"
-																class="tab-link">선크림/로션</a> <a href="#" class="tab-link">선스프레이</a>
-															<a href="#" class="tab-link">선케어 기타</a> <a href="#"
-																class="tab-link">선스틱</a> <a href="#" class="tab-link">선쿠션/팩트</a>
+															<a href="${pageContext.request.contextPath}/rank?cd=SS00" class="tab-link">전체</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=SS01" class="tab-link">선크림/로션</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=SS02" class="tab-link">선스프레이</a>
+															<a href="${pageContext.request.contextPath}/rank?cd=SS03" class="tab-link">선케어 기타</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=SS04" class="tab-link">선스틱</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=SS05" class="tab-link">선쿠션/팩트</a>
 														</div>
 													</div>
 												</div>
@@ -192,19 +213,22 @@
 													<div class="accordion-body" style="margin: 0; padding: 0;">
 														<div class="d-grid"
 															style="margin-left: 50px; padding-top: 15px;">
-															<a href="#" class="tab-link">전체</a> <a href="#"
-																class="tab-link">바디워시</a> <a href="#" class="tab-link">바디로션</a>
-															<a href="#" class="tab-link">바디크림/젤</a> <a href="#"
-																class="tab-link">바디오일/에센스</a> <a href="#"
-																class="tab-link">바디스크럽</a> <a href="#" class="tab-link">바디미스트/샤워코롱</a>
-															<a href="#" class="tab-link">핸드크림/밤</a> <a href="#"
-																class="tab-link">풋케어</a> <a href="#" class="tab-link">입욕제</a>
-															<a href="#" class="tab-link">여성청결제</a> <a href="#"
-																class="tab-link">데오드란트</a> <a href="#" class="tab-link">바디기타</a>
-															<a href="#" class="tab-link">바디케어 패드</a> <a href="#"
-																class="tab-link">바디케어 패드</a> <a href="#"
-																class="tab-link">핸드워시</a> <a href="#" class="tab-link">핸드케어
-																기타</a>
+															<a href="${pageContext.request.contextPath}/rank?cd=BD00" class="tab-link">전체</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=BD01" class="tab-link">바디워시</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=BD02" class="tab-link">바디로션</a>
+															<a href="${pageContext.request.contextPath}/rank?cd=BD03" class="tab-link">바디크림/젤</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=BD04" class="tab-link">바디오일/에센스</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=BD05" class="tab-link">바디스크럽</a>
+															<a href="${pageContext.request.contextPath}/rank?cd=BD06" class="tab-link">바디미스트/샤워코롱</a>
+															<a href="${pageContext.request.contextPath}/rank?cd=BD07" class="tab-link">핸드크림/밤</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=BD08" class="tab-link">풋케어</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=BD09" class="tab-link">입욕제</a>
+															<a href="${pageContext.request.contextPath}/rank?cd=BD10" class="tab-link">여성청결제</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=BD11" class="tab-link">데오드란트</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=BD12" class="tab-link">바디기타</a>
+															<a href="${pageContext.request.contextPath}/rank?cd=BD13" class="tab-link">바디케어 패드</a>
+															<a href="${pageContext.request.contextPath}/rank?cd=BD14" class="tab-link">핸드워시</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=BD15" class="tab-link">핸드케어 기타</a>
 														</div>
 													</div>
 												</div>
@@ -220,81 +244,80 @@
 													<div class="accordion-body" style="margin: 0; padding: 0;">
 														<div class="d-grid"
 															style="margin-left: 50px; padding-top: 15px;">
-															<a href="#" class="tab-link">전체</a> <a href="#"
-																class="tab-link">린스/컨디셔너</a> <a href="#"
-																class="tab-link">헤어에센스/오일</a> <a href="#"
-																class="tab-link">헤어미스트</a> <a href="#" class="tab-link">바디오일/에센스</a>
-															<a href="#" class="tab-link">스타일링</a> <a href="#"
-																class="tab-link">헤어컬러링</a> <a href="#" class="tab-link">트리트먼트/팩</a>
-															<a href="#" class="tab-link">두피 스케일러</a>
+															<a href="${pageContext.request.contextPath}/rank?cd=HR00" class="tab-link">전체</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=HR01" class="tab-link">린스/컨디셔너</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=HR02" class="tab-link">헤어에센스/오일</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=HR03" class="tab-link">헤어미스트</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=HR04" class="tab-link">바디오일/에센스</a>
+															<a href="${pageContext.request.contextPath}/rank?cd=HR05" class="tab-link">스타일링</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=HR06" class="tab-link">헤어컬러링</a> 
+															<a href="${pageContext.request.contextPath}/rank?cd=HR07" class="tab-link">트리트먼트/팩</a>
+															<a href="${pageContext.request.contextPath}/rank?cd=HR08" class="tab-link">두피 스케일러</a>
 														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-primary"
-											style="width: 80px;">적용</button>
-									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="d-flex justify-content-center"
-						style="margin-top: 30px; box-shadow: 5px 5px 20px #D9D9D9; border-radius: 1cm; padding: 20px;">
-						<div class="d-flex flex-column justify-content-center">
-							<img src="resources/assets/img/rank1.png" style="width: 55px; height: 55px;">
-						</div>
-						<img src="resources/assets/cosmetic_img/달바.png"
-							style="width: 120px; height: 120px;">
-						<div class="d-flex flex-column justify-content-center">
-							<div class="d-flex" style="margin-bottom: 6px;">
-								<span
-									style="color: #A6A6A6; margin-right: 6px; font-size: 20px;">달바</span>
-								<span style="font-size: 20px;">워터풀 선크림[SPF50+/PA++++]</span>
-							</div>
-							<div class="d-flex">
-								<img src="resources/assets/img/star_full.png"
-									style="width: 25px; height: 25px;">
-								<div class="justify-content-center" style="margin-left: 5px;">
-									<span style="font-size: 17px;">4.59</span> <span
-										style="color: #A6A6A6; font-size: 17px;">(3,610)</span>
-								</div>
-							</div>
-						</div>
-						<div style="margin-left: 60px;">
-							<div class="d-flex">
-								<div class="align-self-center pt-2">
-									<span
-										style="font-size: 30px; color: #61A1FF; margin-right: 10px;">&#9786;</span>
-								</div>
-								<div class="justify-content-center align-self-center">
-									<span style="font-size: 20px;">좋았던 점</span>
-								</div>
-							</div>
-							<div class="d-grid" style="margin-top: 5px;">
-								<span class="text-center" style="font-size: 20px;">흡수가 잘
-									돼요</span> <span class="text-center" style="font-size: 20px;">보습이
-									잘 돼요</span>
-							</div>
-						</div>
-						<div style="margin-left: 60px;">
-							<div class="d-flex">
-								<div class="align-self-center pt-2">
-									<span
-										style="font-size: 30px; color: #7F7F7F; margin-right: 10px;">&#9785;</span>
-								</div>
-								<div class="justify-content-center align-self-center">
-									<span style="font-size: 20px;">아쉬운 점</span>
-								</div>
-							</div>
-							<div class="d-grid" style="margin-top: 5px;">
-								<span class="text-center" style="font-size: 20px;">유분이
-									있어요</span> <span class="text-center" style="font-size: 20px;">보정이
-									안 돼요</span>
-							</div>
-						</div>
+					<!-- Modal -->
+					
+					<div class="d-flex justify-content-center">
+						<table class="table" style="margin-top: 15px; width: 70%;">
+							<tbody>
+								<c:forEach items="${cosRank}" var="co">
+									<tr>
+										<td>
+											<div class="d-flex " style="padding: 20px; height: 170px;">
+												<div class="d-flex flex-column justify-content-center" style="align-items: center;">
+													<c:choose>
+														<c:when test="${co.rank == 1}">
+															<img src="${pageContext.request.contextPath}/assets/img/rank1.png" style="width: 55px; height: 55px;">
+														</c:when>
+														<c:when test="${co.rank == 2}">
+															<img src="${pageContext.request.contextPath}/assets/img/rank2.png" style="width: 55px; height: 55px;">
+														</c:when>
+														<c:when test="${co.rank == 3}">
+															<img src="${pageContext.request.contextPath}/assets/img/rank3.png" style="width: 55px; height: 55px;">
+														</c:when>
+														<c:otherwise>
+															<span style="width: 55px; height: 55px; font-size: 22px; text-align: center;">${co.rank}</span>
+														</c:otherwise>
+													</c:choose>
+												</div>
+												<div class=image-container>
+					                                <c:if test="${co.cosImage == null || fn:length(co.cosImage) == 0}">
+					                                    <img src="${pageContext.request.contextPath}/assets/img/none.jpg" style="height: 50px;">
+					                                </c:if>
+					                                <c:if test="${co.cosImage != null && fn:length(co.cosImage) > 0}">
+					                                    <img src="${pageContext.request.contextPath}${co.cosImage}" style="height: 120px;">
+					                                </c:if>
+												</div>
+												<div class="d-flex flex-column justify-content-center">
+													<div class="d-flex" style="margin-bottom: 6px;">
+														<span style="color: #A6A6A6; margin-right: 6px; font-size: 20px;">${co.companyName}</span>
+														<div>
+															<span style="font-size: 20px;">${co.name}</span>
+														</div>
+													</div>
+													<div class="d-flex">
+														<img src="resources/assets/img/star_full.png"
+															style="width: 25px; height: 25px;">
+														<div class="justify-content-center" style="margin-left: 5px;">
+															<span style="font-size: 17px;">${co.starScore}</span> <span
+																style="color: #A6A6A6; font-size: 17px;">(${co.reviewCount})</span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
@@ -324,7 +347,7 @@
             $("main").toggle();
         });
         
-        let left_position = $("#btn-home").position().left;
+        let left_position = $("#btn-rank").position().left;
         
         $("#choose_div").css({ "margin-right": left_position, "margin-left": left_position-1 });
 

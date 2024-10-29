@@ -7,11 +7,15 @@ public class ReviewVO {
 	private double starScore;
 	private String createDt;
 	private String cosmeticNo;
+	private String companyName;
 	private String memId;
 	private String memWriter;	// 작성자 닉네임(없으면 이름 뜨게 함)
 	private String profileImg;
+	private String faceType;
+	private String addType1;
+	private String addType2;
+	private String memAge;
 	private String name;
-	private String companyName;
 	private String cosImage;
 	
 	public String getReviewNo() {
@@ -74,24 +78,50 @@ public class ReviewVO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getCompanyName() {
-		return companyName;
-	}
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
 	public String getCosImage() {
 		return cosImage;
 	}
 	public void setCosImage(String cosImage) {
 		this.cosImage = cosImage;
 	}
+	public String getFaceType() {
+		return faceType;
+	}
+	public void setFaceType(String faceType) {
+		this.faceType = faceType;
+	}
+	public String getAddType1() {
+		return addType1;
+	}
+	public void setAddType1(String addType1) {
+		this.addType1 = addType1;
+	}
+	public String getAddType2() {
+		return addType2;
+	}
+	public void setAddType2(String addType2) {
+		this.addType2 = addType2;
+	}
+	public String getMemAge() {
+		return memAge;
+	}
+	public void setMemAge(String memAge) {
+		this.memAge = memAge;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
 	
 	@Override
 	public String toString() {
 		return "ReviewVO [reviewNo=" + reviewNo + ", goodComment=" + goodComment + ", badComment=" + badComment
 				+ ", starScore=" + starScore + ", createDt=" + createDt + ", cosmeticNo=" + cosmeticNo + ", memId="
-				+ memId + ", memWriter=" + memWriter + ", profileImg=" + profileImg + "]";
+				+ memId + ", memWriter=" + memWriter + ", profileImg=" + profileImg + ", faceType=" + faceType
+				+ ", addType1=" + addType1 + ", addType2=" + addType2 + ", memAge=" + memAge + ", name=" + name
+				+ ", cosImage=" + cosImage + "]";
 	}
 	
 }

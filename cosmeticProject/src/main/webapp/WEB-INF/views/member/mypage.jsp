@@ -75,6 +75,24 @@
     .dropdown-menu.active {
     	background-color: ##F3F4F8 !important;
     }
+    
+    .writer_class {
+    	font-size: 18px;
+    	background-color: white;
+    	border: none;
+    }
+    
+    .modal-header {
+    	border-bottom: none !important;
+    }
+    
+    .face_btn {
+    	background-color: white !important;
+    	border-radius: 5% !important;
+    	border: 1px solid #C7C7C7;
+    	width: 50%;
+    	height: 70px;
+    }
 </style>
 </head>
 <body>
@@ -95,10 +113,10 @@
 <!--                                 <li><a id="like_tag" href="#" class="tab-link" data-target="like">좋아요</a></li> -->
 <!--                                 <li><a href="#" class="tab-link" data-target="review">리뷰</a></li> -->
 <!--                                 <br> -->
-<!--                                 <li><a href="#" class="tab-link" data-target="mycosmetic">나의 화장대</a></li> -->
-<!--                                 <li><a href="#" class="tab-link" data-target="face">피부 기록</a></li> -->
-<!--                                 <br> -->
                                 <li><a href="#" class="tab-link" data-target="review">리뷰</a></li>
+                                <li><a href="#" class="tab-link" data-target="mycosmetic">나의 화장대</a></li>
+                                <li><a href="#" class="tab-link" data-target="face">피부 기록</a></li>
+                                <br>
                                 <li><a href="#" class="tab-link" data-target="myinfo">회원정보 수정</a></li>
                                 <li><a href="#" class="tab-link" data-target="delinfo">회원 탈퇴</a></li>
                             </ul>
@@ -258,11 +276,181 @@
 								</div>
 							</c:if>
                         </div>
-                        <div id="mycosmetic" class="content-section" style="display: none;">나의 화장대 섹션</div>
-                        <div id="face" class="content-section" style="display: none;">피부 기록 섹션</div>
+                        <div id="face" class="content-section" style="display: none;">
+							<div style="border-bottom: 1px solid #3D3D3D;">
+								<div class="d-flex justify-content-between">
+	                                <h5 style="font-weight: bold; margin-bottom: 20px; padding-left: 20px;">피부 기록</h5>
+	                                <button type="button" class="writer_class" id="addinfo_btn" style="margin-right: 25px; margin-bottom: 20px;">
+										<img src="${pageContext.request.contextPath}/assets/img/pencil.png" style="width: 20px; height: 20px; margin-right: 10px;">
+										게시물 작성하기
+									</button>
+								</div>
+                            </div>
+<%-- 							<c:if test="${not empty reviewList}"> --%>
+<!-- 								<table style="margin: 30px;"> -->
+<%-- 									<c:forEach items="${reviewList}" var="reList"> --%>
+<!-- 									    <tr> -->
+<!-- 									        <div style="margin-left: 45px; margin-right: 45px; border-bottom: 1px solid #3D3D3D;"> -->
+<%-- 									        	<a class="item_info" href="/products?cosNo=${reList.cosmeticNo}"> --%>
+<!-- 										            <div class="d-flex"> -->
+<!-- 										                <div class="d-flex" style="align-items: center;"> -->
+<!-- 										                    <div class="d-grid"> -->
+<%-- 										                        <span style="color: #A6A6A6; margin-right: 6px;">${reList.companyName}</span> --%>
+<%-- 										                        <span>${reList.name}</span> --%>
+<!-- 										                    </div> -->
+<!-- 										                </div> -->
+<!-- 										                <div class="d-flex" style="margin-left: auto; align-items: center;"> -->
+<!-- 										                    <div class="image-container"> -->
+<%-- 								                                <c:if test="${reList.cosImage == null || fn:length(reList.cosImage) == 0}"> --%>
+<%-- 								                                    <img src="${pageContext.request.contextPath}/assets/img/none.jpg" style="width: 30px;"> --%>
+<%-- 								                                </c:if> --%>
+<%-- 								                                <c:if test="${reList.cosImage != null && fn:length(reList.cosImage) > 0}"> --%>
+<%-- 								                                    <img src="${pageContext.request.contextPath}${reList.cosImage}" style="height: 80px;"> --%>
+<%-- 								                                </c:if> --%>
+<!-- 										                    </div> -->
+<!-- 										                    <p style="color: #7F7F7F; align-items: center; margin: 0;">></p> -->
+<!-- 										                </div> -->
+<!-- 										            </div> -->
+<!-- 									        	</a> -->
+<!-- 									            <hr style="margin: 0;"> -->
+<!-- 									            <div style="margin: 15px;"> -->
+<!-- 									                <div class="d-flex justify-content-between"> -->
+<!-- 									                    <div class="d-flex"> -->
+<%-- 														    <c:forEach var="i" begin="1" end="5"> --%>
+<%-- 														        <img src="${pageContext.request.contextPath}/assets/img/${i <= reList.starScore ? 'star_full.png' : 'star_none.png'}" style="width: 20px; height: 20px;"> --%>
+<%-- 														    </c:forEach> --%>
+<%-- 									                        <span style="color: #7F7F7F; margin-left: 10px;">${reList.createDt}</span> --%>
+<!-- 									                    </div> -->
+<!-- 									                    <div> -->
+<!-- 									                    	<button class="dropdown_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"> -->
+<!-- 											                    <h4 style="color: #7F7F7F; margin-right: 35px;">&#8942;</h4> -->
+<!-- 									                    	</button> -->
+<!-- 															<ul class="dropdown-menu"> -->
+<!-- 															  <li style="margin-top: 5px;"> -->
+<!-- 															  	<form action="/reviewUpdate" method="post"> -->
+<%-- 															  		<input type="hidden" name="reviewNo" value="${reList.reviewNo}"> --%>
+<%-- 															  		<input type="hidden" name="memId" value="${reList.memId}"> --%>
+<!-- 															  		<button type="submit" class="dropdown_btn" style="text-align: center; width: 100%;">수정</button> -->
+<!-- 															  	</form> -->
+<!-- 															  </li> -->
+<!-- 															  <li> -->
+<!-- 															  	<form id="deleteForm" action="/reviewDelete"> -->
+<%-- 															  		<input type="hidden" name="reviewNo" value="${reList.reviewNo}"> --%>
+<%-- 															  		<input type="hidden" name="memId" value="${reList.memId}"> --%>
+<!-- 															  		<button id="delete_submit" type="button" class="dropdown_btn" style="text-align: center; width: 100%;">삭제</button> -->
+<!-- 															  	</form> -->
+<!-- 															  </li> -->
+<!-- 															</ul> -->
+<!-- 									                    </div> -->
+<!-- 									                </div> -->
+<!-- 									                 <div style="margin-right: 35px; margin-top: 15px;"> -->
+<!-- 									                    <div class="d-flex" > -->
+<!-- 									                        <span style="font-size: 20px; color: #61A1FF; margin-right: 10px;">&#9786;</span> -->
+<!-- 									                        <div class=""> -->
+<%-- 									                            <span>${reList.goodComment}</span>														 --%>
+<!-- 									                        </div> -->
+<!-- 									                    </div> -->
+<!-- 									                    <br> -->
+<!-- 									                    <div class="d-flex" > -->
+<!-- 									                        <span style="font-size: 20px; color: #7F7F7F; margin-right: 10px;">&#9785;</span> -->
+<!-- 									                        <div class=""> -->
+<%-- 									                            <span>${reList.badComment}</span>														 --%>
+<!-- 									                        </div> -->
+<!-- 									                    </div> -->
+<!-- 									                 </div> -->
+<!-- 									            </div> -->
+<!-- 									        </div> -->
+<!-- 									    </tr> -->
+<%-- 									</c:forEach> --%>
+<!-- 								</table> -->
+<%-- 							</c:if> --%>
+<%-- 							<c:if test="${empty reviewList}"> --%>
+								<div class="d-flex justify-content-center" style="margin-bottom: 100px; margin-top: 100px;">
+									<div>
+										<div class="d-flex justify-content-center" style="margin-bottom: 15px;">
+											<img src="${pageContext.request.contextPath}/assets/img/noinfo.png" style="width: 100px; height: 100px;">
+										</div>
+										<h5>작성된 기록이 없습니다.</h5>
+									</div>
+								</div>
+<%-- 							</c:if> --%>
+						</div>
                         <div id="myinfo" class="content-section" style="display: none;">
                             <div style="border-bottom: 1px solid #3D3D3D;">
-                                <h5 style="font-weight: bold; margin-bottom: 20px; padding-left: 20px;">나의 정보</h5>
+								<div class="d-flex justify-content-between">
+	                                <h5 style="font-weight: bold; margin-bottom: 20px; padding-left: 20px;">나의 정보</h5>
+	                                <button type="button" class="writer_class" id="addinfo_btn" data-bs-toggle="modal" data-bs-target="#addInfo_modal" style="margin-right: 25px; margin-bottom: 20px;">
+										<img src="${pageContext.request.contextPath}/assets/img/pencil.png" style="width: 20px; height: 20px; margin-right: 10px;">
+										추가 정보
+									</button>
+								</div>
+								
+								<!-- Modal -->
+								<div class="modal fade" id="addInfo_modal" tabindex="-1"
+									aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered" style="width: 450px;">
+										<div class="modal-content">
+											<div class="modal-header" style="margin-top: 15px; margin-right: 10px;">
+												<button type="button" class="btn-close" data-bs-dismiss="modal"
+													aria-label="Close"></button>
+											</div>
+											<div class="modal-body" style="padding-top: 0; padding-right: 30px; padding-left: 30px; padding-bottom: 30px;">
+												<form action="/addInfoDo" method="post">
+													<div style="margin-bottom: 30px;">
+														<div style="margin-bottom: 15px;">
+															<div>
+																<span style="font-size: 20px;">피부 타입을 골라주세요</span>
+															</div>
+															<div>
+																<span style="color: #949494;">1개만 선택해 주세요</span>
+															</div>
+														</div>
+														<div class="d-flex justify-content-between" style="margin-bottom: 15px;">
+															<button class="face_btn" style="margin-right: 10px;">
+																건성
+															</button>
+															<button class="face_btn">
+																지성
+															</button>
+														</div>
+														<div class="d-flex justify-content-between">
+															<button class="face_btn" style="margin-right: 10px;">
+																복합성
+															</button>
+															<button class="face_btn">
+																수부지
+															</button>
+														</div>
+														<input type="hidden">
+													</div>
+													<div style="margin-bottom: 30px;">
+														<div style="margin-bottom: 15px;">
+															<div>
+																<span style="font-size: 20px;">추가 정보를 골라주세요</span>
+															</div>
+															<div>
+																<span style="color: #949494;">중복 선택이 가능합니다.</span>
+															</div>
+														</div>
+														<div class="d-flex justify-content-between" style="margin-bottom: 15px;">
+															<button class="face_btn" style="margin-right: 10px;">
+																민감성
+															</button>
+															<button class="face_btn">
+																여드름
+															</button>
+														</div>
+													</div>
+													<div class="d-flex justify-content-end" style="margin-bottom: 15px;">
+									                    <button type="submit" id="submitButton"
+									                        style="width: 20%; height: 38px; border: none; background-color: #3D3D3D; color: white; font-size: 16px;">완료</button>
+									                </div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Modal -->
                             </div>
 				            <div style="margin: 0 auto; padding-top: 30px;">
 				                <form id="updateInfo" method="post" enctype="multipart/form-data">

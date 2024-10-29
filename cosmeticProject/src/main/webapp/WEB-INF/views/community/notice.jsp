@@ -58,38 +58,36 @@
     	color: black;
     }
 
-     .active>.page-link, .page-link.active {
-     	text-decoration: none !important;
-     	color: white !important;
-     	background-color: #3D3D3D !important;
- 	    box-shadow: none !important;
-     }
-     
-     .pagination {
+    .active>.page-link, .page-link.active {
+    	text-decoration: none !important;
+    	color: white !important;
+    	background-color: #3D3D3D !important;
+	    box-shadow: none !important;
+    }
+    
+    .pagination {
 		--bs-pagination-color: black !important;
 		--bs-pagination-hover-color: white !important;
 		--bs-pagination-focus-color: white !important;
-     }
+    }
+    
+    .category_a {
+    	color: #6C757D;
+    	text-decoration: none;
+    }
+
+    .category_a:hover {
+    	color: black;
+    	text-decoration: none;
+    }
+
+    .category_a:focus {
+    	text-decoration: none;
+    }
 </style>
 </head>
 
 <body>
-<!-- 	<form id="mainMove" action="/"> -->
-<!-- 	</form> -->
-<%-- 	<c:if test="${not empty loginError}"> --%>
-<%--             if (confirm("${not empty loginError}")) { --%>
-<!--                 // 확인을 누르면 폼 제출 -->
-<!--                 $("#mainMove").submit(); -->
-<!--             } -->
-<%-- 	</c:if> --%>
-<%-- 	<c:if test="${not empty nologin}"> --%>
-<!-- 		<script> -->
-<%-- // 	        if (confirm("${not empty nologin}")) { --%>
-<!-- // 	            // 확인을 누르면 폼 제출 -->
-<!-- // 	            $("#mainMove").submit(); -->
-<!-- // 	        } -->
-<!-- 		</script> -->
-<%-- 	</c:if> --%>
     <div class="container-fluid" style="padding: 0;">
         <header>
 			<jsp:include page="/WEB-INF/inc/header.jsp"></jsp:include>
@@ -106,15 +104,15 @@
 				<div class="container d-flex justify-content-center"
 					style="height: 47px;">
 					<button id="categori" class="nav-link link-secondary"
-						style="width: 17%; font-size: 20px;">전체</button>
+						style="width: 17%; font-size: 20px;"><a id="all_a" class="category_a" href="${pageContext.request.contextPath}/notice?cd=ALL">전체</a></button>
 					<button id="btn-home" class="nav-link link-secondary"
-						style="width: 17%; font-size: 20px;">공지</button>
+						style="width: 17%; font-size: 20px;"><a class="category_a" href="${pageContext.request.contextPath}/notice?cd=NT">공지</a></button>
 					<button id="btn-rank" class="nav-link link-secondary"
-						style="width: 17%; font-size: 20px;">자유</button>
+						style="width: 17%; font-size: 20px;"><a class="category_a" href="${pageContext.request.contextPath}/notice?cd=FR">자유</a></button>
 					<button id="btn-notice" class="nav-link link-secondary"
-						style="width: 17%; font-size: 20px;">질문</button>
+						style="width: 17%; font-size: 20px;"><a class="category_a" href="${pageContext.request.contextPath}/notice?cd=QT">질문</a></button>
 					<button id="btn-notice" class="nav-link link-secondary"
-						style="width: 17%; font-size: 20px;">꿀팁</button>
+						style="width: 17%; font-size: 20px;"><a class="category_a" href="${pageContext.request.contextPath}/notice?cd=TP">꿀팁</a></button>
 				</div>
 			</div>
 

@@ -97,6 +97,13 @@
     .dropdown-menu.active {
     	background-color: ##F3F4F8 !important;
     }
+    
+    #del_btn {
+    	background-color: white;
+    	border: none;
+    	color: #7F7F7F;
+    	font-size: 30px;
+    }
 </style>
 </head>
 
@@ -155,7 +162,7 @@
                     </tr>
                     <tr>
                         <th>분류</th>
-                  			<td><input class="form-control input-sm" type="text" name="boCategory" value="${free.boCategory}" readonly></td>
+               			<td><input class="form-control input-sm" type="text" name="boCategory" value="${free.boCategory}" readonly></td>
                     </tr>
                     <tr>
                         <th>내용</th>
@@ -172,38 +179,49 @@
 						</div>
 						<div class="col-1" style="padding: 0; margin: 0;">
 							<input type="hidden" name="boNo" value="${free.boNo}">
-							<button type="button" class="btn btn-primary">등록</button>
+							<button type="button" class="btn btn-primary" onclick="fn_write()">등록</button>
 						</div>
 					</div>
 				</div>
 				<!-- 댓글 조회 -->
 				<div style="padding-top: 15px;">
 					<table class="table">
-						<c:forEach items="${reList}" var="re">
-							<tr>
-								<div class="border-bottom py-4" style="padding: 10px;">
-									<div class="d-flex">
-					                	<c:if test="${re.profileImg == null}">
-						                    <img src="${pageContext.request.contextPath}/assets/img/게시판_프로필.png">
-					                	</c:if>
-					                	<c:if test="${re.profileImg != null}">
-						                    <img src="${pageContext.request.contextPath}${re.profileImg}" id="profileImage">
-					                	</c:if>
-										<div class="flex-column justify-content-center" style="margin-left: 15px;">
-											<div>
-												<span style="font-size: 18px;">${re.memNickname}</span>
-											</div>
-											<div>
-												<span style="color: #7F7F7F;">${re.replyDate}</span>
+						<tbody id="replyBody">
+							<c:forEach items="${reList}" var="re">
+								<tr id="${re.replyNo }">
+									<td>
+										<div class=" py-4" style="padding: 10px;">
+											<div class="d-flex justify-content-between">
+												<div>
+													<div class="d-flex">
+									                	<c:if test="${re.profileImg == null}">
+										                    <img src="${pageContext.request.contextPath}/assets/img/게시판_프로필.png">
+									                	</c:if>
+									                	<c:if test="${re.profileImg != null}">
+										                    <img src="${pageContext.request.contextPath}${re.profileImg}" id="profileImage">
+									                	</c:if>
+														<div class="flex-column justify-content-center" style="margin-left: 15px;">
+															<div>
+																<span style="font-size: 18px;">${re.memNickname}</span>
+															</div>
+															<div>
+																<span style="color: #7F7F7F;">${re.replyDate}</span>
+															</div>
+														</div>
+													</div>
+													<div style="margin-left: 66px; margin-top: 15px;">
+														<span style="font-size: 18px;">${re.replyContent}</span>
+													</div>
+												</div>
+												<c:if test="${sessionScope.login.memId == re.memId}">
+													<button type="button" id="del_btn" onclick="fn_del(${re.replyNo})">×</button>
+												</c:if>
 											</div>
 										</div>
-									</div>
-									<div style="margin-left: 66px; margin-top: 15px;">
-										<span style="font-size: 18px;">${re.replyContent}</span>
-									</div>
-								</div>
-							</tr>
-						</c:forEach>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
 					</table>
 				</div>
 			</div>
@@ -232,60 +250,94 @@
         });
 	});
 	
-// 	function fn_write() {
-// 		let memId = '${sessionScope.login.memId}';
-// 		let boNo = '${free.boNo}';
-// 		let msg = $(".reply_input").val();
+	function fn_write() {
+		let memId = '${sessionScope.login.memId}';
+		let boNo = '${free.boNo}';
+		let msg = $(".reply_input").val();
+		$(".reply_input").val("");
 		
-// 		if (memId == '') {
-// 			alert("로그인이 필요한 서비스 입니다.");
-// 			return;
-// 		}
-// 		if (msg == '') {
-// 			alert("내용을 입력해 주세요");
-// 			return;
-// 		}
+		if (memId == '') {
+			alert("로그인이 필요한 서비스 입니다.");
+			return;
+		}
+		if (msg == '') {
+			alert("내용을 입력해 주세요");
+			return;
+		}
 		
-// 		let sendData = JSON.stringify({ "memId":memId
-// 									  , "boNo":boNo
-// 									  , "replyContent":msg});
-// 		console.log("sendData");
-// 		$.ajax({
-// 			  url : '<c:url value="/writeReplyDo" />'
-// 			, type : "POST"
-// 			, contentType : 'application/json'
-// 			, dataType : 'json'
-// 			, success : function(res) {
-// 				console.log("응답");
-// 				console.log(res);
-// 				let str = "";
-// 				str += "<tr>";
-// 				str += "<div class='border-bottom py-4' style='padding: 10px;'>";
-// 				str += "<div class='d-flex'>";
-// 				str += "<c:if test='${re.profileImg == null}'>";
-// 				str += "<img src='${pageContext.request.contextPath}/assets/img/게시판_프로필.png'>";
-// 				str += "</c:if>";
-// 				str += "<c:if test='${re.profileImg != null}'>";
-// 				str += "<img src='${pageContext.request.contextPath}${re.profileImg}' id='profileImage'>";
-// 				str += "</c:if>";
-// 				str += "<div class='flex-column justify-content-center' style='margin-left: 15px;'>";
-// 				str += "<div>";
-// 				str += "<span style='font-size: 18px;'>${re.memNickname}</span>";
-// 				str += "</div>";
-// 				str += "<div>";
-// 				str += "<span style='color: #7F7F7F;'>${re.replyDate}</span>";
-// 				str += "</div>";
-// 				str += "</div>";
-// 				str += "</div>";
-// 				str += "<div style='margin-left: 66px; margin-top: 15px;'>";
-// 				str += "<span style='font-size: 18px;'>${re.replyContent}</span>";
-// 				str += "</div>";
-// 				str += "</div>";
-// 				str += "</tr>";
-// 			}, error : function(e) {
-// 				console.log(e);
-// 			}
-// 		})
-// 	}
+		let sendData = JSON.stringify({ "memId":memId
+									  , "boNo":boNo
+									  , "replyContent":msg});
+		console.log(sendData);
+		$.ajax({
+			  url : '<c:url value="/writeReplyDo" />'
+			, type : "POST"
+			, contentType : 'application/json'
+			, dataType : 'json'
+			, data : sendData
+			, success : function(res) {
+				console.log("응답");
+				console.log("res: ",res);
+				let imgPath;
+				
+				if (res.profileImg == null) {
+					imgPath = '/assets/img/게시판_프로필.png';
+				} else {
+					imgPath = res.profileImg;
+				}
+				
+				let str = "";
+				str += "<tr id='"+ res.replyNo +"'>";
+				str += "<td>";
+				str += "<div class=' py-4' style='padding: 10px;'>";
+				str += "<div class='d-flex justify-content-between'>";
+				str += "<div>";
+				str += "<div class='d-flex'>";
+				str += "<img src='${pageContext.request.contextPath}"+ imgPath +"' id='profileImage'>";
+				str += "<div class='flex-column justify-content-center' style='margin-left: 15px;'>";
+				str += "<div>";
+				str += "<span style='font-size: 18px;'>"+res.memNickname+"</span>";
+				str += "</div>";
+				str += "<div>";
+				str += "<span style='color: #7F7F7F;'>"+res.replyDate+"</span>";
+				str += "</div>";
+				str += "</div>";
+				str += "</div>";
+				str += "<div style='margin-left: 66px; margin-top: 15px;'>";
+				str += "<span style='font-size: 18px;'>"+res.replyContent+"</span>";
+				str += "</div>";
+				str += "</div>";
+				str += "<button type='button' id='del_btn' onclick='fn_del("+ res.replyNo +")'>×</button>";
+				str += "</div>";
+				str += "</div>";
+				str += "</td>";
+				str += "</tr>";
+				
+				console.log(str);
+				$("#replyBody").append(str);
+			}, error : function(e) {
+				console.log(e);
+			}
+		});
+	}
+	
+	function fn_del(p_replyNo) {
+		if (confirm("정말로 삭제 하시겠습니까?")) {
+			$.ajax({
+				  url: '<c:url value="/delReplyDo" />'
+				, type: 'POST'
+				, data: JSON.stringify({"replyNo": p_replyNo})
+				, contentType: 'application/json'
+				, dataType: "text"
+				, success: function(res) {
+					if (res == 'success') {
+						$("#" + p_replyNo).remove();
+					}
+				}, error: function(e) {
+					console.log(e);
+				}
+			})
+		}
+	}
 </script>
 </html>

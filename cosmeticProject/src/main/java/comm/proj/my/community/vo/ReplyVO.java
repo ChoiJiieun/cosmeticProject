@@ -2,7 +2,7 @@ package comm.proj.my.community.vo;
 
 public class ReplyVO {
 	private int boNo;
-	private int replyNo;
+	private String replyNo;
 	private String memId;
 	private String memNickname;
 	private String profileImg;
@@ -15,10 +15,10 @@ public class ReplyVO {
 	public void setBoNo(int boNo) {
 		this.boNo = boNo;
 	}
-	public int getReplyNo() {
+	public String getReplyNo() {
 		return replyNo;
 	}
-	public void setReplyNo(int replyNo) {
+	public void setReplyNo(String replyNo) {
 		this.replyNo = replyNo;
 	}
 	public String getMemId() {

@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,11 +43,6 @@ public class BoardController {
 
 	@Value("#{util['file.download.path']}")
 	private String WEB_PATH;
-	
-//	@RequestMapping("/notice")
-//	public String notice_main() {
-//		return "community/notice";
-//	}
 	
 	// 게시물 작성 화면 이동
 	@RequestMapping("/noticeWrite")
@@ -113,14 +110,21 @@ public class BoardController {
 	}
 
 	// 게시글 전체 조회
-	@RequestMapping(value= {"/", "/notice"})
-	public String freeList(Model model, @ModelAttribute("searchVO") PagingVO vo) {
+	@RequestMapping("/notice")
+	public String freeList(Model model, @ModelAttribute("searchVO") PagingVO vo, @RequestParam(value = "cd", required = false) String boCd) {
+		if (boCd == null || boCd.isEmpty()) {
+			String all = "ALL";
+			vo.setBoCd(all);
+		} else {
+			vo.setBoCd(boCd);
+		}
+		
 		System.out.println("페이징 처리 출력 : " + vo);
 		ArrayList<BoardVO> freeList = boardService.getBoardList(vo);
 		model.addAttribute("freeList", freeList);
 		
 		return "community/notice";
-	}
+	} 
 	
 	// 게시글 상세 조회
 	@RequestMapping("/freeView")
@@ -184,16 +188,36 @@ public class BoardController {
 	// 댓글 작성
 	@ResponseBody
 	@PostMapping("/writeReplyDo")
-	public ReplyVO writeReplyDo(@RequestBody ReplyVO vo, @RequestParam("boNo") int boNo) {
+	public ReplyVO writeReplyDo(@RequestBody ReplyVO vo) {
 		System.out.println("댓글 작성 vo : " + vo);
+		
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmssSSS");
+		String reNo = sdf.format(date);
+		System.out.println("댓글 작성 replyNo : " + reNo);
+		vo.setReplyNo(reNo);
 		// 댓글 저장
 		try {
 			boardService.insertReply(vo);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return vo;
+		ReplyVO result = boardService.replySelect(reNo);
+		return result;
 	}
 	
+	// 댓글 삭제
+	@ResponseBody
+	@PostMapping("/delReplyDo")
+	public String delReplyDo(@RequestBody ReplyVO vo) {
+		String result = "success";
+		try {
+			boardService.delReply(vo.getReplyNo());
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = "fail";
+		}
+		
+		return result;
+	}
 }

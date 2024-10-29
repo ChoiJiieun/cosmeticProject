@@ -7,6 +7,7 @@ public class PagingVO {
 	private int rowSizePerPage = 10;  // 한 페이지당 레코드(행) 수 
 	private int pageSize = 10;        // 페이지 리스트에서 보여 줄 페이지 수 
 	private int totalRowCount;        // 총 레코드 건수 
+	private String boCd;
 	
 	//입력받는 데이터를 통해 계산되는 
 	private int firstRow;        // 시작 
@@ -85,6 +86,12 @@ public class PagingVO {
 	}
 	public void setLastPage(int lastPage) {
 		this.lastPage = lastPage;
+	}
+	public String getBoCd() {
+		return boCd;
+	}
+	public void setBoCd(String boCd) {
+		this.boCd = boCd;
 	}
 	
 }

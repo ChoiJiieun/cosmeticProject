@@ -326,7 +326,18 @@
 																style="margin-left: 15px;">
 																<div>
 																	<span style="font-size: 18px;">${re.memWriter}</span>
-																	<span style="font-size: 15px; color: #A6A6A6;">아직 없음</span>
+																	<c:if test="${re.faceType == null}">
+																		<span style="font-size: 15px; color: #A6A6A6;">${re.memAge}</span>
+																	</c:if>
+																	<c:if test="${re.faceType != null && re.addType1 == null}">
+																		<span style="font-size: 15px; color: #A6A6A6;">/${re.faceType}</span>
+																	</c:if>
+																	<c:if test="${re.addType1 != null && re.addType2 == null}">
+																		<span style="font-size: 15px; color: #A6A6A6;">/${re.addType1}</span>
+																	</c:if>
+																	<c:if test="${re.addType2 != null}">
+																		<span style="font-size: 15px; color: #A6A6A6;">/${re.addType2}</span>
+																	</c:if>
 																</div>
 																<div class="d-flex" style="height: 21px;">
 																    <c:forEach var="i" begin="1" end="5">
@@ -354,8 +365,6 @@
 															</div>
 														</div>
 														<div>
-	<!-- 														<img src="resources/assets/img/image_ex.jpg" style="width: 200px; border-radius:5%;"> -->
-	<!-- 														<img src="resources/assets/img/image_ex.jpg" style="width: 200px; border-radius:5%;"> -->
 														</div>
 													</div>
 												</div>

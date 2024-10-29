@@ -33,7 +33,7 @@ public class HomeController {
 //		
 //		model.addAttribute("serverTime", formattedDate );
 //		
-//		return "/community/notice";
+//		return "/rank/rank";
 //	}
 	
 }

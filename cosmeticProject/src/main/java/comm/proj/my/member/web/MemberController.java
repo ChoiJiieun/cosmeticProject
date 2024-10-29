@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import comm.proj.my.cosmetic.vo.ReviewVO;
 import comm.proj.my.member.service.MemberService;
+import comm.proj.my.member.vo.AddInfoVO;
 import comm.proj.my.member.vo.MemberVO;
 
 @Controller
@@ -46,9 +47,10 @@ public class MemberController {
 		return "member/register";
 	}
 	
+	// 로그아웃
 	@RequestMapping("/logoutDo")
 	public String logout(HttpSession session) throws Exception {
-		
+		// 세션 정보 없애기
 		session.invalidate();
 		
 		return "redirect:/";
@@ -74,6 +76,7 @@ public class MemberController {
 		// 본인이 작성한 리뷰 조회
 		ArrayList<ReviewVO> reviewList = memberService.myReview(memId);
 		model.addAttribute("reviewList", reviewList);
+		
 		
 		return "member/mypage";
 	}
@@ -218,6 +221,19 @@ public class MemberController {
 			e.printStackTrace();
 		}
 		
+		return "redirect:/mypage";
+	}
+	
+	// 추가 정보 등록
+	@RequestMapping("/addInfoDo")
+	public String addInfoDo(AddInfoVO vo) {
+		System.out.println("추가 정보 vo : "+vo);
+		try {
+			memberService.addInfoInsert(vo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "redirect:/mypage";
 	}
 	

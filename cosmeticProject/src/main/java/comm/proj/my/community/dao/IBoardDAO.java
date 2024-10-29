@@ -42,4 +42,13 @@ public interface IBoardDAO {
 	// 게시물 별 댓글 조회
 	public ArrayList<ReplyVO> replyInfo(int boNo);
 
+	// 작성한 댓글 조회
+	public ReplyVO replySelect(String replyNo);
+	
+	// 댓글 삭제
+	public int delReply(String replyNo);
+	
+	// 게시물 카테고리 조회
+	public ArrayList<BoardVO> boardsCategory(String boCd);
+
 }

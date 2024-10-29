@@ -94,4 +94,22 @@ public class BoardService {
 	public ArrayList<ReplyVO> replyInfo(int boNo) {
 		return dao.replyInfo(boNo);
 	}
+	
+	// 작성한 댓글 조회
+	public ReplyVO replySelect(String replyNo) {
+		return dao.replySelect(replyNo);
+	}
+	
+	// 댓글 삭제
+	public void delReply(String replyNo) throws Exception {
+		int result = dao.delReply(replyNo);
+		if (result == 0) {
+			throw new Exception();
+		}
+	}
+	
+	// 게시물 카테고리 조회
+	public ArrayList<BoardVO> boardsCategory(String boCd) {
+		return dao.boardsCategory(boCd);
+	}
 }

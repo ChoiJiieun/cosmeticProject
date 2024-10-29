@@ -62,18 +62,35 @@
 	
 	<!-- 화장품 리뷰 조회 -->
 	<select id="cosmetic_review" resultType="ReviewVO" parameterType="int">
-		SELECT r.review_no
-		     , r.good_comment
-		     , r.bad_comment
-		     , r.star_score
-		     , TO_CHAR(r.create_dt, 'YYYY-MM-DD')
-		     , r.cosmetic_no
-		     , r.mem_id
-		     , nvl(m.mem_nickname, m.mem_nm) as mem_writer
-		     , m.profile_img
-		FROM review r, members m
-		WHERE cosmetic_no = #{cosmeticNo}
-		 AND  r.mem_id = m.mem_id
+		<![CDATA[
+			SELECT 
+			    r.review_no,
+			    r.good_comment,
+			    r.bad_comment,
+			    r.star_score,
+			    TO_CHAR(r.create_dt, 'YYYY-MM-DD') as create_dt,
+			    r.cosmetic_no,
+			    r.mem_id,
+			    COALESCE(m.mem_nickname, m.mem_nm) as mem_writer,
+			    m.profile_img,
+			    ma.face_type,
+			    ma.add_type1,
+			    ma.add_type2,
+			    CASE 
+			        WHEN EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM TO_DATE(m.mem_birth, 'YYYY-MM-DD')) < 20 THEN '10대'
+			        WHEN EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM TO_DATE(m.mem_birth, 'YYYY-MM-DD')) < 30 THEN '20대'
+			        WHEN EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM TO_DATE(m.mem_birth, 'YYYY-MM-DD')) < 40 THEN '30대'
+			        ELSE '40대 이상'
+			    END as mem_age
+			FROM 
+			    review r
+			    INNER JOIN members m ON r.mem_id = m.mem_id
+			    LEFT JOIN member_addInfo ma ON m.mem_id = ma.mem_id
+			WHERE 
+			    r.cosmetic_no = #{cosmeticNo}
+			ORDER BY 
+			    r.create_dt DESC
+    	]]>
 	</select>
 	
 	<!-- 화장품 성분 조회 -->
