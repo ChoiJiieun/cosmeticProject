@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="comm.proj.my.rank.dao.IRankDAO">
-
+	
+	<!-- 카테고리별 랭킹 조회 -->
 	<select id="allRank" resultType="RankVO" parameterType="String">
 		SELECT ROWNUM AS rank,
 		       a.*
@@ -25,4 +26,42 @@
 		ORDER BY rank
 	</select>
 	
+	<!-- 피부타입, 카테고리 별 랭킹 조회 -->
+	<select id="faceTypeRank" resultType="RankVO" parameterType="RankVO">
+		SELECT 
+		    ROWNUM AS rank,
+		    a.*
+		FROM (
+		    SELECT 
+		        c.cosmetic_no,
+		        c.name,
+		        c.cate_cd,
+		        c.company_name,
+		        c.cos_image,
+		        ROUND(AVG(r.star_score), 2) AS star_score,
+		        COUNT(r.cosmetic_no) AS review_count,
+		        (ROUND(AVG(r.star_score), 2) * 10) + (COUNT(r.cosmetic_no) * 0.5) AS rank_score,
+		        RANK() OVER (ORDER BY (ROUND(AVG(r.star_score), 2) * 10) + (COUNT(r.cosmetic_no) * 0.5) DESC) AS rating
+		    FROM 
+		        cosmetic c
+		        JOIN review r ON c.cosmetic_no = r.cosmetic_no
+		        JOIN member_addInfo ma ON r.mem_id = ma.mem_id
+		        LEFT JOIN category_code cat ON c.cate_cd = cat.cate_cd
+		    WHERE 
+		        -- 피부타입 조건 (:1 = 피부타입(예: '건성'), :2 = 카테고리코드)
+		        (#{faceType} = 'ALL' OR ma.face_type = #{faceType} OR ma.add_type1 = #{faceType} OR ma.add_type2 = #{faceType})
+		        AND
+		        -- 카테고리 조건
+		        (#{categoryCd} = 'ALL' OR c.cate_cd = #{categoryCd} OR cat.cate_parent = #{categoryCd})
+		    GROUP BY 
+		        c.cosmetic_no, 
+		        c.name, 
+		        c.cate_cd, 
+		        c.company_name, 
+		        c.cos_image
+		    ORDER BY 
+		        rating
+		) a
+		ORDER BY rank
+	</select>
 </mapper>

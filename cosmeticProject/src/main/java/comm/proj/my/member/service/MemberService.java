@@ -11,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import comm.proj.my.community.vo.PagingVO;
 import comm.proj.my.cosmetic.vo.ReviewVO;
 import comm.proj.my.member.dao.IMemberDAO;
 import comm.proj.my.member.vo.AddInfoVO;
+import comm.proj.my.member.vo.FaceRecordVO;
 import comm.proj.my.member.vo.MemberVO;
 
 @Service
@@ -169,6 +171,56 @@ public class MemberService {
 			throw new Exception();
 		}
 		
+		return result;
+	}
+	
+	// 피부 기록 조회
+	public ArrayList<FaceRecordVO> faceRecordInfo(PagingVO vo) {
+		// 전체 건수 조회
+		String boCd = vo.getBoCd();
+		int totalRowCount = dao.getTotalRowCount(boCd);
+		vo.setTotalRowCount(totalRowCount);
+		vo.pageSetting();
+		return dao.faceRecordInfo(vo);
+	}
+	
+	// 피부 기록
+	public int faceRecordInsert(FaceRecordVO vo) throws Exception {
+		int result = dao.faceRecordInsert(vo);
+		
+		if (result == 0) {
+			throw new Exception();
+		}
+		
+		return result;
+	}
+	
+	// 피부 기록 상세 조회
+	public FaceRecordVO faceRecordDetail(String reNo) throws Exception {
+		FaceRecordVO result = dao.faceRecordDetail(reNo);
+		
+		if (result == null) {
+			throw new Exception();
+		}
+		
+		return result;
+	}
+	
+	// 피부 기록 수정
+	public int faceRecordUpdate(FaceRecordVO vo) throws Exception {
+		int result = dao.faceRecordUpdate(vo);
+		if (result == 0) {
+			throw new Exception();
+		}
+		return result;
+	}
+	
+	// 피부 기록 삭제
+	public int faceRecordDelete(String recordNo) throws Exception {
+		int result = dao.faceRecordDelete(recordNo);
+		if (result == 0) {
+			throw new Exception();
+		}
 		return result;
 	}
 }

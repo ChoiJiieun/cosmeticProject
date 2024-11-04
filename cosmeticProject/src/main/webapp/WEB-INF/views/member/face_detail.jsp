@@ -49,26 +49,11 @@
 	    --bs-btn-active-border-color: none;
 	    height: 40px;
 	}
-	
-	.boContent {
-		padding: 20px;
-		border: 1px solid #D9D9D9;
-	}
-	
+
 </style>
 </head>
 
 <body>
-	<c:if test="${not empty loginError}">
-		<script>
-			alert('${loginError}');
-		</script>
-	</c:if>
-	<c:if test="${not empty nologin}">
-		<script>
-			alert('${nologin}');
-		</script>
-	</c:if>
     <div class="container-fluid" style="padding: 0;">
         <header>
 			<jsp:include page="/WEB-INF/inc/header.jsp"></jsp:include>
@@ -79,41 +64,31 @@
         <main>
 			<div style="width: 54%; margin: 0 auto;">
                 <div style="border-bottom: 1px solid #3D3D3D; margin-top: 40px; margin-bottom: 30px;">
-                    <h5 style="font-weight: bold; margin-bottom: 20px; padding-left: 20px;">게시글 수정</h5>
+                    <h5 style="font-weight: bold; margin-bottom: 20px; padding-left: 20px;">피부 상태 기록</h5>
                 </div>
-                <form action="/boardEditDo" method="post" onsubmit="return fn_check()">
+                <form id="updateForm" action="<c:url value="/faceupdateDo" />">
 					<table style="width: 100%; margin-top: 20px; margin-bottom: 50px;">
 	                    <tr>
 	                        <th>제목</th>
-	                        <td><input name="boTitle" class="form-control input-sm" type="text" required="required" value="${free.boTitle}"></td>
+	                        <td><input name="recordTitle" class="form-control input-sm" type="text"  required="required" value="${detail.recordTitle}"></td>
 	                    </tr>
 	                    <tr>
-	                        <th>분류</th>
-	                   		<td>
-	                    		<select name="boCategory" class="form-control input-sm">
-	                    			<option value="">---선택---</option>
-	                    			<c:forEach items="${comm}" var="code">
-	                    				<c:if test="${free.boCategory == code.cdName}">
-		                    				<option value="${code.cdId}" selected>${code.cdName}</option>
-	                    				</c:if>
-	                    				<c:if test="${free.boCategory != code.cdName}">
-		                    				<option value="${code.cdId}">${code.cdName}</option>
-	                    				</c:if>
-	                    			</c:forEach>
-	                    		</select>
-	                    	</td>
+	                        <th>날짜</th>
+	                   		<td><input type="date" class="form-control input-sm" name="recordDate" style="width: 200px; height: 40px; padding-left: 10px; padding-right: 10px;" value="${detail.recordDate}"></td>
 	                    </tr>
 	                    <tr>
 	                        <th>내용</th>
-	                        <td><textarea name="boContent" id="bo_content"  class="form-control input-sm">${free.boContent}</textarea></td>
+	                        <td><textarea name="recordContent" id="bo_content" class="form-control input-sm">${detail.recordContent}</textarea></td>
 	                    </tr>
 					</table>
 	                <div class="d-flex justify-content-end" style="border-top: 1px solid #3D3D3D; margin-top: 40px; margin-bottom: 30px; padding-top: 20px;">
-	                    <input type="hidden" name="boNo" value="${free.boNo}">
-	                    <input type="hidden" name="memId" value="${sessionScope.login.memId}">
-	                    <button type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;완료&nbsp;&nbsp;&nbsp;</button>
-	                </div>
+	                    <button id="update_btn" type="button" class="btn btn-primary" style="margin-right: 15px;">&nbsp;&nbsp;&nbsp;수정&nbsp;&nbsp;&nbsp;</button>
                 </form>
+	                    <form id="deleteForm" action="<c:url value="/facedeleteDo" />">
+		                    <input type="hidden" name="recordNo" value="${detail.recordNo}">
+		                    <button id="delete_btn" type="button" class="btn btn-primary">&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;</button>
+	                    </form>
+	                </div>
 			</div>
         </main>
     </div>
@@ -122,8 +97,6 @@
 	var oEditors = [];
 	
 	$(document).ready(function () {
-		
-		$("#rev").css("display", "none");
 
         $("#btn-home").addClass('btn_active');
         $("#home_a_tag").addClass('a_tag_click');
@@ -134,6 +107,22 @@
         $("#categori").click(function () {
             $('#categori_zone').toggle();
             $("main").toggle();
+        });
+        
+        $("#delete_btn").on("click", function() {
+            // 알림창 표시
+            if (confirm("삭제하시겠습니까?")) {
+                // 확인을 누르면 폼 제출
+                $("#deleteForm").submit();
+            }
+        });
+        
+        $("#update_btn").on("click", function() {
+            // 알림창 표시
+            if (confirm("수정하시겠습니까?")) {
+                // 확인을 누르면 폼 제출
+                $("#updateForm").submit();
+            }
         });
         
 		nhn.husky.EZCreator.createInIFrame({
@@ -163,17 +152,18 @@
 		//textarea 값 
 		oEditors.getById['bo_content'].exec("UPDATE_CONTENTS_FIELD", []);
 		var content = document.getElementById("bo_content").value;
-		if(content =='' || content ==null 
-				        || content =="&nbsp;" || content=='<p>&nbsp;</p>'){
+		if (content =='' || content ==null 
+				         || content =="&nbsp;" || content=='<p>&nbsp;</p>') {
 			alert("내용을 입력해주세요");
 			return false;
-		}else{
-			if(confirm("수정하시겠습니까?")){
+		} else {
+			if(confirm("저장하시겠습니까?")){
 				return true;
-			}else{
+			} else {
 				return false;
 			}
 		}
 	}
+	
 </script>
 </html>

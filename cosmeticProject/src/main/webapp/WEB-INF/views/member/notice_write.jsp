@@ -49,12 +49,6 @@
 	    --bs-btn-active-border-color: none;
 	    height: 40px;
 	}
-	
-	.boContent {
-		padding: 20px;
-		border: 1px solid #D9D9D9;
-	}
-	
 </style>
 </head>
 
@@ -79,13 +73,13 @@
         <main>
 			<div style="width: 54%; margin: 0 auto;">
                 <div style="border-bottom: 1px solid #3D3D3D; margin-top: 40px; margin-bottom: 30px;">
-                    <h5 style="font-weight: bold; margin-bottom: 20px; padding-left: 20px;">게시글 수정</h5>
+                    <h5 style="font-weight: bold; margin-bottom: 20px; padding-left: 20px;">게시글 작성</h5>
                 </div>
-                <form action="/boardEditDo" method="post" onsubmit="return fn_check()">
+                <form action="/boardWriteDo" method="post" onsubmit="return fn_check()">
 					<table style="width: 100%; margin-top: 20px; margin-bottom: 50px;">
 	                    <tr>
 	                        <th>제목</th>
-	                        <td><input name="boTitle" class="form-control input-sm" type="text" required="required" value="${free.boTitle}"></td>
+	                        <td><input name="boTitle" class="form-control input-sm" type="text"  required="required"></td>
 	                    </tr>
 	                    <tr>
 	                        <th>분류</th>
@@ -93,24 +87,17 @@
 	                    		<select name="boCategory" class="form-control input-sm">
 	                    			<option value="">---선택---</option>
 	                    			<c:forEach items="${comm}" var="code">
-	                    				<c:if test="${free.boCategory == code.cdName}">
-		                    				<option value="${code.cdId}" selected>${code.cdName}</option>
-	                    				</c:if>
-	                    				<c:if test="${free.boCategory != code.cdName}">
-		                    				<option value="${code.cdId}">${code.cdName}</option>
-	                    				</c:if>
+	                    				<option value="${code.cdId}">${code.cdName}</option>	
 	                    			</c:forEach>
 	                    		</select>
 	                    	</td>
 	                    </tr>
 	                    <tr>
 	                        <th>내용</th>
-	                        <td><textarea name="boContent" id="bo_content"  class="form-control input-sm">${free.boContent}</textarea></td>
+	                        <td><textarea name="boContent" id="bo_content"  class="form-control input-sm"></textarea></td>
 	                    </tr>
 					</table>
 	                <div class="d-flex justify-content-end" style="border-top: 1px solid #3D3D3D; margin-top: 40px; margin-bottom: 30px; padding-top: 20px;">
-	                    <input type="hidden" name="boNo" value="${free.boNo}">
-	                    <input type="hidden" name="memId" value="${sessionScope.login.memId}">
 	                    <button type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;완료&nbsp;&nbsp;&nbsp;</button>
 	                </div>
                 </form>
@@ -168,7 +155,7 @@
 			alert("내용을 입력해주세요");
 			return false;
 		}else{
-			if(confirm("수정하시겠습니까?")){
+			if(confirm("저장하시겠습니까?")){
 				return true;
 			}else{
 				return false;

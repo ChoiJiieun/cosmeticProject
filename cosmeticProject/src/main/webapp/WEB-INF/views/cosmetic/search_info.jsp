@@ -79,7 +79,7 @@
 		                                        </div>
 		                                    </div>
 		                                    <div class="d-flex flex-column justify-content-center" style="margin-left: auto; margin-right: 30px">
-												<img src="${pageContext.request.contextPath}/assets/img/love_empty.png" style="width: 25px; height: 25px;">									
+<%-- 												<img src="${pageContext.request.contextPath}/assets/img/love_empty.png" style="width: 25px; height: 25px;">									 --%>
 		                                    </div>
 		                                </div>
 									</a>

@@ -40,6 +40,16 @@
 	    max-height: 110%;
 	    object-fit: contain; /* 이미지 비율을 유지하며 div 안에 맞춤 */
 	}
+	
+    .a_click {
+    	color: black;
+    	text-decoration: none;
+    }
+    
+    .category_a {
+    	color: #6C757D;
+    	text-decoration: none;
+    }
 </style>
 <!-- css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/rank_style.css" />
@@ -52,31 +62,31 @@
 		<div id="categori_zone" style="height: 60vh; display: none;">
 			<jsp:include page="/WEB-INF/views/category_menu.jsp"></jsp:include>
 		</div>
+		<script>
+			$(document).ready(function() {
+				let msg = '${loginError}';
+				if (msg != '') {
+					alert(msg);
+					console.log(msg);
+				}
+			});
+		</script>
 		<main>
-<!-- 			<div style="border-bottom: 1px solid #D9D9D9;"> -->
-<!-- 				<div class="d-flex" id="choose_div" style="height: 47px;"> -->
-<!-- 					<button id="categori" class="nav-link px-4 link-secondary" -->
-<!-- 						style="width: 25%; font-size: 20px; border-left: 1px solid #D9D9D9 !important;"> -->
-<!-- 						카테고리별</button> -->
-<!-- 					<button id="btn-home" class="nav-link link-secondary px-4" -->
-<!-- 						style="width: 25%; font-size: 20px; border-left: 1px solid #D9D9D9 !important;">피부별</button> -->
-<!-- 					<button id="btn-rank" class="nav-link px-4 link-secondary" -->
-<!-- 						style="width: 25%; font-size: 20px; border-left: 1px solid #D9D9D9 !important; border-right: 1px solid #D9D9D9 !important;">연령별</button> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
 			<div style="border-bottom: 1px solid #D9D9D9;">
 				<div class="container d-flex justify-content-center"
 					style="height: 47px;">
-					<button id="categori" class="nav-link link-secondary"
-						style="width: 11%; font-size: 20px;">건성</button>
-					<button id="btn-home" class="nav-link link-secondary"
-						style="width: 11%; font-size: 20px;">지성</button>
-					<button id="btn-notice" class="nav-link link-secondary"
-						style="width: 11%; font-size: 20px;">복합성</button>
-					<button id="btn-notice" class="nav-link link-secondary"
-						style="width: 11%; font-size: 20px;">민감성</button>
-					<button id="btn-notice" class="nav-link link-secondary"
-						style="width: 11%; font-size: 20px;">여드름</button>
+					<button id="btn-dry" class="nav-link link-secondary"
+						style="width: 11%; font-size: 20px;"><a class="category_a" href="${pageContext.request.contextPath}/rank/dry">건성</a></button>
+					<button id="btn-oil" class="nav-link link-secondary"
+						style="width: 11%; font-size: 20px;"><a class="category_a" href="${pageContext.request.contextPath}/rank/oil">지성</a></button>
+					<button id="btn-combine" class="nav-link link-secondary"
+						style="width: 11%; font-size: 20px;"><a class="category_a" href="${pageContext.request.contextPath}/rank/combine">복합성</a></button>
+					<button id="btn-dryoil" class="nav-link link-secondary"
+						style="width: 11%; font-size: 20px;"><a class="category_a" href="${pageContext.request.contextPath}/rank/dryoil">수부지</a></button>
+					<button id="btn-sensitive" class="nav-link link-secondary"
+						style="width: 11%; font-size: 20px;"><a class="category_a" href="${pageContext.request.contextPath}/rank/sensitive">민감성</a></button>
+					<button id="btn-pimple" class="nav-link link-secondary"
+						style="width: 11%; font-size: 20px;"><a class="category_a" href="${pageContext.request.contextPath}/rank/pimple">여드름</a></button>
 				</div>
 			</div>
 			<div style="width: 60%; margin: 0 auto;">
@@ -304,7 +314,7 @@
 														</div>
 													</div>
 													<div class="d-flex">
-														<img src="resources/assets/img/star_full.png"
+														<img src="${pageContext.request.contextPath}/assets/img/star_full.png"
 															style="width: 25px; height: 25px;">
 														<div class="justify-content-center" style="margin-left: 5px;">
 															<span style="font-size: 17px;">${co.starScore}</span> <span

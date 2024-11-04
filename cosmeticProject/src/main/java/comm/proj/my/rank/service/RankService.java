@@ -18,4 +18,9 @@ public class RankService {
 	public ArrayList<RankVO> allRank(String cateCd) {
 		return dao.allRank(cateCd);
 	}
+	
+	// 피부타입, 카테고리 별 랭킹 조회
+	public ArrayList<RankVO> faceTypeRank(RankVO vo) {
+		return dao.faceTypeRank(vo);
+	}
 }

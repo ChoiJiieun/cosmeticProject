@@ -43,7 +43,7 @@ public class BoardController {
 
 	@Value("#{util['file.download.path']}")
 	private String WEB_PATH;
-	
+
 	// 게시물 작성 화면 이동
 	@RequestMapping("/noticeWrite")
 	public String notice_write(Model model) {
@@ -101,6 +101,7 @@ public class BoardController {
 	@PostMapping("/boardWriteDo")
 	public String insertBoard(BoardVO vo) {
 		try {
+			System.out.println("게시글 작성 vo : " + vo);
 			boardService.insertBoard(vo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -119,7 +120,6 @@ public class BoardController {
 			vo.setBoCd(boCd);
 		}
 		
-		System.out.println("페이징 처리 출력 : " + vo);
 		ArrayList<BoardVO> freeList = boardService.getBoardList(vo);
 		model.addAttribute("freeList", freeList);
 		

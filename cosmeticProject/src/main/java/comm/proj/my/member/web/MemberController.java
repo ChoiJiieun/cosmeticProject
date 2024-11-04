@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,9 +27,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import comm.proj.my.community.vo.PagingVO;
 import comm.proj.my.cosmetic.vo.ReviewVO;
 import comm.proj.my.member.service.MemberService;
 import comm.proj.my.member.vo.AddInfoVO;
+import comm.proj.my.member.vo.FaceRecordVO;
 import comm.proj.my.member.vo.MemberVO;
 
 @Controller
@@ -58,16 +63,10 @@ public class MemberController {
 	
 	// 마이페이지 화면
 	@RequestMapping("/mypage")
-	public String mypage(HttpSession session, Model model) {
+	public String mypage(HttpSession session, Model model, @ModelAttribute("searchVO") PagingVO vo) {
 		MemberVO loginMember = (MemberVO) session.getAttribute("login");
-		
-//	    if (loginMember == null) {
-//	    	model.addAttribute("nologin", "로그인이 필요한 서비스 입니다.");
-//	    	return "home/home";
-//	    }
 
 	    if (loginMember == null) {
-//	    	model.addAttribute("nologin", "로그인이 필요한 서비스 입니다.");
 	    	return "redirect:/";
 	    }
 	    
@@ -77,8 +76,83 @@ public class MemberController {
 		ArrayList<ReviewVO> reviewList = memberService.myReview(memId);
 		model.addAttribute("reviewList", reviewList);
 		
+		vo.setBoCd(memId);
+		
+		// 피부 기록 조회
+		ArrayList<FaceRecordVO> faceRecord = memberService.faceRecordInfo(vo);
+		model.addAttribute("faceRecord", faceRecord);		
 		
 		return "member/mypage";
+	}
+
+	// 피부 기록 화면 이동
+	@RequestMapping("/faceRecord")
+	public String faceRecord() {
+		return "member/face_record";
+	}
+
+	// 피부 기록 상세 조회 이동
+	@RequestMapping("/recordDetail")
+	public String recordDetail(Model model, @RequestParam(value = "reNo") String reNo) {
+		 try {
+			FaceRecordVO detail = memberService.faceRecordDetail(reNo);
+			System.out.println(detail);
+			model.addAttribute("detail", detail);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "member/face_detail";
+	}
+	
+	// 피부 기록
+	@PostMapping("/faceRecordDo")
+	public String faceRecordDo(FaceRecordVO vo) {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmssSSS");
+		String reNo = sdf.format(date);
+		
+		vo.setRecordNo(reNo);
+		
+		System.out.println("피부 기록 vo : " + vo);
+		try {
+			memberService.faceRecordInsert(vo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "redirect:/mypage";
+	}
+	
+	// 피부 기록 수정
+	@RequestMapping("/faceupdateDo")
+	public String faceupdateDo(FaceRecordVO vo) {
+		try {
+			System.out.println("이거 확인 : " + vo);
+			memberService.faceRecordUpdate(vo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "redirect:/mypage";
+	}
+	
+	// 피부 기록 삭제
+	@RequestMapping("/facedeleteDo")
+	public String facedeleteDo(@RequestParam("recordNo") String recordNo) {
+		try {
+			System.out.println("피부 기록 삭제 num : " + recordNo);
+			memberService.faceRecordDelete(recordNo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "redirect:/mypage";
+		
 	}
 	
 	// 닉네임 중복 확인
@@ -107,7 +181,7 @@ public class MemberController {
 		System.out.println("세션에 저장할 로그인 " + login);
 		if (login ==  null) {
 			model.addAttribute("loginError", "아이디 또는 비밀번호가 일치하지 않습니다.");
-			return "home/home";
+			return "redirect:/";
 		}
 		session.setAttribute("login", login);
 		
@@ -122,6 +196,7 @@ public class MemberController {
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
 		}
+		
 		return "redirect:/";
 	}
 	
@@ -144,7 +219,7 @@ public class MemberController {
 	public void download(String imageFileName, HttpServletResponse response) throws IOException {
 		OutputStream out = response.getOutputStream();
 		String downloadFile = CURR_IMAGE_PATH + "\\" + imageFileName;
-		System.out.println(downloadFile);
+//		System.out.println(downloadFile);
 		File file = new File(downloadFile);
 		
 		// 로컬에서 요청 파일을 찾아서 전달
@@ -215,6 +290,7 @@ public class MemberController {
 	@RequestMapping("/reviewDelete")
 	public String reviewDelete(@RequestParam("reviewNo") String reviewNo) {
 		try {
+			System.out.println("리뷰 삭제 num : " + reviewNo);
 			memberService.reviewDelete(reviewNo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -236,6 +312,8 @@ public class MemberController {
 		}
 		return "redirect:/mypage";
 	}
+	
+	
 	
 	// 수정부터 해야함 수정 할 때 이미지만이 아니라 전체 정보를 어떻게 가져와야 하는지 알아야함
 	// 개인정보수정 아직 미완성

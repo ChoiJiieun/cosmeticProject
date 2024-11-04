@@ -18,16 +18,16 @@ public interface IBoardDAO {
 	// 커뮤니티 글작성
 	public int insertBoard(BoardVO vo);
 	
-	//전체 건수 
+	// 전체 건수 
 	public int getTotalRowCount();
 	
-	//자유게시판 조회
+	// 자유게시판 조회
 	public ArrayList<BoardVO> getBoardList(PagingVO vo);
 	
-	//게시글 상세 조회
+	// 게시글 상세 조회
 	public BoardVO getBoard(int boNo);
 	
-	//게시글 조회수 		
+	// 게시글 조회수 		
 	public int increaseHit(int boNo);
 	
 	// 게시글 수정

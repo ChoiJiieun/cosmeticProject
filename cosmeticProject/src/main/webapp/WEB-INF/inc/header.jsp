@@ -122,11 +122,11 @@
                     <button type="button" id="register_btn" onClick="location.href='/register'"
                         style="width: 100%; height: 38px; border: none; background-color: #3D3D3D; color: white; font-size: 16px;">회원가입</button>
                 </form>
-                <hr style="border: 1px solid #cacaca; margin-top: 20px;">
-                <div style="text-align: center;">
-                    <img src="${pageContext.request.contextPath}/assets/img/kakao.png" style="width: 45px;">
-                    <label style="font-size: 14px;">카카오 로그인</label>
-                </div>
+<!--                 <hr style="border: 1px solid #cacaca; margin-top: 20px;"> -->
+<!--                 <div style="text-align: center;"> -->
+<%--                     <img src="${pageContext.request.contextPath}/assets/img/kakao.png" style="width: 45px;"> --%>
+<!--                     <label style="font-size: 14px;">카카오 로그인</label> -->
+<!--                 </div> -->
             </div>
         </div>
     </div>

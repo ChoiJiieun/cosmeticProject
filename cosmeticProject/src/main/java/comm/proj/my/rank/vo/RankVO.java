@@ -10,6 +10,10 @@ public class RankVO {
 	private String starScore;
 	private String reviewCount;
 	
+	// 입력 받는 값
+	private String faceType;
+	private String categoryCd;
+	
 	public int getRank() {
 		return rank;
 	}
@@ -58,13 +62,24 @@ public class RankVO {
 	public void setReviewCount(String reviewCount) {
 		this.reviewCount = reviewCount;
 	}
+	public String getFaceType() {
+		return faceType;
+	}
+	public void setFaceType(String faceType) {
+		this.faceType = faceType;
+	}
+	public String getCategoryCd() {
+		return categoryCd;
+	}
+	public void setCategoryCd(String categoryCd) {
+		this.categoryCd = categoryCd;
+	}
 	
 	@Override
 	public String toString() {
 		return "RankVO [rank=" + rank + ", cosmeticNo=" + cosmeticNo + ", name=" + name + ", cateCd=" + cateCd
 				+ ", companyName=" + companyName + ", cosImage=" + cosImage + ", starScore=" + starScore
-				+ ", reviewCount=" + reviewCount + "]";
+				+ ", reviewCount=" + reviewCount + ", faceType=" + faceType + ", categoryCd=" + categoryCd + "]";
 	}
-	
 	
 }

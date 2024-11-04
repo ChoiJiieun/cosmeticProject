@@ -243,7 +243,7 @@
 		
         $("#delete_submit").on("click", function() {
             // 알림창 표시
-            if (confirm("정말로 삭제하시겠습니까?")) {
+            if (confirm("삭제하시겠습니까?")) {
                 // 확인을 누르면 폼 제출
                 $("#deleteForm").submit();
             }
@@ -322,7 +322,7 @@
 	}
 	
 	function fn_del(p_replyNo) {
-		if (confirm("정말로 삭제 하시겠습니까?")) {
+		if (confirm("삭제하시겠습니까?")) {
 			$.ajax({
 				  url: '<c:url value="/delReplyDo" />'
 				, type: 'POST'

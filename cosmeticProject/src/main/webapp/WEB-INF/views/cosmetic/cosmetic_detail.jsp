@@ -326,17 +326,15 @@
 																style="margin-left: 15px;">
 																<div>
 																	<span style="font-size: 18px;">${re.memWriter}</span>
-																	<c:if test="${re.faceType == null}">
-																		<span style="font-size: 15px; color: #A6A6A6;">${re.memAge}</span>
-																	</c:if>
+																	<span style="font-size: 15px; color: #A6A6A6;">${re.memAge}</span>
 																	<c:if test="${re.faceType != null && re.addType1 == null}">
-																		<span style="font-size: 15px; color: #A6A6A6;">/${re.faceType}</span>
+																		<span style="font-size: 15px; color: #A6A6A6;">/&nbsp;${re.faceType}</span>
 																	</c:if>
 																	<c:if test="${re.addType1 != null && re.addType2 == null}">
-																		<span style="font-size: 15px; color: #A6A6A6;">/${re.addType1}</span>
+																		<span style="font-size: 15px; color: #A6A6A6;">/&nbsp;${re.addType1}</span>
 																	</c:if>
 																	<c:if test="${re.addType2 != null}">
-																		<span style="font-size: 15px; color: #A6A6A6;">/${re.addType2}</span>
+																		<span style="font-size: 15px; color: #A6A6A6;">/&nbsp;${re.addType2}</span>
 																	</c:if>
 																</div>
 																<div class="d-flex" style="height: 21px;">

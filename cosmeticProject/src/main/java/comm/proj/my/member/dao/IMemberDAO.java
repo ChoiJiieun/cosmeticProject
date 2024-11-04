@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import comm.proj.my.community.vo.PagingVO;
 import comm.proj.my.cosmetic.vo.ReviewVO;
 import comm.proj.my.member.vo.AddInfoVO;
+import comm.proj.my.member.vo.FaceRecordVO;
 import comm.proj.my.member.vo.MemberVO;
 
 @Mapper
@@ -42,4 +44,22 @@ public interface IMemberDAO {
 	
 	// 추가 정보 조회
 	public AddInfoVO addInfoSelect(String memId);
+	
+	// 피부 기록 전체 건수 조회
+	public int getTotalRowCount(String memId);
+	
+	// 피부 기록 조회
+	public ArrayList<FaceRecordVO> faceRecordInfo(PagingVO vo);
+	
+	// 피부 기록
+	public int faceRecordInsert(FaceRecordVO vo);
+	
+	// 피부 기록 상세 조회
+	public FaceRecordVO faceRecordDetail(String reNo);
+	
+	// 피부 기록 수정
+	public int faceRecordUpdate(FaceRecordVO vo);
+	
+	// 피부 기록 삭제
+	public int faceRecordDelete(String recordNo);
 }

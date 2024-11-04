@@ -81,7 +81,8 @@
     	text-decoration: none;
     }
 
-    .category_a:focus {
+    .category_a:active {
+    	color: black;
     	text-decoration: none;
     }
 </style>
