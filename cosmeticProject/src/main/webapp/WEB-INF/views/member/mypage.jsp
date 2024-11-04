@@ -396,7 +396,7 @@
 	                                <h5 style="font-weight: bold; margin-bottom: 20px; padding-left: 20px;">계절별 루틴</h5>
 	                                <button type="button" class="writer_class" id="addinfo_btn" style="margin-right: 25px; margin-bottom: 20px;">
 										<img src="${pageContext.request.contextPath}/assets/img/pencil.png" style="width: 20px; height: 20px; margin-right: 10px;">
-										<a class="write_btn" href="#">루틴 기록</a>
+										<a class="write_btn" href="/RoutineWrite">루틴 기록</a>
 									</button>
 								</div>
                             </div>
@@ -418,9 +418,9 @@
 											<div style="margin: 15px;">
 												<div class="d-flex justify-content-between">
 													<p style="font-size: 18px;">건조할 때 좋은 루틴</p>
-													<button class="dropdown_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-									                    <h4 style="color: #7F7F7F; margin-right: 35px;">&#8942;</h4>
-								                   	</button>
+														<button class="dropdown_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+										                    <h4 style="color: #7F7F7F; margin-right: 35px;">&#8942;</h4>
+									                   	</button>
 													<ul class="dropdown-menu">
 													  <li style="margin-top: 5px;">
 													  	<form action="<c:url value="/boardEditView" />" method="post">

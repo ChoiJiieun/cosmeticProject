@@ -17,7 +17,7 @@ public class RankController {
 	@Autowired
 	RankService rankService;
 
-	@RequestMapping(value= {"/rank", "/"})
+	@RequestMapping(value= {"/rank","/"})
 	public String rank_main(Model model, @RequestParam(value = "cd", required = false) String cateCd) {
 		ArrayList<RankVO> cosRank = rankService.allRank(cateCd);
 		model.addAttribute("cosRank", cosRank);

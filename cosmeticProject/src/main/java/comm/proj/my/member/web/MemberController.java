@@ -313,7 +313,11 @@ public class MemberController {
 		return "redirect:/mypage";
 	}
 	
-	
+	// 루틴 기록 화면 이동
+	@RequestMapping("/RoutineWrite")
+	public String RoutineWrite() {
+		return "member/routine_write";
+	}
 	
 	// 수정부터 해야함 수정 할 때 이미지만이 아니라 전체 정보를 어떻게 가져와야 하는지 알아야함
 	// 개인정보수정 아직 미완성
