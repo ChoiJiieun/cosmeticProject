@@ -98,6 +98,7 @@
 	                    </tr>
 					</table>
 	                <div class="d-flex justify-content-end" style="border-top: 1px solid #3D3D3D; margin-top: 40px; margin-bottom: 30px; padding-top: 20px;">
+	                	<input type="hidden" name="boWriter" value="${sessionScope.login.memId}">
 	                    <button type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;완료&nbsp;&nbsp;&nbsp;</button>
 	                </div>
                 </form>

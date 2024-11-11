@@ -7,7 +7,7 @@ public class PagingVO {
 	private int rowSizePerPage = 10;  // 한 페이지당 레코드(행) 수 
 	private int pageSize = 10;        // 페이지 리스트에서 보여 줄 페이지 수 
 	private int totalRowCount;        // 총 레코드 건수 
-	private String boCd;
+	private String boCd;			  // 카테고리 받거나, 검색 조건 받거나
 	
 	//입력받는 데이터를 통해 계산되는 
 	private int firstRow;        // 시작 

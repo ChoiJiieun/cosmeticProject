@@ -34,7 +34,7 @@ public class BoardService {
 		return result;
 	}
 	
-	//	게시판 전체 조회
+	// 게시판 전체 조회
 	public ArrayList<BoardVO> getBoardList(PagingVO vo){
 		// 전체 건수 조회
 		int totalRowCount = dao.getTotalRowCount();
@@ -43,8 +43,19 @@ public class BoardService {
 		vo.pageSetting();  
 		return dao.getBoardList(vo);
 	}
+
+	// 게시판 검색 조회
+	public ArrayList<BoardVO> searchBoard(PagingVO vo){
+		// 전체 건수 조회
+		String keyword = vo.getBoCd();
+		int totalRowCount = dao.searchRowCount(keyword);
+		vo.setTotalRowCount(totalRowCount);
+		// 검색 조건으로 검색된 전체 건수를 기준으로 세팅!
+		vo.pageSetting();  
+		return dao.getBoardList(vo);
+	}
 	
-	//게시글 상세 조회
+	// 게시글 상세 조회
 	public BoardVO getBoard(int boNo) throws Exception {
 		BoardVO board = dao.getBoard(boNo);
 		

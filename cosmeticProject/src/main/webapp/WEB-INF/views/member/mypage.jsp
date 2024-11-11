@@ -82,7 +82,7 @@
     	border: none;
     }
     
-    .modal-header {
+    .header-none {
     	border-bottom: none !important;
     }
     
@@ -166,6 +166,21 @@
 	    height: 40px;
 	    text-decoration: none;
 	}
+
+    .btn-primary-light {
+	    --bs-btn-bg: white;
+	    --bs-btn-border-color: #3D3D3D !important;
+	    --bs-btn-hover-color: black;
+	    --bs-btn-hover-bg: white;
+	    --bs-btn-border-color: #3D3D3D;
+	    --bs-btn-hover-border-color: #3D3D3D !important;
+	    --bs-btn-focus-shadow-rgb: none;
+	    --bs-btn-active-color: black !important;
+	    --bs-btn-active-bg: white;
+	    --bs-btn-active-border-color: #3D3D3D;
+	    height: 40px;
+	    text-decoration: none;
+	}
 	
     .image-container {
 	    width: 100px;
@@ -181,6 +196,12 @@
 	    max-height: 110%;
 	    object-fit: contain; /* 이미지 비율을 유지하며 div 안에 맞춤 */
 	}
+	
+ 	@media (min-width: 992px) { 
+ 	    .modal-lg, .modal-xl { 
+ 	        --bs-modal-width: 540px !important; 
+ 	    } 
+ 	} 
 </style>
 </head>
 <body>
@@ -401,71 +422,78 @@
 								</div>
                             </div>
 							<div style="margin-right: 20px; margin-left: 37px; margin-top: 15px;">
-								<button type="button" class="btn btn-primary" data-bs-toggle="dropdown" style="">
-									봄&nbsp;&nbsp;&nbsp;▾</button>
-							  
-							    <ul class="dropdown-menu">
-							      <li><a class="dropdown-item" href="#">봄</a></li>
-							      <li><a class="dropdown-item" href="#">여름</a></li>
-							      <li><a class="dropdown-item" href="#">가을</a></li>
-							      <li><a class="dropdown-item" href="#">겨울</a></li>
-							    </ul>
+								<button type="button" class="btn btn-primary season-btn" style="width: 53.13px; margin-right: 10px;" onclick="season_filter('spring', this)">
+									봄</button>
+								<button type="button" class="btn btn-primary-light season-btn"  style="margin-right: 10px;" onclick="season_filter('summer', this)">
+									&nbsp;여름&nbsp;</button>
+								<button type="button" class="btn btn-primary-light season-btn" style="margin-right: 10px;" onclick="season_filter('fall', this)">
+									&nbsp;가을&nbsp;</button>
+								<button type="button" class="btn btn-primary-light season-btn" onclick="season_filter('winter', this)">
+									&nbsp;겨울&nbsp;</button>
 							</div>
 							<div class="d-flex justify-content-center">
-								<table style="width: 90%;">
-									<tr>
-										<td>
-											<div style="margin: 15px;">
-												<div class="d-flex justify-content-between">
-													<p style="font-size: 18px;">건조할 때 좋은 루틴</p>
-														<button class="dropdown_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-										                    <h4 style="color: #7F7F7F; margin-right: 35px;">&#8942;</h4>
-									                   	</button>
-													<ul class="dropdown-menu">
-													  <li style="margin-top: 5px;">
-													  	<form action="<c:url value="/boardEditView" />" method="post">
-<%-- 													  		<input type="hidden" name="boNo" value="${free.boNo}"> --%>
-													  		<button type="submit" class="dropdown_btn" style="text-align: center; width: 100%;">수정</button>
-													  	</form>
-													  </li>
-													  <li>
-													  	<form id="deleteForm" action="<c:url value="/boardDelDo" />">
-<%-- 													  		<input type="hidden" name="boNo" value="${free.boNo}"> --%>
-													  		<button id="delete_submit" type="button" class="dropdown_btn" style="text-align: center; width: 100%;">삭제</button>
-													  	</form>
-													  </li>
-													</ul>
-												</div>
-				                                <div class="d-flex">
-				                                	<div class="justify-content-center" style="margin-right: 20px;">
-					                                    <div class="image-container">
-						                                    <img src="${pageContext.request.contextPath}/assets/cosmetic_img/달바.png" style="height: 80px;">
-<%-- 						                                <c:if test="${cos.cosImage == null || fn:length(cos.cosImage) == 0}"> --%>
-<%-- 						                                    <img src="${pageContext.request.contextPath}/assets/img/none.jpg" style="height: 50px;"> --%>
-<%-- 						                                </c:if> --%>
-<%-- 						                                <c:if test="${cos.cosImage != null && fn:length(cos.cosImage) > 0}"> --%>
-<%-- 						                                    <img src="${pageContext.request.contextPath}${cos.cosImage}" style="height: 120px;"> --%>
-<%-- 						                                </c:if> --%>
-					                                    </div>
-				                                	</div>
-				                                    <div class="d-flex flex-column justify-content-center">
-				                                        <div class="d-flex" style="">
-				                                            <span style="color: #A6A6A6; margin-right: 6px; font-size: 17px">달바</span>
-				                                        </div>
-				                                        <div>
-				                                            <span style="font-size: 17px;">워터풀 선크림[SPF50+/PA++++]</span>
-				                                        </div>
-				                                    </div>
-				                                    <div class="d-flex justify-content-center" style="margin-left: auto; margin-right: 30px; align-items: center;">
-														<img src="${pageContext.request.contextPath}/assets/img/sun_none.png" style="width: 25px; height: 25px; margin-right: 20px;">									
-														<img src="${pageContext.request.contextPath}/assets/img/moon_none.png" style="width: 25px; height: 25px;">									
-				                                    </div>
-				                                </div>
-											</div>
-										</td>
-									</tr>
+								<table class="table table-hover" style="margin-top: 20px;">
+								 <colgroup>
+								 	<col width="65%" />
+								 	<col width="35%" />
+								 </colgroup>
+									 <thead style="text-align: center;">
+										 <tr>
+										 	<th>루틴명</th><th>계절</th>
+										 </tr>
+									 </thead>
+									 <tbody id="seasonBody" style="text-align: center;">
+										<c:if test="${not empty sInfo}">
+										 	<c:forEach items="${sInfo}" var="info">
+											 	<tr data-season-no="${info.seasonNo}" data-routine-title="${info.routineTitle}" onclick="showModal(this)">
+											 		<td>${info.routineTitle}</td>
+											 		<td>${info.seasonName}</td>
+											 	</tr>
+										 	</c:forEach>
+										</c:if>
+										<c:if test="${empty sInfo}">
+											<tr>
+												<td colspan='2' style="border: none;">
+													<div style="margin-top: 35px;">
+														<div class="d-flex justify-content-center" style="margin-bottom: 15px;">
+															<img src="${pageContext.request.contextPath}/assets/img/noinfo.png" style="width: 100px; height: 100px;">
+														</div>
+														<h5>작성된 기록이 없습니다.</h5>
+													</div>
+												</td>
+											</tr>
+										</c:if>
+									 </tbody>
 								</table>
 							</div>
+							
+							<!-- 모달 -->
+							<div class="modal fade" id="seasonModal" tabindex="-1" aria-labelledby="seasonModalLabel" aria-hidden="true">
+								<div class="modal-dialog modal-lg modal-dialog-scrollable">
+									<div class="modal-content">
+										<div class="modal-header" style="padding: 20px;">
+											<h5 class="modal-title" id="modalRoutineTitle"></h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body" style="padding: 0;">
+											<table style="width: 100%;">
+												<tbody id="seasonDetail">
+												</tbody>
+											</table>
+										</div>
+										<div class="modal-footer">
+											<form action="/routineUpdate">
+												<input type="hidden" name="seasonNo" id="modalSeasonNo">
+												<button type="submit" class="btn btn-primary-light">수정</button>
+											</form>
+												<input type="hidden" name="seasonNo" id="modalSeasonNo">
+											<button type="button" class="btn btn-primary-light" style="margin-right: 15px;">삭제</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- 모달 -->
+							
                         </div>
                         <div id="myinfo" class="content-section" style="display: none;">
                             <div style="border-bottom: 1px solid #3D3D3D;">
@@ -482,7 +510,7 @@
 									aria-labelledby="exampleModalLabel" aria-hidden="true">
 									<div class="modal-dialog modal-dialog-centered" style="width: 450px;">
 										<div class="modal-content">
-											<div class="modal-header" style="margin-top: 15px; margin-right: 10px;">
+											<div class="modal-header header-none" style="margin-top: 15px; margin-right: 10px;">
 												<button type="button" class="btn-close" data-bs-dismiss="modal"
 													aria-label="Close"></button>
 											</div>
@@ -748,5 +776,119 @@
 			 $("form[name='search']").submit();
 		 });
     });
+	
+	function showModal(td) {
+		// td 요소에서 data 속성 가져오기
+		const seasonNo = $(td).data("season-no");
+		const routineTitle = $(td).data("routine-title");
+		
+		// 모달에 데이터 넣기
+		$("#modalSeasonNo").val(seasonNo);
+		$("#modalRoutineTitle").text(routineTitle);
+		
+		$.ajax({
+			  url: "/seasonDetail"
+			, type: "GET"
+			, data: {seasonNo : seasonNo}
+			, success: function(data) {
+				console.log("접선성공", seasonNo);
+				console.log("데이타확인", data);
+				let str = "";
+				
+				data.forEach(function(item) {
+					let sunImage = item.dayRecord == 'Y' ? 'sun_full.png' : 'sun_none.png';
+					let moonImage = item.nightRecord == 'Y' ? 'moon_full.png' : 'moon_none.png';
+					
+					let dayImage = "${pageContext.request.contextPath}/assets/img/" + sunImage;
+					let nightImage = "${pageContext.request.contextPath}/assets/img/" + moonImage;
+					
+					let imagePath = item.cosImage === "none.jpg" 
+                        ? "${pageContext.request.contextPath}/assets/img/none.jpg"   // 기본 이미지 경로 설정
+                        : "${pageContext.request.contextPath}" + item.cosImage;  // 실제 이미지 경로 설정
+					
+					str += "<tr>";
+					str += "<td style='margin-left: 15px; margin-right: 15px;'>";
+					str += "<div class='d-flex'>";
+					str += "<div class='justify-content-center'>";
+					str += "<div class='image-container'>";
+					str += "<img src='"+ imagePath +"' style='height: 80px;'>";
+					str += "</div>";
+					str += "</div>";
+					str += "<div class='d-flex flex-column justify-content-center'>";
+					str += "<div class='d-flex'>";
+					str += "<span style='color: #A6A6A6; margin-right: 6px; font-size: 17px'>"+ item.companyName +"</span>";
+					str += "</div>";
+					str += "<div>";
+					str += "<span style='font-size: 17px;'>"+ item.name +"</span>";
+					str += "</div>";
+					str += "</div>";
+					str += "<div class='d-flex justify-content-center' style='margin-left: auto; margin-right: 30px; align-items: center;'>";
+					str += "<img src='"+ dayImage +"' style='width: 25px; height: 25px; margin-right: 20px;'>";
+					str += "<img src='"+ nightImage +"' style='width: 25px; height: 25px;'>";
+					str += "</div>";
+					str += "</div>";
+					str += "</td>";
+					str += "</tr>";
+				});
+
+				$("#seasonDetail").html(str);
+			}, error: function(xhr, status, error) {
+				console.log("상세조회 실패", error);
+			}
+		})
+		
+		// 모달창 표시
+		$("#seasonModal").modal("show");
+	}
+	
+	function season_filter(season, element) {
+		let memId = '${sessionScope.login.memId}';
+		
+		let sendData = JSON.stringify({ "memId":memId
+							 		  , "seasonName":season});
+		
+		$(".season-btn").removeClass("btn-primary").addClass("btn-primary-light");
+		$(element).removeClass("btn-primary-light").addClass("btn-primary");
+		
+// 		console.log(sendData);
+		$.ajax({
+			  url : '<c:url value="/seasonInfo" />'
+			, type : "POST"
+			, data : sendData
+			, contentType : 'application/json'
+			, success : function(res) {
+				console.log("응답");
+				console.log("res :", res);
+// 				console.log(res.length);
+				
+				let str = "";
+				
+				if (res.length == 0) {
+					str += "<tr>";
+					str += "<td colspan='2' style='border: none;'>";
+					str += "<div style='margin-top: 35px;'>";
+					str += "<div class='d-flex justify-content-center' style='margin-bottom: 15px;'>";
+					str += "<img src='${pageContext.request.contextPath}/assets/img/noinfo.png' style='width: 100px; height: 100px;'>";
+					str += "</div>";
+					str += "<h5>작성된 기록이 없습니다.</h5>";
+					str += "</div>";
+					str += "</td>";
+					str += "</tr>";
+				} else {
+					res.forEach(function (item) {
+						str += "<tr data-season-no='"+ item.seasonNo +"' data-routine-title='"+ item.routineTitle +"' onclick='showModal(this)'>";
+						str += "<td>"+ item.routineTitle +"</td>";
+						str += "<td>"+ item.seasonName +"</td>";
+						str += "</tr>";
+					});
+				}
+				
+// 				console.log(str);
+				$("#seasonBody").html(str);
+			}, error : function(e) {
+				console.log(e);
+			}
+		});
+	}
 </script>
 </html>

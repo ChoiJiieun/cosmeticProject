@@ -16,7 +16,12 @@ public class CosService {
 	@Autowired
 	ICosDAO dao;
 	
-	// 검색어 조회
+	// 화장품 검색 3개
+	public ArrayList<CosVO> searchCos(String keyword) {
+		return dao.searchCos(keyword);
+	}
+	
+	// 화장품 검색어 조회
 	public ArrayList<CosVO> searchInfo(String keyword) {
 
 		return dao.searchInfo(keyword);

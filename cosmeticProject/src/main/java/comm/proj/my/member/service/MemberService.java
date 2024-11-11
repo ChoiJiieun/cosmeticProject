@@ -5,10 +5,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import comm.proj.my.community.vo.PagingVO;
@@ -17,9 +19,13 @@ import comm.proj.my.member.dao.IMemberDAO;
 import comm.proj.my.member.vo.AddInfoVO;
 import comm.proj.my.member.vo.FaceRecordVO;
 import comm.proj.my.member.vo.MemberVO;
+import comm.proj.my.member.vo.SeasonDetailVO;
+import comm.proj.my.member.vo.SeasonInfoVO;
+import comm.proj.my.member.vo.SeasonRecordVO;
 
 @Service
 public class MemberService {
+	
 	@Autowired
 	IMemberDAO dao;
 	
@@ -218,6 +224,40 @@ public class MemberService {
 	// 피부 기록 삭제
 	public int faceRecordDelete(String recordNo) throws Exception {
 		int result = dao.faceRecordDelete(recordNo);
+		if (result == 0) {
+			throw new Exception();
+		}
+		return result;
+	}
+	
+	// 계절별 피부 기록 등록
+	@Transactional
+	public void saveRoutine(SeasonRecordVO seasonRecord, List<SeasonDetailVO> seasonDetails) {
+		dao.insertSeasonRecord(seasonRecord);
+		
+		for (SeasonDetailVO detail : seasonDetails) {
+			dao.insertSeasonDetail(detail);
+		}
+	}
+	
+	// 계절별 피부 기록 수정시 화장품 등록
+	public void seasonCos(SeasonDetailVO vo) {
+		dao.insertSeasonDetail(vo);
+	}
+	
+	// 계절별 피부 기록 조회
+	public ArrayList<SeasonRecordVO> selectSeasonInfo(SeasonRecordVO seasonRecord) {
+		return dao.selectSeasonInfo(seasonRecord);
+	}
+	
+	// 계절별 피부 기록 상세 조회
+	public ArrayList<SeasonInfoVO> selectSeasonDetail(String seasonNo) {
+		return dao.selectSeasonDetail(seasonNo);
+	}
+	
+	// 계절별 피부 기록 수정시 화장품 삭제
+	public int seasonCosDelete(SeasonDetailVO seasonDetail) throws Exception {
+		int result = dao.seasonCosDelete(seasonDetail);
 		if (result == 0) {
 			throw new Exception();
 		}

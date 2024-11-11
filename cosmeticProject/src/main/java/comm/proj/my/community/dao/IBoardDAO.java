@@ -23,6 +23,12 @@ public interface IBoardDAO {
 	
 	// 자유게시판 조회
 	public ArrayList<BoardVO> getBoardList(PagingVO vo);
+
+	// 게시물 검색 전체 수
+	public int searchRowCount(String keyword);
+	
+	// 게시물 검색 조회
+	public ArrayList<BoardVO> searchBoard(PagingVO vo);
 	
 	// 게시글 상세 조회
 	public BoardVO getBoard(int boNo);

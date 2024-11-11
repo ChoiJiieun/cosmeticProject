@@ -11,7 +11,10 @@ import comm.proj.my.cosmetic.vo.ReviewVO;
 @Mapper
 public interface ICosDAO {
 
-	// 검색어 조회
+	// 화장품 검색 3개
+	public ArrayList<CosVO> searchCos(String keyword);
+	
+	// 화장품 검색어 조회
 	public ArrayList<CosVO> searchInfo(String keyword);
 
 	// 화장품 상세 조회

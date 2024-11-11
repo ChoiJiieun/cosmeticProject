@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,6 +35,9 @@ import comm.proj.my.member.service.MemberService;
 import comm.proj.my.member.vo.AddInfoVO;
 import comm.proj.my.member.vo.FaceRecordVO;
 import comm.proj.my.member.vo.MemberVO;
+import comm.proj.my.member.vo.SeasonDetailVO;
+import comm.proj.my.member.vo.SeasonInfoVO;
+import comm.proj.my.member.vo.SeasonRecordVO;
 
 @Controller
 public class MemberController {
@@ -80,7 +85,15 @@ public class MemberController {
 		
 		// 피부 기록 조회
 		ArrayList<FaceRecordVO> faceRecord = memberService.faceRecordInfo(vo);
-		model.addAttribute("faceRecord", faceRecord);		
+		model.addAttribute("faceRecord", faceRecord);
+		
+		// 계절별 루틴 조회
+		SeasonRecordVO seasonRecord = new SeasonRecordVO();
+		seasonRecord.setSeasonName("spring");
+		seasonRecord.setMemId(memId);
+		
+		ArrayList<SeasonRecordVO> seasonInfo = memberService.selectSeasonInfo(seasonRecord);
+		model.addAttribute("sInfo", seasonInfo);
 		
 		return "member/mypage";
 	}
@@ -317,6 +330,113 @@ public class MemberController {
 	@RequestMapping("/RoutineWrite")
 	public String RoutineWrite() {
 		return "member/routine_write";
+	}
+	
+	// 루틴 기록 화면에 화장품 추가
+	@PostMapping("/saveRoutine")
+	public String saveRoutine(@RequestParam("seasonName") String seasonName, 
+							  @RequestParam("routineTitle") String routineTitle,
+							  @RequestParam("cosmeticNo[]") List<String> cosmeticNos,
+							  @RequestParam("dayRecord[]") List<String> dayRecords,
+							  @RequestParam("nightRecord[]") List<String> nightRecords,
+							  HttpSession session) {
+		
+        // 현재 날짜로 seasonNo 생성
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmssSSS");
+        String seasonNo = sdf.format(new Date());
+        
+        // session에서 회원 id 가져오기
+        MemberVO login = (MemberVO) session.getAttribute("login");
+        String memId = login.getMemId(); // memId를 가져오는 코드
+        
+        // SeasonRecordVO 생성 및 설정
+        SeasonRecordVO seasonRecord = new SeasonRecordVO();
+        seasonRecord.setSeasonNo(seasonNo);
+        seasonRecord.setSeasonName(seasonName);
+        seasonRecord.setRoutineTitle(routineTitle);
+        seasonRecord.setMemId(memId);
+        seasonRecord.setUseYn("Y");
+        
+        // SeasonDetailVO 리스트 생성
+        List<SeasonDetailVO> seasonDetails = new ArrayList<>();
+        for (int i = 0; i < cosmeticNos.size(); i++) {
+        	SeasonDetailVO detail = new SeasonDetailVO();
+        	detail.setSeasonNo(seasonNo);
+        	detail.setCosmeticNo(cosmeticNos.get(i));
+        	detail.setDayRecord(dayRecords.get(i));
+        	detail.setNightRecord(nightRecords.get(i));
+        	seasonDetails.add(detail);
+        }
+        
+        // 서비스 호출
+        memberService.saveRoutine(seasonRecord, seasonDetails);
+		
+		return "redirect:/mypage";
+	}
+	
+	// 필터 적용한 계절별 화장품 조회
+	@ResponseBody
+	@PostMapping("/seasonInfo")
+	public ArrayList<SeasonRecordVO> seasonInfo(@RequestBody SeasonRecordVO seasonRecord) {
+		
+		ArrayList<SeasonRecordVO> seasonInfo = memberService.selectSeasonInfo(seasonRecord);
+		
+		return seasonInfo;
+	}
+	
+	// 계절별 화장품 상세 조회
+	@ResponseBody
+	@RequestMapping("/seasonDetail")
+	public ArrayList<SeasonInfoVO> seasonDetail(String seasonNo) {
+		ArrayList<SeasonInfoVO> seasonDetail = memberService.selectSeasonDetail(seasonNo);
+		
+		return seasonDetail;
+	}
+	
+	// 계절별 화장품 수정 화면 이동
+	@RequestMapping("/routineUpdate")
+	public String routineUpdate(@RequestParam("seasonNo") String seasonNo, Model model) {
+		ArrayList<SeasonInfoVO> seasonDetail = memberService.selectSeasonDetail(seasonNo);
+		model.addAttribute("cosDetail", seasonDetail);
+		
+		String seasonName = "";
+		String routineTitle = "";
+		String seNo = "";
+		
+		for (SeasonInfoVO info : seasonDetail) {
+			seasonName = info.getSeasonName();
+			routineTitle = info.getRoutineTitle();
+			seNo = info.getSeasonNo();
+		}
+		
+		model.addAttribute("seasonName", seasonName);
+		model.addAttribute("seNo", seNo);
+		model.addAttribute("routineTitle", routineTitle);
+		
+		return "member/routine_update";
+	}
+	
+	// 계절별 화장품 수정에서 화장품 먼저 삭제
+	@ResponseBody
+	@PostMapping("/delSeCos")
+	public String del_season_cosmetic(@RequestBody SeasonDetailVO vo) {
+		String result = "success";
+		try {
+			memberService.seasonCosDelete(vo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	// 계절별 화장품 수정에서 화장품 추가
+	@ResponseBody
+	@PostMapping("/AddSeCos")
+	public String add_season_cosmetic(@RequestBody SeasonDetailVO vo) {
+		String result = "success";
+		memberService.seasonCos(vo);
+		return result;
 	}
 	
 	// 수정부터 해야함 수정 할 때 이미지만이 아니라 전체 정보를 어떻게 가져와야 하는지 알아야함

@@ -9,6 +9,9 @@ import comm.proj.my.cosmetic.vo.ReviewVO;
 import comm.proj.my.member.vo.AddInfoVO;
 import comm.proj.my.member.vo.FaceRecordVO;
 import comm.proj.my.member.vo.MemberVO;
+import comm.proj.my.member.vo.SeasonDetailVO;
+import comm.proj.my.member.vo.SeasonInfoVO;
+import comm.proj.my.member.vo.SeasonRecordVO;
 
 @Mapper
 public interface IMemberDAO {
@@ -62,4 +65,19 @@ public interface IMemberDAO {
 	
 	// 피부 기록 삭제
 	public int faceRecordDelete(String recordNo);
+	
+	// 계절별 피부 기록 등록
+	public void insertSeasonRecord(SeasonRecordVO seasonRecord);
+	
+	// 계절별 피부 기록 상세 등록
+	public void insertSeasonDetail(SeasonDetailVO seasonDetail);
+	
+	// 계절별 피부 기록 조회
+	public ArrayList<SeasonRecordVO> selectSeasonInfo(SeasonRecordVO seasonRecord);
+	
+	// 계절별 피부 기록 상세 조회
+	public ArrayList<SeasonInfoVO> selectSeasonDetail(String seasonNo);
+	
+	// 계절별 피부 기록 수정시 화장품 삭제
+	public int seasonCosDelete(SeasonDetailVO seasonDetail);
 }

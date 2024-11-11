@@ -1,7 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="comm.proj.my.cosmetic.dao.ICosDAO">
-
+	
+	<!-- 화장품 검색 3개 -->
+	<select id="searchCos" resultType="CosVO" parameterType="String">
+		SELECT ROWNUM as rnum, a.*
+		FROM (
+		        SELECT 
+		            c.cosmetic_no,
+		            c.name,
+		            c.cos_image,
+		            c.cate_cd,
+		            c.company_name,
+		            c.company_logo,
+		            ROUND(AVG(r.star_score), 2) as star_score,
+		            COUNT(r.review_no) as review_Count
+		        FROM 
+		            cosmetic c
+		        LEFT JOIN 
+		            review r ON c.cosmetic_no = r.cosmetic_no
+		        WHERE 
+		    		(c.name LIKE '%' || #{keyword} || '%' OR c.company_name LIKE '%' || #{keyword} || '%')
+		        GROUP BY 
+		            c.cosmetic_no,
+		            c.name,
+		            c.cos_image,
+		            c.cate_cd,
+		            c.company_name,
+		            c.company_logo
+		      ) a
+		<![CDATA[WHERE ROWNUM <= 3]]>
+		ORDER BY rnum
+	</select>
+	
 	<!-- 검색어로 입력한 화장품 리스트 -->
 	<select id="searchInfo" resultType="CosVO" parameterType="String">
 		SELECT 

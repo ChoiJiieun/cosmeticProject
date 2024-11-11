@@ -11,6 +11,9 @@
 	</settings>
 	<typeAliases>
 		<typeAlias type="comm.proj.my.member.vo.MemberVO" alias="MemberVO" />
+		<typeAlias type="comm.proj.my.member.vo.SeasonRecordVO" alias="SeasonRecordVO" />
+		<typeAlias type="comm.proj.my.member.vo.SeasonDetailVO" alias="SeasonDetailVO" />
+		<typeAlias type="comm.proj.my.member.vo.SeasonInfoVO" alias="SeasonInfoVO" />
 		<typeAlias type="comm.proj.my.member.vo.AddInfoVO" alias="AddInfoVO" />
 		<typeAlias type="comm.proj.my.member.vo.FaceRecordVO" alias="FaceRecordVO" />
 		<typeAlias type="comm.proj.my.cosmetic.vo.CosVO" alias="CosVO" />

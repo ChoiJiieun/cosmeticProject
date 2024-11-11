@@ -118,9 +118,9 @@
         <main>
 			<div style="width: 54%; margin: 0 auto;">
                 <div style="border-bottom: 1px solid #3D3D3D; margin-top: 40px; margin-bottom: 30px;">
-                    <h5 style="font-weight: bold; margin-bottom: 20px; padding-left: 20px;">계절별 루틴 기록</h5>
+                    <h5 style="font-weight: bold; margin-bottom: 20px; padding-left: 20px;">계절별 루틴 수정</h5>
                 </div>
-                <form action="/saveRoutine" method="post">
+                <form action="/routineUpdateDo" method="post">
 	                <div class="d-flex justify-content-center">
 						<table style="width: 90%;">
 							<tbody id="routine_setting">
@@ -129,17 +129,17 @@
 									<td>
 			                    		<select name="seasonName" class="form-control input-sm">
 			                    			<option value="">---선택---</option>
-		                    				<option value="spring" selected>봄</option>
-		                    				<option value="summer">여름</option>
-		                    				<option value="fall">가을</option>
-		                    				<option value="winter">겨울</option>
+		                    				<option value="spring" ${seasonName == 'spring' ? 'selected' : ''}>봄</option>
+		                    				<option value="summer" ${seasonName == 'summer' ? 'selected' : ''}>여름</option>
+		                    				<option value="fall" ${seasonName == 'fall' ? 'selected' : ''}>가을</option>
+		                    				<option value="winter" ${seasonName == 'winter' ? 'selected' : ''}>겨울</option>
 			                    		</select>
 									</td>
 								</tr>
 			                    <tr>
 			                        <th>루틴명</th>
 			                        <td>
-			                        	<input name="routineTitle" class="form-control input-sm" type="text"  required="required">
+			                        	<input name="routineTitle" class="form-control input-sm" type="text" value="${routineTitle}" required="required">
 			                        </td>
 			                    </tr>
 			                    <tr>
@@ -151,10 +151,49 @@
 			                        	</div>
 									</td>
 			                    </tr>
+			                    <c:forEach items="${cosDetail}" var="cos">
+									<tr>
+									    <th>
+									        <input type="hidden" name="cosmeticNo[]" value="${cos.cosmeticNo}">
+									    </th>
+									    <td>
+									        <div class="d-flex" style="width: 622px;">
+									            <div class="justify-content-center">
+									                <div class="image-container">
+									                    <c:if test="${cos.cosImage == none.jpg}">
+									                        <img src="${pageContext.request.contextPath}/assets/img/none.jpg" style="height: 50px;">
+									                    </c:if>
+									                    <c:if test="${cos.cosImage != none.jpg}">
+									                        <img src="${pageContext.request.contextPath}${cos.cosImage}" style="height: 80px;">
+									                    </c:if>
+									                </div>
+									            </div>
+									            <div class="d-flex flex-column justify-content-center">
+									                <div class="d-flex">
+									                    <span style="color: #A6A6A6; margin-right: 6px; font-size: 17px">${cos.companyName}</span>
+									                </div>
+									                <div>
+									                    <span style="font-size: 17px;">${cos.name}</span>
+									                </div>
+									            </div>
+									            <div class="d-flex justify-content-end" style="margin-left: auto; align-items: center;">
+									                <img src="${pageContext.request.contextPath}/assets/img/${cos.dayRecord == 'Y' ? 'sun_full' : 'sun_none'}.png"
+									                    style="width: 25px; height: 25px; margin-right: 20px;" onclick="toggleImage(this)">
+									                <input type="hidden" name="dayRecord[]" value="N" id="dayRecord_${cos.cosmeticNo}">
+									                <img src="${pageContext.request.contextPath}/assets/img/${cos.nightRecord == 'Y' ? 'moon_full' : 'moon_none'}.png"
+									                    style="width: 25px; height: 25px;" onclick="toggleImage(this)">
+									                <input type="hidden" name="nightRecord[]" value="N" id="nightRecord_${cos.cosmeticNo}">
+									                <button type="button" name="del[]" class="del_btn" style="margin-left: 38px;" onclick="deltr(this, ${cos.cosmeticNo}, ${cos.seasonNo})">×</button>
+									            </div>
+									        </div>
+									    </td>
+									</tr>
+			                    </c:forEach>
 							</tbody>
 						</table>
 	                </div>
 	                <div class="d-flex justify-content-end" style="border-top: 1px solid #3D3D3D; margin-top: 40px; margin-bottom: 30px; padding-top: 20px;">
+	                	<input type="hidden" name="seasonNo" id="seasonNo" value="${seNo}">
 	                    <button type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;완료&nbsp;&nbsp;&nbsp;</button>
 	                </div>
                 </form>
@@ -202,6 +241,29 @@
         });
         
     });
+	
+	function deltr(obj, cosNo, seaNo) {
+		let sendData = JSON.stringify({ "cosmeticNo" : cosNo,
+										"seasonNo" : seaNo});
+		
+		$.ajax({
+			  url: '<c:url value="/delSeCos" />'
+			, type: 'POST'
+			, data: sendData
+			, contentType: 'application/json'
+			, dataType: "text"
+			, success: function(res) {
+				if (res == 'success') {
+					var tr = $(obj).closest('tr');
+					tr.remove();
+					console.log("삭제 완료");
+				}
+			}, error: function(e) {
+				console.log(e);
+			}
+		});
+		
+	}
 	
 	$("#cos_search").on("keyup", function(key) {
 		if (key.keyCode == 13) {
@@ -266,47 +328,62 @@
 	        alert("이미 선택된 화장품입니다.");
 	        return;
 	    }
+	    
+	    let seNo = $("#seasonNo").val();
 		
-		let str = "";
+		let sendData = JSON.stringify({ "cosmeticNo" : number,
+										"seasonNo" : seNo});
+	    
+		$.ajax({
+			  url: '<c:url value="/AddSeCos" />'
+			, type: 'POST'
+			, data: sendData
+			, contentType: 'application/json'
+			, dataType: "text"
+			, success: function(res) {
+				if (res == 'success') {
+					console.log("추가 완료");
+					let str = "";
+					
+					str += "<tr>";
+					str += "<th>";
+				    str += "<input type='hidden' name='cosmeticNo[]' value='" + number + "'>";
+					str += "</th>";
+					str += "<td>";
+					str += "<div class='d-flex' style='width: 622px;'>";
+					str += "<div class='justify-content-center'>";
+					str += "<div class='image-container'>";
+					str += "<img src='"+ imagePath +"' style='height: 80px;'>";
+					str += "</div>";
+					str += "</div>";
+					str += "<div class='d-flex flex-column justify-content-center'>";
+					str += "<div class='d-flex'>";
+					str += "<span style='color: #A6A6A6; margin-right: 6px; font-size: 17px'>"+ companyName +"</span>";
+					str += "</div>";
+					str += "<div>";
+					str += "<span style='font-size: 17px;'>"+ productName +"</span>";
+					str += "</div>";
+					str += "</div>";
+					str += "<div class='d-flex justify-content-end' style='margin-left: auto; align-items: center;'>";
+					str += "<img src='${pageContext.request.contextPath}/assets/img/sun_none.png' style='width: 25px; height: 25px; margin-right: 20px;' onclick='toggleImage(this)'>";
+					str += "<input type='hidden' name='dayRecord[]' value='N' id='dayRecord_"+ number +"'>";
+					str += "<img src='${pageContext.request.contextPath}/assets/img/moon_none.png' style='width: 25px; height: 25px;' onclick='toggleImage(this)'>";
+					str += "<input type='hidden' name='nightRecord[]' value='N' id='nightRecord_" +number +"'>";
+					str += "<button type='button' name='del[]' class='del_btn' style='margin-left: 38px;' onclick='deltr(this, "+ number +", "+ seNo +")'>×</button>";
+					str += "</div>";
+					str += "</div>";
+					str += "</td>";
+					str += "</tr>";
+
+					$("#routine_setting").append(str);
+					
+					$('#addInfo_modal').modal('hide');
+				}
+			}, error: function(e) {
+				console.log(e);
+			}
+		})
 		
-		str += "<tr>";
-		str += "<th>";
-	    str += "<input type='hidden' name='cosmeticNo[]' value='" + number + "'>";
-		str += "</th>";
-		str += "<td>";
-		str += "<div class='d-flex' style='width: 622px;'>";
-		str += "<div class='justify-content-center'>";
-		str += "<div class='image-container'>";
-		str += "<img src='"+ imagePath +"' style='height: 80px;'>";
-		str += "</div>";
-		str += "</div>";
-		str += "<div class='d-flex flex-column justify-content-center'>";
-		str += "<div class='d-flex' style=''>";
-		str += "<span style='color: #A6A6A6; margin-right: 6px; font-size: 17px'>"+ companyName +"</span>";
-		str += "</div>";
-		str += "<div>";
-		str += "<span style='font-size: 17px;'>"+ productName +"</span>";
-		str += "</div>";
-		str += "</div>";
-		str += "<div class='d-flex justify-content-end' style='margin-left: auto; align-items: center;'>";
-		str += "<img src='${pageContext.request.contextPath}/assets/img/sun_none.png' style='width: 25px; height: 25px; margin-right: 20px;' onclick='toggleImage(this)'>";
-		str += "<input type='hidden' name='dayRecord[]' value='N' id='dayRecord_" + number + "'>";
-		str += "<img src='${pageContext.request.contextPath}/assets/img/moon_none.png' style='width: 25px; height: 25px;' onclick='toggleImage(this)'>";
-		str += "<input type='hidden' name='nightRecord[]' value='N' id='nightRecord_" + number + "'>";
-		str += "<button type='button' name='del[]' class='del_btn' style='margin-left: 38px;' onclick='deltr(this)'>×</button>";
-		str += "</div>";
-		str += "</div>";
-		str += "</td>";
-		str += "</tr>";
-		
-		$("#routine_setting").append(str);
-		
-		$('#addInfo_modal').modal('hide');
-	}
-	
-	function deltr(obj) {
-		var tr = $(obj).closest('tr');
-		tr.remove();
 	}
 	
     function toggleImage(img) {

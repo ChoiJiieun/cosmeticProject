@@ -5,9 +5,14 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import comm.proj.my.community.service.BoardService;
+import comm.proj.my.community.vo.BoardVO;
+import comm.proj.my.community.vo.PagingVO;
 import comm.proj.my.cosmetic.service.CosService;
 import comm.proj.my.cosmetic.vo.CosVO;
 import comm.proj.my.cosmetic.vo.IngredientVO;
@@ -19,16 +24,58 @@ public class CosController {
 	
 	@Autowired
 	CosService cosService;
+
+	@Autowired
+	BoardService boService;
 	
 	// 검색 완료 후 화면
+//	@RequestMapping("/search")
+//	public String search_info_all(Model model, @RequestParam("query") String keyword, @ModelAttribute("searchVO") PagingVO vo) {
+//		
+//		// 화장품 검색 조회
+//		ArrayList<CosVO> cosList = cosService.searchCos(keyword);
+//		ArrayList<CosVO> cosallList = cosService.searchInfo(keyword);
+//		
+//		int cosSize = cosallList.size();
+//		
+//		// 게시판 검색 조회
+//		ArrayList<BoardVO> boList = boService.searchBoard(vo);
+//		System.out.println("이거 boList: "+boList);
+//		
+//		for (BoardVO board : boList) {
+//			System.out.println("이거 boNo: "+board.getBoNo());
+//		}
+//		
+//		model.addAttribute("keyword", keyword);
+//
+//		model.addAttribute("cosList", cosList);
+//		model.addAttribute("cosSize", cosSize);
+//		
+//		model.addAttribute("boList", boList);
+//		
+//		return "home/search_info";
+//	}
+
+	// 화장품 검색 완료 후 화면
 	@RequestMapping("/search")
 	public String search_info(Model model, @RequestParam("query") String keyword) {
 		ArrayList<CosVO> cosList = cosService.searchInfo(keyword);
+		int cosSize = cosList.size();
 		
 		model.addAttribute("cosList", cosList);
+		model.addAttribute("cosSize", cosSize);
 		model.addAttribute("keyword", keyword);
 		
-		return "cosmetic/search_info";
+		return "cosmetic/search_cos";
+	}
+
+	// 루틴에서 화장품 조회
+	@ResponseBody
+	@RequestMapping("/routine_search")
+	public ArrayList<CosVO> search_info_routine(String keyword) {
+		ArrayList<CosVO> cosList = cosService.searchInfo(keyword);
+
+		return cosList;
 	}
 	
 	// 화장품 상세 조회

@@ -289,6 +289,7 @@
 				let str = "";
 				str += "<tr id='"+ res.replyNo +"'>";
 				str += "<td>";
+				
 				str += "<div class=' py-4' style='padding: 10px;'>";
 				str += "<div class='d-flex justify-content-between'>";
 				str += "<div>";
