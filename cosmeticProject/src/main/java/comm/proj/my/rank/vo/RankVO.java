@@ -9,6 +9,7 @@ public class RankVO {
 	private String cosImage;
 	private String starScore;
 	private String reviewCount;
+	private String cateNm;
 	
 	// 입력 받는 값
 	private String faceType;
@@ -73,6 +74,12 @@ public class RankVO {
 	}
 	public void setCategoryCd(String categoryCd) {
 		this.categoryCd = categoryCd;
+	}
+	public String getCateNm() {
+		return cateNm;
+	}
+	public void setCateNm(String cateNm) {
+		this.cateNm = cateNm;
 	}
 	
 	@Override

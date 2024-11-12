@@ -130,7 +130,7 @@
     });
 	
 	function fn_check() {
-		//textarea 값 
+		// textarea 값 
 		oEditors.getById['bo_content'].exec("UPDATE_CONTENTS_FIELD", []);
 		var content = document.getElementById("bo_content").value;
 		if (content =='' || content ==null 
@@ -148,3 +148,4 @@
 	
 </script>
 </html>
+

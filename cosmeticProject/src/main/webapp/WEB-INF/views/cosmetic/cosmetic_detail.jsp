@@ -85,7 +85,7 @@
     }
     
     .image-container {
-	    width: 180px;
+	    width: 200px;
 	    height: 200px;
 	    display: flex;
 	    justify-content: center; /* 가로 중앙 정렬 */

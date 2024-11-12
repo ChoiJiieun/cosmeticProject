@@ -36,6 +36,21 @@
 	    text-decoration: none !important; /* hover 시에도 밑줄 제거 */
 	    color: inherit !important; /* hover 시에도 글씨 색상 변화 없음 */
 	}
+	
+    .image-container {
+	    width: 120px;
+	    height: 120px;
+	    display: flex;
+	    justify-content: center; /* 가로 중앙 정렬 */
+	    align-items: center; /* 세로 중앙 정렬 */
+	    overflow: hidden; /* 이미지가 div 크기를 넘으면 숨김 */
+	}
+	
+	.image-container img {
+	    max-width: 110%;
+	    max-height: 110%;
+	    object-fit: contain; /* 이미지 비율을 유지하며 div 안에 맞춤 */
+	}
 </style>
 </head>
 <body>
@@ -63,7 +78,7 @@
 							<td>
 								<a href="<c:url value="/products?cosNo=${cos.cosmeticNo}" />">
 	                                <div class="d-flex" style="padding: 25px;">
-	                                	<div class="justify-content-center" style="margin-right: 20px;">
+	                                	<div class="image-container justify-content-center" style="margin-right: 20px;">
 			                                <c:if test="${cos.cosImage == null || fn:length(cos.cosImage) == 0}">
 			                                    <img src="${pageContext.request.contextPath}/assets/img/none.jpg" style="height: 50px;">
 			                                </c:if>

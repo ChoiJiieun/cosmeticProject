@@ -20,7 +20,6 @@
     font-size: 20px;
     text-decoration: none !important; /* 밑줄 제거 */
     color: black !important; /* 텍스트 색상 지정 */ 
-    
 }
 
 #ul_center {
@@ -46,4 +45,14 @@
 li {
 	list-style-type: none;
     margin-bottom: 10px;
+}
+
+.tr_a {
+    text-decoration: none !important; /* 밑줄 제거 */
+    color: inherit !important; /* 기본 글씨 색상으로 변경 (상위 요소의 색상 따름) */
+}
+
+.tr_a:hover {
+    text-decoration: none !important; /* hover 시에도 밑줄 제거 */
+    color: inherit !important; /* hover 시에도 글씨 색상 변화 없음 */
 }

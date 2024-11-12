@@ -12,6 +12,7 @@ import comm.proj.my.member.vo.MemberVO;
 import comm.proj.my.member.vo.SeasonDetailVO;
 import comm.proj.my.member.vo.SeasonInfoVO;
 import comm.proj.my.member.vo.SeasonRecordVO;
+import comm.proj.my.rank.vo.RankVO;
 
 @Mapper
 public interface IMemberDAO {
@@ -80,4 +81,16 @@ public interface IMemberDAO {
 	
 	// 계절별 피부 기록 수정시 화장품 삭제
 	public int seasonCosDelete(SeasonDetailVO seasonDetail);
+	
+	// 계절별 피부 기록 수정 detail
+	public void seasonUpdateDo(SeasonDetailVO vo);
+
+	// 계절별 피부 기록 수정 record
+	public int seRecordUpdateDo(SeasonRecordVO vo);
+	
+	// 계절벌 피부 기록 삭제 (use_yn을 N으로)
+	public int seasonRecordDelete(String seasonNo);
+	
+	// 카테고리 선택시 보여줄 화장품 정보
+	public ArrayList<RankVO> select_cos(String cateCd);
 }

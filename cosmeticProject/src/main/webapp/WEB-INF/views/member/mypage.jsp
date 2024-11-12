@@ -28,7 +28,7 @@
     }
     
     .image-container {
-        width: 100px;
+        width: 120px;
         height: 120px;
         display: flex;
         justify-content: center; /* 가로 중앙 정렬 */
@@ -180,21 +180,6 @@
 	    --bs-btn-active-border-color: #3D3D3D;
 	    height: 40px;
 	    text-decoration: none;
-	}
-	
-    .image-container {
-	    width: 100px;
-	    height: 120px;
-	    display: flex;
-	    justify-content: center; /* 가로 중앙 정렬 */
-	    align-items: center; /* 세로 중앙 정렬 */
-	    overflow: hidden; /* 이미지가 div 크기를 넘으면 숨김 */
-	}
-	
-	.image-container img {
-	    max-width: 110%;
-	    max-height: 110%;
-	    object-fit: contain; /* 이미지 비율을 유지하며 div 안에 맞춤 */
 	}
 	
  	@media (min-width: 992px) { 
@@ -486,8 +471,10 @@
 												<input type="hidden" name="seasonNo" id="modalSeasonNo">
 												<button type="submit" class="btn btn-primary-light">수정</button>
 											</form>
-												<input type="hidden" name="seasonNo" id="modalSeasonNo">
-											<button type="button" class="btn btn-primary-light" style="margin-right: 15px;">삭제</button>
+											<form action="/delSeason" method="post">
+												<input type="hidden" name="seasonNo" id="modalSeasonNo2">
+												<button type="submit" class="btn btn-primary-light" style="margin-right: 15px;">삭제</button>
+											</form>
 										</div>
 									</div>
 								</div>
@@ -784,6 +771,7 @@
 		
 		// 모달에 데이터 넣기
 		$("#modalSeasonNo").val(seasonNo);
+		$("#modalSeasonNo2").val(seasonNo);
 		$("#modalRoutineTitle").text(routineTitle);
 		
 		$.ajax({

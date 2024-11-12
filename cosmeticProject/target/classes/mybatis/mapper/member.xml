@@ -170,9 +170,9 @@
 	</update>
 
 	<!-- 피부 기록 삭제 -->
-	<update id="faceRecordDelete" parameterType="String">
+	<delete id="faceRecordDelete" parameterType="String">
 		DELETE FROM face_record WHERE record_no = #{recordNo}
-	</update>
+	</delete>
 
 	<!-- 계절별 피부 기록 등록 -->
 	<insert id="insertSeasonRecord" parameterType="SeasonRecordVO">
@@ -218,5 +218,48 @@
 		WHERE season_no = #{seasonNo}
 		 AND  cosmetic_no = #{cosmeticNo}
 	</delete>
+	
+	<!-- 계절별 피부 기록 수정 detail -->
+	<update id="seasonUpdateDo" parameterType="SeasonDetailVO" >
+		UPDATE season_detail SET day_record = #{dayRecord}, night_record = #{nightRecord}
+		WHERE season_no = #{seasonNo} AND cosmetic_no = #{cosmeticNo}
+	</update>
+
+	<!-- 계절별 피부 기록 수정 record -->
+	<update id="seRecordUpdateDo" parameterType="SeasonRecordVO" >
+		UPDATE season_record SET season_name = #{seasonName}, routine_title = #{routineTitle}
+		WHERE season_no = #{seasonNo}
+	</update>
+	
+	<!-- 계절벌 피부 기록 삭제 (use_yn을 N으로) -->
+	<update id="seasonRecordDelete" parameterType="String">
+		UPDATE season_record SET use_yn = 'N'
+		WHERE season_no = #{seasonNo}
+	</update>
+	
+	<!-- 카테고리 선택시 보여줄 화장품 정보 -->
+	<select id="select_cos" parameterType="String" resultType="RankVO">
+		SELECT ROWNUM AS rank,
+		       a.*,
+               (SELECT cate_nm FROM category_code WHERE cate_cd = #{cateCd}) AS cate_nm
+		FROM (
+		        SELECT c.cosmetic_no,
+		               c.name,
+		               c.cate_cd,
+		               c.company_name,
+		               c.cos_image,
+		               ROUND(AVG(r.star_score), 2) AS star_score,
+		               COUNT(r.cosmetic_no) AS review_count,
+		               (ROUND(AVG(r.star_score), 2) * 10) + (COUNT(r.cosmetic_no) * 0.5) AS rank_score,
+		               RANK() OVER (ORDER BY (ROUND(AVG(r.star_score), 2) * 10) + (COUNT(r.cosmetic_no) * 0.5) DESC) AS rating
+		        FROM cosmetic c
+		        JOIN review r ON c.cosmetic_no = r.cosmetic_no
+		        LEFT JOIN category_code cat ON c.cate_cd = cat.cate_cd
+		        WHERE (#{cateCd} IS NULL OR c.cate_cd = #{cateCd} OR cat.cate_parent = #{cateCd})
+		        GROUP BY c.cosmetic_no, c.name, c.cate_cd, c.company_name, c.cos_image
+		        ORDER BY rating
+		     ) a
+		ORDER BY rank
+	</select>
 	
 </mapper>

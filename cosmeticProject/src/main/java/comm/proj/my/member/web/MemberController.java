@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import comm.proj.my.community.vo.PagingVO;
 import comm.proj.my.cosmetic.vo.ReviewVO;
@@ -38,6 +37,7 @@ import comm.proj.my.member.vo.MemberVO;
 import comm.proj.my.member.vo.SeasonDetailVO;
 import comm.proj.my.member.vo.SeasonInfoVO;
 import comm.proj.my.member.vo.SeasonRecordVO;
+import comm.proj.my.rank.vo.RankVO;
 
 @Controller
 public class MemberController {
@@ -292,7 +292,6 @@ public class MemberController {
 			vo = memberService.reviewUpdateInfo(vo);
 			model.addAttribute("reList", vo);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -306,7 +305,6 @@ public class MemberController {
 			System.out.println("리뷰 삭제 num : " + reviewNo);
 			memberService.reviewDelete(reviewNo);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -437,6 +435,75 @@ public class MemberController {
 		String result = "success";
 		memberService.seasonCos(vo);
 		return result;
+	}
+	
+	// 계절별 화장품 수정 하기
+	@PostMapping("/routineUpdateDo")
+	public String routineUpdateDo(@RequestParam("seasonName") String seasonName,
+								  @RequestParam("routineTitle") String routineTitle,
+								  @RequestParam("cosmeticNo[]") List<String> cosmeticNos,
+								  @RequestParam("dayRecord[]") List<String> dayRecords,
+								  @RequestParam("nightRecord[]") List<String> nightRecords,
+								  @RequestParam("seasonNo") String seasonNo) {
+		
+		SeasonRecordVO seasonRecord = new SeasonRecordVO();
+		seasonRecord.setSeasonNo(seasonNo);
+		seasonRecord.setSeasonName(seasonName);
+		seasonRecord.setRoutineTitle(routineTitle);
+		
+		try {
+			memberService.seRecordUpdateDo(seasonRecord);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		List<SeasonDetailVO> seasonDetails = new ArrayList<>();
+		for (int i = 0; i < cosmeticNos.size(); i++) {
+			SeasonDetailVO detail = new SeasonDetailVO();
+			detail.setSeasonNo(seasonNo);
+			detail.setCosmeticNo(cosmeticNos.get(i));
+			detail.setDayRecord(dayRecords.get(i));
+			detail.setNightRecord(nightRecords.get(i));
+			seasonDetails.add(detail);
+		}
+		try {
+			memberService.seasonUpdateDo(seasonDetails);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/mypage";
+	}
+	
+	// 계절벌 피부 기록 삭제 (use_yn을 N으로)
+	@PostMapping("/delSeason")
+	public String delSeason(@RequestParam("seasonNo") String seasonNo) {
+		try {
+			System.out.println(seasonNo);
+			memberService.seasonRecordDelete(seasonNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/mypage";
+	}
+	
+	@RequestMapping("/category")
+	public String select_cos(Model model, @RequestParam(value="cd", required=false) String cateCd) {
+		ArrayList<RankVO> selectCos = memberService.select_cos(cateCd);
+		int cosSize = selectCos.size();
+		
+		String cateNm  = "";
+		
+		for (RankVO rank : selectCos) {
+			cateNm = rank.getCateNm();
+		}
+		
+		model.addAttribute("cosList", selectCos);
+		model.addAttribute("cosSize", cosSize);
+		model.addAttribute("cateNm", cateNm);
+		
+		return "member/select_cos";
 	}
 	
 	// 수정부터 해야함 수정 할 때 이미지만이 아니라 전체 정보를 어떻게 가져와야 하는지 알아야함

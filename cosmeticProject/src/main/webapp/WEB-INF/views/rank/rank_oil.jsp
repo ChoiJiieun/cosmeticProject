@@ -27,7 +27,7 @@
 	}
 	
     .image-container {
-	    width: 100px;
+	    width: 120px;
 	    height: 120px;
 	    display: flex;
 	    justify-content: center; /* 가로 중앙 정렬 */
@@ -50,6 +50,16 @@
     	color: #6C757D;
     	text-decoration: none;
     }
+    
+	.tr_a {
+	    text-decoration: none !important; /* 밑줄 제거 */
+	    color: inherit !important; /* 기본 글씨 색상으로 변경 (상위 요소의 색상 따름) */
+	}
+	
+	.tr_a:hover {
+	    text-decoration: none !important; /* hover 시에도 밑줄 제거 */
+	    color: inherit !important; /* hover 시에도 글씨 색상 변화 없음 */
+	}
 </style>
 <!-- css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/rank_style.css" />
@@ -298,8 +308,10 @@
 					                                </c:if>
 												</div>
 												<div class="d-flex flex-column justify-content-center">
-													<div class="d-flex" style="margin-bottom: 6px;">
-														<span style="color: #A6A6A6; margin-right: 6px; font-size: 20px;">${co.companyName}</span>
+													<div style="margin-bottom: 6px;">
+														<div style="margin-bottom: 6px;">
+															<span style="color: #A6A6A6; margin-right: 6px; font-size: 17px;">${co.companyName}</span>
+														</div>
 														<div>
 															<span style="font-size: 20px;">${co.name}</span>
 														</div>

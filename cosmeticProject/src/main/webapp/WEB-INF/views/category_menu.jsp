@@ -7,36 +7,36 @@
 <div class="d-flex justify-content-center" id="menu-content">
     <ul id="ul_center">
         <li class="menu_title">
-            <a class="cate_a">스킨케어</a>
+            <a class="cate_a" href="${pageContext.request.contextPath}/category?cd=SC00">스킨케어</a>
             <hr class="cate_hr">
             <ul class="menu_list">
-                <li>스킨/토너</li>
-                <li>로션/에멀젼</li>
-                <li>에센스/앰플/세럼</li>
-                <li>페이스오일</li>
-                <li>크림</li>
-                <li>아이케어</li>
-                <li>미스트</li>
-                <li>젤</li>
-                <li>스킨/토너 패드</li>
-                <li>밤/멀티밤</li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=SC01">스킨/토너</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=SC02">로션/에멀젼</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=SC03">에센스/앰플/세럼</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=SC04">페이스오일</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=SC05">크림</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=SC06">아이케어</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=SC07">미스트</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=SC08">젤</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=SC09">스킨/토너 패드</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=SC10">밤/멀티밤</a></li>
             </ul>
         </li>
         <li class="menu_title">
-            <a class="cate_a">클렌징/필링</a>
+            <a class="cate_a" href="${pageContext.request.contextPath}/category?cd=CP00">클렌징/필링</a>
             <hr class="cate_hr">
             <ul class="menu_list">
-                <li>클렌징 폼</li>
-                <li>클렌징 워터</li>
-                <li>클렌징 젤</li>
-                <li>클렌징 오일</li>
-                <li>클렌징 로션/크림</li>
-                <li>비누</li>
-                <li>티슈/패드</li>
-                <li>립/아이 리무버</li>
-                <li>스크럽/필링</li>
-                <li>파우더</li>
-                <li>밤</li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=CP01">클렌징 폼</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=CP02">클렌징 워터</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=CP03">클렌징 젤</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=CP04">클렌징 오일</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=CP05">클렌징 로션/크림</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=CP06">비누</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=CP07">티슈/패드</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=CP08">립/아이 리무버</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=CP09">스크럽/필링</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=CP10">파우더</a></li>
+                <li><a class="tr_a" href="${pageContext.request.contextPath}/category?cd=CP11">밤</a></li>
             </ul>
         </li>
         <li class="menu_title">

@@ -22,6 +22,7 @@ import comm.proj.my.member.vo.MemberVO;
 import comm.proj.my.member.vo.SeasonDetailVO;
 import comm.proj.my.member.vo.SeasonInfoVO;
 import comm.proj.my.member.vo.SeasonRecordVO;
+import comm.proj.my.rank.vo.RankVO;
 
 @Service
 public class MemberService {
@@ -240,6 +241,22 @@ public class MemberService {
 		}
 	}
 	
+	// 계절별 피부 기록 수정 detail
+	public void seasonUpdateDo(List<SeasonDetailVO> seasonDetails) throws Exception {
+		for (SeasonDetailVO detail : seasonDetails) {
+			dao.seasonUpdateDo(detail);
+		}
+	}
+	
+	// 계절별 피부 기록 수정 record
+	public int seRecordUpdateDo(SeasonRecordVO vo) throws Exception {
+		int result = dao.seRecordUpdateDo(vo);
+		if (result == 0) {
+			throw new Exception();
+		}
+		return result;
+	}
+	
 	// 계절별 피부 기록 수정시 화장품 등록
 	public void seasonCos(SeasonDetailVO vo) {
 		dao.insertSeasonDetail(vo);
@@ -262,5 +279,19 @@ public class MemberService {
 			throw new Exception();
 		}
 		return result;
+	}
+	
+	// 계절벌 피부 기록 삭제 (use_yn을 N으로)
+	public int seasonRecordDelete(String seasonNo) throws Exception {
+		int result = dao.seasonRecordDelete(seasonNo);
+		if (result == 0) {
+			throw new Exception();
+		}
+		return result;
+	}
+	
+	// 카테고리 선택시 보여줄 화장품 정보
+	public ArrayList<RankVO> select_cos(String cateCd) {
+		return dao.select_cos(cateCd);
 	}
 }

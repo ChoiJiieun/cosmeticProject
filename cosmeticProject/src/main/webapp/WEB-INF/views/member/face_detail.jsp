@@ -32,7 +32,7 @@
 		box-shadow: none !important;
 	}
 	
-	#bo_content {
+	#boContent {
 		height: 400px;
 		width: 98%;
 	}
@@ -66,7 +66,7 @@
                 <div style="border-bottom: 1px solid #3D3D3D; margin-top: 40px; margin-bottom: 30px;">
                     <h5 style="font-weight: bold; margin-bottom: 20px; padding-left: 20px;">피부 상태 기록</h5>
                 </div>
-                <form id="updateForm" action="<c:url value="/faceupdateDo" />">
+                <form id="updateForm" action="<c:url value="/faceupdateDo" />" method="POST" onsubmit="return fn_check()">
 					<table style="width: 100%; margin-top: 20px; margin-bottom: 50px;">
 	                    <tr>
 	                        <th>제목</th>
@@ -78,11 +78,12 @@
 	                    </tr>
 	                    <tr>
 	                        <th>내용</th>
-	                        <td><textarea name="recordContent" id="bo_content" class="form-control input-sm">${detail.recordContent}</textarea></td>
+	                        <td><textarea name="recordContent" id="boContent" class="form-control input-sm">${detail.recordContent}</textarea></td>
 	                    </tr>
 					</table>
 	                <div class="d-flex justify-content-end" style="border-top: 1px solid #3D3D3D; margin-top: 40px; margin-bottom: 30px; padding-top: 20px;">
-	                    <button id="update_btn" type="button" class="btn btn-primary" style="margin-right: 15px;">&nbsp;&nbsp;&nbsp;수정&nbsp;&nbsp;&nbsp;</button>
+	                    <input type="hidden" name="recordNo" value="${detail.recordNo}">
+	                    <button id="update_btn" type="submit" class="btn btn-primary" style="margin-right: 15px;">&nbsp;&nbsp;&nbsp;수정&nbsp;&nbsp;&nbsp;</button>
                 </form>
 	                    <form id="deleteForm" action="<c:url value="/facedeleteDo" />">
 		                    <input type="hidden" name="recordNo" value="${detail.recordNo}">
@@ -117,17 +118,9 @@
             }
         });
         
-        $("#update_btn").on("click", function() {
-            // 알림창 표시
-            if (confirm("수정하시겠습니까?")) {
-                // 확인을 누르면 폼 제출
-                $("#updateForm").submit();
-            }
-        });
-        
 		nhn.husky.EZCreator.createInIFrame({
 			oAppRef: oEditors,
-			elPlaceHolder: "bo_content",    // 적용시킬 textarea id
+			elPlaceHolder: "boContent",    // 적용시킬 textarea id
 			sSkinURI: "<c:url value='/resources/smarteditor2-2.8.2.3/SmartEditor2Skin.html' />",	
 			htParams : {
 				bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
@@ -150,14 +143,14 @@
 	
 	function fn_check() {
 		//textarea 값 
-		oEditors.getById['bo_content'].exec("UPDATE_CONTENTS_FIELD", []);
-		var content = document.getElementById("bo_content").value;
+		oEditors.getById['boContent'].exec("UPDATE_CONTENTS_FIELD", []);
+		var content = document.getElementById("boContent").value;
 		if (content =='' || content ==null 
 				         || content =="&nbsp;" || content=='<p>&nbsp;</p>') {
 			alert("내용을 입력해주세요");
 			return false;
 		} else {
-			if(confirm("저장하시겠습니까?")){
+			if(confirm("수정하시겠습니까?")){
 				return true;
 			} else {
 				return false;
