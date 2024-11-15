@@ -279,7 +279,7 @@
 															  	</form>
 															  </li>
 															  <li>
-															  	<form class="deleteForm" action="#">
+															  	<form action="#">
 															  		<input type="hidden" name="reviewNo" value="${reList.reviewNo}">
 															  		<input type="hidden" name="memId" value="${reList.memId}">
 															  		<button type="button" class="dropdown_btn" data-bs-toggle="modal" data-bs-target="#recommendModal" data-cosmetic-no="${reList.cosmeticNo}" data-cate-cd="${reList.cateCd}" style="text-align: center; width: 100%;" onclick="cosMachine(this)">유사 제품</button>
@@ -873,7 +873,7 @@
 		console.log("cateCd", cateCd);
 		
 		$.ajax({
-			  url: "http://127.0.0.1:5000/recommend"
+			  url: "http://192.168.0.137:5000/recommend"
 			, type: "GET"
 			, data : { category: cateCd
 					 , cosmeticNo: cosmeticNo }
