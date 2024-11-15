@@ -69,8 +69,6 @@
 	                	<span>결과 </span><span style="color: #3B87CD; font-weight: bold;">${cosSize}</span><span>개</span>
                 	</div>
                 </div>
-<!--                 <div class="d-flex justify-content-start" style="margin-top: 25px;"> -->
-<!--                 </div> -->
 				<table class="table table-hover">
 					<c:forEach items="${cosList}" var="cos">
 						<tr>
@@ -97,7 +95,6 @@
 	                                        </div>
 	                                    </div>
 	                                    <div class="d-flex flex-column justify-content-center" style="margin-left: auto; margin-right: 30px">
-<%-- 												<img src="${pageContext.request.contextPath}/assets/img/love_empty.png" style="width: 25px; height: 25px;">									 --%>
 	                                    </div>
 	                                </div>
 								</a>

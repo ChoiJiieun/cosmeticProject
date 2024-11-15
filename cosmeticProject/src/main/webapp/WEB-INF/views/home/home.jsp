@@ -24,20 +24,40 @@
 	    outline: none;
 	    box-shadow: none !important;
 	}
+	
+    .image-container {
+	    width: 120px;
+	    height: 120px;
+	    display: flex;
+	    justify-content: center; /* 가로 중앙 정렬 */
+	    align-items: center; /* 세로 중앙 정렬 */
+	    overflow: hidden; /* 이미지가 div 크기를 넘으면 숨김 */
+	}
+	
+	.image-container img {
+	    max-width: 110%;
+	    max-height: 110%;
+	    object-fit: contain; /* 이미지 비율을 유지하며 div 안에 맞춤 */
+	}
+	
+    .category_a {
+    	color: #6C757D;
+    	text-decoration: none;
+    }
+    
+	.tr_a {
+	    text-decoration: none !important; /* 밑줄 제거 */
+	    color: inherit !important; /* 기본 글씨 색상으로 변경 (상위 요소의 색상 따름) */
+	}
+	
+	.tr_a:hover {
+	    text-decoration: none !important; /* hover 시에도 밑줄 제거 */
+	    color: inherit !important; /* hover 시에도 글씨 색상 변화 없음 */
+	}
 </style>
 </head>
 
 <body>
-	<c:if test="${not empty loginError}">
-		<script>
-			alert('${loginError}');
-		</script>
-	</c:if>
-	<c:if test="${not empty nologin}">
-		<script>
-			alert('${nologin}');
-		</script>
-	</c:if>
     <div class="container-fluid" style="padding: 0;">
         <header>
 			<jsp:include page="/WEB-INF/inc/header.jsp"></jsp:include>
@@ -63,6 +83,10 @@
             $('#categori_zone').toggle();
             $("main").toggle();
         });
+        
+        let left_position = $("#btn-rank").position().left;
+        
+        $("#choose_div").css({ "margin-right": left_position, "margin-left": left_position-1 });
         
     });
 </script>

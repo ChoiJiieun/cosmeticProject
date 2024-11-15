@@ -186,7 +186,11 @@
  	    .modal-lg, .modal-xl { 
  	        --bs-modal-width: 540px !important; 
  	    } 
- 	} 
+ 	}
+ 	
+ 	.btn-close {
+ 		--bs-btn-close-focus-shadow: none !important;
+ 	}
 </style>
 </head>
 <body>
@@ -259,7 +263,7 @@
 									                    	<button class="dropdown_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 											                    <h4 style="color: #7F7F7F; margin-right: 35px;">&#8942;</h4>
 									                    	</button>
-															<ul class="dropdown-menu">
+															<ul class="dropdown-menu" style="width: 90px;">
 															  <li style="margin-top: 5px;">
 															  	<form action="/reviewUpdate" method="post">
 															  		<input type="hidden" name="reviewNo" value="${reList.reviewNo}">
@@ -272,6 +276,13 @@
 															  		<input type="hidden" name="reviewNo" value="${reList.reviewNo}">
 															  		<input type="hidden" name="memId" value="${reList.memId}">
 															  		<button type="button" class="delete_submit dropdown_btn" style="text-align: center; width: 100%;">삭제</button>
+															  	</form>
+															  </li>
+															  <li>
+															  	<form class="deleteForm" action="#">
+															  		<input type="hidden" name="reviewNo" value="${reList.reviewNo}">
+															  		<input type="hidden" name="memId" value="${reList.memId}">
+															  		<button type="button" class="dropdown_btn" data-bs-toggle="modal" data-bs-target="#recommendModal" data-cosmetic-no="${reList.cosmeticNo}" data-cate-cd="${reList.cateCd}" style="text-align: center; width: 100%;" onclick="cosMachine(this)">유사 제품</button>
 															  	</form>
 															  </li>
 															</ul>
@@ -308,7 +319,27 @@
 									</div>
 								</div>
 							</c:if>
-                        </div>
+
+							<!-- Modal -->
+							<div class="modal fade" id="recommendModal" tabindex="-1" aria-labelledby="recommendModalLabel" aria-hidden="true" style="display: none;">
+								<div class="modal-dialog modal-lg modal-dialog-scrollable">
+									<div class="modal-content">
+										<div class="modal-header" style="padding: 20px;">
+											<h5 class="modal-title" id="modalRecomTitle">유사 제품 추천</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<p id="hashtag" style="margin-left: 10px; color: #7d7d7d;"></p>
+											<table>
+												<tbody id="recomBody">
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Modal -->
+						</div>
                         <div id="face" class="content-section" style="display: block;">
 					        <form name="search" action="<c:url value="/mypage" />" method="post">
 						        <input type="hidden" name="curPage" id="curPage" value="${searchVO.curPage }">
@@ -762,9 +793,11 @@
 			 $("#curPage").val($(this).data('page'));
 			 $("form[name='search']").submit();
 		 });
+		 
     });
 	
-	function showModal(td) {
+    function showModal(td) {
+		
 		// td 요소에서 data 속성 가져오기
 		const seasonNo = $(td).data("season-no");
 		const routineTitle = $(td).data("routine-title");
@@ -796,6 +829,7 @@
 					
 					str += "<tr>";
 					str += "<td style='margin-left: 15px; margin-right: 15px;'>";
+					str += "<a class='tr_a' href='<c:url value='/products?cosNo="+ item.cosmeticNo +"' />'>";
 					str += "<div class='d-flex'>";
 					str += "<div class='justify-content-center'>";
 					str += "<div class='image-container'>";
@@ -815,6 +849,7 @@
 					str += "<img src='"+ nightImage +"' style='width: 25px; height: 25px;'>";
 					str += "</div>";
 					str += "</div>";
+					str += "</a>";
 					str += "</td>";
 					str += "</tr>";
 				});
@@ -827,6 +862,74 @@
 		
 		// 모달창 표시
 		$("#seasonModal").modal("show");
+	}
+
+	function cosMachine(td) {
+		// td 요소에서 data 속성 가져오기
+		const cosmeticNo = $(td).data("cosmetic-no");
+		const cateCd = $(td).data("cate-cd");
+
+		console.log("cosNo", cosmeticNo);
+		console.log("cateCd", cateCd);
+		
+		$.ajax({
+			  url: "http://127.0.0.1:5000/recommend"
+			, type: "GET"
+			, data : { category: cateCd
+					 , cosmeticNo: cosmeticNo }
+			, success: function(data) {
+		        // similarity_based 배열의 모든 데이터 출력
+		        console.log("유사도 기반 추천:", data.similarity_based);
+		        let str = "";
+		        
+		        // similarity_based 배열을 순회하면서 각 아이템 출력
+		        data.similarity_based.forEach((item, index) => {
+		        	
+		        	$("#hashtag").text(item.HASHTAG);
+		        	
+		            let imagePath = item.COS_IMAGE === "none.jpg" 
+                        ? "${pageContext.request.contextPath}/assets/img/none.jpg"   // 기본 이미지 경로 설정
+                        : "${pageContext.request.contextPath}" + item.COS_IMAGE;  // 실제 이미지 경로 설정
+		            
+	                str += "<tr>";
+	                str += "<td style='margin-left: 15px; margin-right: 15px;'>";
+	                str += "<a class='tr_a' href='<c:url value='/products?cosNo="+ item.COSMETIC_NO +"' />'>";
+	                str += "<div class='d-flex'>";
+	                str += "<div class='justify-content-center'>";
+	                str += "<div class='image-container'>";
+	                str += "<img src='${pageContext.request.contextPath}"+ item.COS_IMAGE +"' style='height: 80px;'>";
+	                str += "</div>";
+	                str += "</div>";
+	                str += "<div class='d-flex flex-column justify-content-center'>";
+	                str += "<div style='margin-bottom: 6px;'>";
+	                str += "<div>";
+	                str += "<span style='color: #A6A6A6; font-size: 15px'>"+ item.COMPANY_NAME +"</span>";
+	                str += "</div>";
+	                str += "<div>";
+	                str += "<span style='font-size: 17px;'>"+ item.NAME +"</span>";
+	                str += "</div>	";
+	                str += "</div>";
+	                str += "<div>";
+	                str += "<img src='${pageContext.request.contextPath}/assets/img/star_full.png' style='width: 17px; height: 17px; margin-right: 5px;'>";
+	                str += "<span style='font-size: 15px; margin-right: 2px;'>"+ item.STAR_SCORE +"</span>";
+	                str += "<span style='color: #A6A6A6; font-size: 15px;'>("+ item.REVIEW_COUNT +")</span>";
+	                str += "</div>";
+	                str += "</div>";
+	                str += "</div>";
+	                str += "</a>";
+	                str += "</td>";
+	                str += "</tr>";
+		                
+		        });
+		        $("#recomBody").html(str);
+		        
+			}, error: function(xhr, status, error) {
+				console.log("상세조회 실패", error);
+			}
+		});
+		
+		// 모달창 표시
+		$("#recommendModal").modal("show");
 	}
 	
 	function season_filter(season, element) {

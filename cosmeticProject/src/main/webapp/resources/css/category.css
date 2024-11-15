@@ -56,3 +56,7 @@ li {
     text-decoration: none !important; /* hover 시에도 밑줄 제거 */
     color: inherit !important; /* hover 시에도 글씨 색상 변화 없음 */
 }
+
+.btn-close {
+	--bs-btn-close-focus-shadow: none !important;
+}

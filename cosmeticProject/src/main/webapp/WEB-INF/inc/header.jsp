@@ -67,11 +67,6 @@
                         ☰&nbsp;&nbsp;&nbsp;&nbsp;카테고리
                     </button>
                 </li>
-<!--                 <li class="nav-item"> -->
-<!--                     <a id="home_a_tag" href="/" class="a_tag"> -->
-<!--                     	<button id="btn-home" class="nav-link link-secondary px-4" -->
-<!--                         	style="font-size: 20px; display: inline; font-family: 'NanumSquare';">홈</button></a> -->
-<!--                 </li> -->
                 <li class="nav-item">
                     <a id="rank_a_tag" href="/rank" class="a_tag">
                         <button id="btn-rank" class="nav-link px-4 link-secondary"

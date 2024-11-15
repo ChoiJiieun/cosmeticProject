@@ -17,6 +17,7 @@ public class ReviewVO {
 	private String memAge;
 	private String name;
 	private String cosImage;
+	private String cateCd;
 	
 	public String getReviewNo() {
 		return reviewNo;
@@ -113,6 +114,12 @@ public class ReviewVO {
 	}
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+	public String getCateCd() {
+		return cateCd;
+	}
+	public void setCateCd(String cateCd) {
+		this.cateCd = cateCd;
 	}
 	
 	@Override

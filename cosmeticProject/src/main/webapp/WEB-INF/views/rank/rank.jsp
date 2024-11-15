@@ -330,8 +330,8 @@
 															<img src="${pageContext.request.contextPath}/assets/img/star_full.png"
 																style="width: 25px; height: 25px;">
 															<div class="justify-content-center" style="margin-left: 5px;">
-																<span style="font-size: 17px;">${co.starScore}</span> <span
-																	style="color: #A6A6A6; font-size: 17px;">(${co.reviewCount})</span>
+																<span style="font-size: 17px;">${co.starScore}</span> 
+																<span style="color: #A6A6A6; font-size: 17px;">(${co.reviewCount})</span>
 															</div>
 														</div>
 													</div>
